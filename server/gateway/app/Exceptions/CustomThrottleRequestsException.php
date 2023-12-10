@@ -9,6 +9,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
+
 class CustomThrottleRequestsException extends HttpResponseException
 {
     use ApiResponse;

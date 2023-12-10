@@ -28,8 +28,16 @@ use App\Http\Middleware\RateLimitMiddleware;
 // TODO: use api versioning --> v1, v2, ...
 // TODO: add routes, load balancing, rate limiting, ...
 
-$router->group(['middleware' => RateLimitMiddleware::class . ':6,1,customPrefix'], function () use ($router) {
+
+
+$throttleSetup = [
+    env('RATE_LIMIT_MAX_ATTEMPTS', 60),
+    env('RATE_LIMIT_DECAY_MINUTES', 1),
+    env('RATE_LIMIT_PREFIX', 'userLimit')
+];
+$throttlePrefix = ":" . implode(",", $throttleSetup);
+
+$router->group(['middleware' => RateLimitMiddleware::class . $throttlePrefix], function () use ($router) {
     // Your protected routes here
     $router->get('/', ['uses' => GatewayController::class . '@index']);
 });
-

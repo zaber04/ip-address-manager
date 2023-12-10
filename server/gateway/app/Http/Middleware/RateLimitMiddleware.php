@@ -18,7 +18,13 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Symfony\Component\HttpFoundation\Response;
 
-
+/**
+ * Class RateLimitMiddleware
+ *
+ * This middleware provides rate limiting functionality based on IP address.
+ *
+ * @package App\Http\Middleware
+ */
 class RateLimitMiddleware
 {
     use ApiResponse;        // Maintain response format
@@ -34,6 +40,18 @@ class RateLimitMiddleware
         $this->throttleException = $throttleException;
     }
 
+    /**
+     * Handle an incoming request and apply rate limiting.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  int|string  $maxAttempts
+     * @param  float|int  $decayMinutes
+     * @param  string  $prefix
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Illuminate\Http\Exceptions\ThrottleRequestsException
+    */
     public function handle(Request $request, Closure $next, $maxAttempts = 60, $decayMinutes = 1, $prefix = '')
     {
         if (is_string($maxAttempts)
@@ -57,6 +75,16 @@ class RateLimitMiddleware
         );
     }
 
+    /**
+     * handles request using named limiter
+     *
+     * @param      \Illuminate\Http\Request  $request      The request
+     * @param      Closure                   $next         The next
+     * @param      string                    $limiterName  The limiter name
+     * @param      Closure                   $limiter      The limiter
+     *
+     * @return     <type>                    ( description_of_the_return_value )
+     */
     protected function handleRequestUsingNamedLimiter(Request $request, Closure $next, string $limiterName, Closure $limiter)
     {
         $limiterResponse = call_user_func($limiter, $request);
@@ -81,6 +109,15 @@ class RateLimitMiddleware
         );
     }
 
+    /**
+     * handles regular throttling request
+     *
+     * @param      \Illuminate\Http\Request  $request  The request
+     * @param      Closure                   $next     The next
+     * @param      array                     $limits   The limits
+     *
+     * @return     <type>                    ( description_of_the_return_value )
+     */
     protected function handleRequest(Request $request, Closure $next, array $limits)
     {
         foreach ($limits as $limit) {
@@ -104,6 +141,14 @@ class RateLimitMiddleware
         return $response;
     }
 
+    /**
+     * Get max allowed attempts
+     *
+     * @param      \Illuminate\Http\Request  $request      The request
+     * @param      <type>                    $maxAttempts  The maximum attempts
+     *
+     * @return     int                       ( description_of_the_return_value )
+     */
     protected function resolveMaxAttempts(Request $request, $maxAttempts): int
     {
         if (Str::contains($maxAttempts, '|')) {
@@ -113,11 +158,30 @@ class RateLimitMiddleware
         return (int) $maxAttempts;
     }
 
+    /**
+     * Identify the requestor
+     *
+     * @param      \Illuminate\Http\Request  $request  The request
+     *
+     * @return     string                    ( description_of_the_return_value )
+     */
     protected function resolveRequestSignature(Request $request): string
     {
         return sha1($request->ip());
     }
 
+    /**
+     * Builds an exception.
+     *
+     * @param      \Illuminate\Http\Request                           $request           The request
+     * @param      string                                             $key               The key
+     * @param      int                                                $maxAttempts       The maximum attempts
+     * @param      <type>                                             $responseCallback  The response callback
+     *
+     * @throws     \Illuminate\Http\Exceptions\HttpResponseException  (description)
+     *
+     * @return     ThrottleRequestsException                          The exception.
+     */
     protected function buildException(Request $request, string $key, int $maxAttempts, $responseCallback = null): ThrottleRequestsException
     {
         $retryAfter = $this->getTimeUntilNextRetry($key);
@@ -136,12 +200,28 @@ class RateLimitMiddleware
         throw new HttpResponseException($exception->getResponse());
     }
     
-
+    /**
+     * Gets the time until next retry.
+     *
+     * @param      string  $key    The key
+     *
+     * @return     int     The time until next retry.
+     */
     protected function getTimeUntilNextRetry(string $key): int
     {
         return $this->limiter->availableIn($key);
     }
 
+    /**
+     * Adds headers.
+     *
+     * @param      \Symfony\Component\HttpFoundation\Response           $response           The response
+     * @param      int                                                  $maxAttempts        The maximum attempts
+     * @param      int                                                  $remainingAttempts  The remaining attempts
+     * @param      int|null                                             $retryAfter         The retry after
+     *
+     * @return     Response|\Symfony\Component\HttpFoundation\Response  ( description_of_the_return_value )
+     */
     protected function addHeaders(Response $response, int $maxAttempts, int $remainingAttempts, ?int $retryAfter = null): Response
     {
         $response->headers->add(
@@ -151,6 +231,16 @@ class RateLimitMiddleware
         return $response;
     }
 
+    /**
+     * Gets the headers.
+     *
+     * @param      int                                              $maxAttempts        The maximum attempts
+     * @param      int                                              $remainingAttempts  The remaining attempts
+     * @param      int|null                                         $retryAfter         The retry after
+     * @param      \Symfony\Component\HttpFoundation\Response|null  $response           The response
+     *
+     * @return     array                                            The headers.
+     */
     protected function getHeaders(int $maxAttempts, int $remainingAttempts, ?int $retryAfter = null, ?Response $response = null): array
     {
         if ($response &&
@@ -173,6 +263,15 @@ class RateLimitMiddleware
         return $headers;
     }
 
+    /**
+     * Calculates the remaining attempts.
+     *
+     * @param      string    $key          The key
+     * @param      int       $maxAttempts  The maximum attempts
+     * @param      int|null  $retryAfter   The retry after
+     *
+     * @return     int       The remaining attempts.
+     */
     protected function calculateRemainingAttempts(string $key, int $maxAttempts, ?int $retryAfter = null): int
     {
         return is_null($retryAfter) ? $this->limiter->retriesLeft($key, $maxAttempts) : 0;
