@@ -17,3 +17,7 @@ php artisan make:database your_db_name
 ```bash
 php artisan migrate
 ```
+
+## Rate Limit
+
+For rate limit, we implemented token bucket algorithm. We will allow a certain number of requests (env file will give us value) to be added to bucket at a fixed rate. When a request comes, we remove a token from the bucket. If the bucket is empty, the request is denied. This approach allows some burstiness while still limiting the rate. We are using this approach assuming, this gateway isn't distrubuted, rather centralized.

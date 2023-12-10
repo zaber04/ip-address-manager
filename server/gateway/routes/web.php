@@ -1,6 +1,10 @@
 <?php
 
-use App\Http\Controllers\GatewayController;
+declare(strict_types = 1);
+
+use App\Http\Middleware\RateLimitMiddleware;
+
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -14,13 +18,6 @@ use App\Http\Controllers\GatewayController;
 |
 */
 
-$router->get('/', function () use ($router) {
-    $appVersion = $router->app->version();
-    $serviceName = "API Gateway";
-    $message = "Welcome to '" . $serviceName . "' microservice.<br>" . $appVersion;
-
-    return $message;
-});
 
 
 // How will I design the URLs? maybe thse?
@@ -30,3 +27,9 @@ $router->get('/', function () use ($router) {
 
 // TODO: use api versioning --> v1, v2, ...
 // TODO: add routes, load balancing, rate limiting, ...
+
+$router->group(['middleware' => RateLimitMiddleware::class . ':6,1,customPrefix'], function () use ($router) {
+    // Your protected routes here
+    $router->get('/', ['uses' => GatewayController::class . '@index']);
+});
+
