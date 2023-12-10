@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GatewayController;
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -14,5 +15,18 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    $appVersion = $router->app->version();
+    $serviceName = "API Gateway";
+    $message = "Welcome to '" . $serviceName . "' microservice.<br>" . $appVersion;
+
+    return $message;
 });
+
+
+// How will I design the URLs? maybe thse?
+// $router->get('/api/v1/gateway', 'GatewayController@index');
+// $router->get('/authenticate', 'AuthenticationController@authenticate');
+// $router->get('/retrieve-data', 'IpHandlerController@retrieveData');
+
+// TODO: use api versioning --> v1, v2, ...
+// TODO: add routes, load balancing, rate limiting, ...
