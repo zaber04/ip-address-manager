@@ -34,10 +34,18 @@ class RateLimitMiddleware
     protected RateLimiter $limiter;
     protected CustomThrottleRequestsException $throttleException;
 
+    protected int $maxAttempts;
+    protected int $decayMinutes;
+    protected string $prefix;
+
     public function __construct(RateLimiter $limiter, CustomThrottleRequestsException $throttleException)
     {
         $this->limiter = $limiter;
         $this->throttleException = $throttleException;
+
+        $this->maxAttempts  = env('RATE_LIMIT_MAX_ATTEMPTS', 60);
+        $this->decayMinutes = env('RATE_LIMIT_DECAY_MINUTES', 1);
+        $this->prefix       = env('RATE_LIMIT_PREFIX', '');
     }
 
     /**
@@ -52,8 +60,10 @@ class RateLimitMiddleware
      *
      * @throws \Illuminate\Http\Exceptions\ThrottleRequestsException
     */
-    public function handle(Request $request, Closure $next, $maxAttempts = 60, $decayMinutes = 1, $prefix = '')
+    public function handle(Request $request, Closure $next, $maxAttempts = null, $decayMinutes = null, $prefix = null)
     {
+        // Handle Request Using Named Limiter
+        // format --> ":6,1,custom
         if (is_string($maxAttempts)
             && func_num_args() === 3
             && !is_null($limiter = $this->limiter->limiter($maxAttempts))
@@ -61,18 +71,11 @@ class RateLimitMiddleware
             return $this->handleRequestUsingNamedLimiter($request, $next, $maxAttempts, $limiter);
         }
 
-        return $this->handleRequest(
-            $request,
-            $next,
-            [
-                (object) [
-                    'key' => $prefix . $this->resolveRequestSignature($request),
-                    'maxAttempts' => $this->resolveMaxAttempts($request, $maxAttempts),
-                    'decayMinutes' => $decayMinutes,
-                    'responseCallback' => null,
-                ],
-            ]
-        );
+        $maxAttempts  = $maxAttempts ?? $this->maxAttempts;
+        $decayMinutes = $decayMinutes ?? $this->decayMinutes;
+        $prefix       = $prefix ?? $this->prefix;
+
+        return $this->handleRequest($request, $next, $maxAttempts, $decayMinutes, $prefix);
     }
 
     /**
@@ -95,18 +98,13 @@ class RateLimitMiddleware
             return $next($request);
         }
 
-        return $this->handleRequest(
-            $request,
-            $next,
-            collect(Arr::wrap($limiterResponse))->map(function ($limit) use ($limiterName) {
-                return (object) [
-                    'key'              => md5($limiterName . $limit->key),
-                    'maxAttempts'      => $limit->maxAttempts,
-                    'decayMinutes'     => $limit->decayMinutes,
-                    'responseCallback' => $limit->responseCallback
-                ];
-            })->all()
-        );
+        // format --> ":6,1,custom"
+        $throttleSetup = explode(',', substr($limiterName, 1));
+        $maxAttempts   = $throttleSetup[0] ?? $this->maxAttempts;
+        $decayMinutes  = $throttleSetup[1] ?? $this->decayMinutes;
+        $prefix        = $throttleSetup[2] ?? $this->prefix;
+
+        return $this->handleRequest($request, $next, $maxAttempts, $decayMinutes, $prefix);
     }
 
     /**
@@ -118,8 +116,15 @@ class RateLimitMiddleware
      *
      * @return     <type>                    ( description_of_the_return_value )
      */
-    protected function handleRequest(Request $request, Closure $next, array $limits)
+    protected function handleRequest(Request $request, Closure $next, $maxAttempts, $decayMinutes, $prefix)
     {
+        $limits = [(object)[
+            'key'              => $prefix . $this->resolveRequestSignature($request),
+            'maxAttempts'      => $this->resolveMaxAttempts($request, $maxAttempts),
+            'decayMinutes'     => $decayMinutes,
+            'responseCallback' => null,
+        ]];
+
         foreach ($limits as $limit) {
             if ($this->limiter->tooManyAttempts($limit->key, $limit->maxAttempts)) {
                 return $this->buildException($request, $limit->key, $limit->maxAttempts, $limit->responseCallback);

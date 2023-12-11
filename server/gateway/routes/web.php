@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 use App\Http\Middleware\RateLimitMiddleware;
 
-
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -20,7 +19,7 @@ use App\Http\Middleware\RateLimitMiddleware;
 
 
 
-// How will I design the URLs? maybe thse?
+// How will I design the URLs? maybe these?
 // $router->get('/api/v1/gateway', 'GatewayController@index');
 // $router->get('/authenticate', 'AuthenticationController@authenticate');
 // $router->get('/retrieve-data', 'IpHandlerController@retrieveData');
@@ -29,15 +28,16 @@ use App\Http\Middleware\RateLimitMiddleware;
 // TODO: add routes, load balancing, rate limiting, ...
 
 
+$router->group(['prefix' => 'api', 'middleware' => RateLimitMiddleware::class], function () use ($router) {
+    $router->get('/', ['uses' => GatewayController::class . '@welcome']);
 
-$throttleSetup = [
-    env('RATE_LIMIT_MAX_ATTEMPTS', 60),
-    env('RATE_LIMIT_DECAY_MINUTES', 1),
-    env('RATE_LIMIT_PREFIX', 'userLimit')
-];
-$throttlePrefix = ":" . implode(",", $throttleSetup);
+    // $router->group(['prefix' => 'v1'], function () use ($router) {
+    //     $router->group(['prefix' => 'auth'], function () use ($router) {
+    //     });
 
-$router->group(['middleware' => RateLimitMiddleware::class . $throttlePrefix], function () use ($router) {
-    // Your protected routes here
-    $router->get('/', ['uses' => GatewayController::class . '@index']);
+    //     $router->group(['prefix' => 'ip-handler'], function () use ($router) {
+    //     });
+    // });
 });
+
+

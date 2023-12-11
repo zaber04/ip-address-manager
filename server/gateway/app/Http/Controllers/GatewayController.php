@@ -14,7 +14,13 @@ class GatewayController extends BaseController
 {
     use ApiResponse;
 
-    public function index(Request $request)
+    /**
+     * Welcome route. Used for initial development
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function welcome(Request $request)
     {
         $appVersion = app()->version();
         $serviceName = "API Gateway";
