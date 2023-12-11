@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Gateway\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;

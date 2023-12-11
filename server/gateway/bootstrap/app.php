@@ -40,12 +40,12 @@ $app->withEloquent();
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    Gateway\Exceptions\Handler::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
+    Gateway\Console\Kernel::class
 );
 
 /*
@@ -73,12 +73,12 @@ $app->configure('app');
 */
 
 $app->middleware([
-    App\Http\Middleware\RateLimitMiddleware::class,
-    App\Http\Middleware\CorsMiddleware::class,
+    Gateway\Http\Middleware\RateLimitMiddleware::class,
+    Gateway\Http\Middleware\CorsMiddleware::class,
 ]);
 
 // $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
+//     'auth' => Gateway\Http\Middleware\Authenticate::class,
 // ]);
 
 /*
@@ -92,9 +92,9 @@ $app->middleware([
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+// $app->register(Gateway\Providers\AppServiceProvider::class);
+// $app->register(Gateway\Providers\AuthServiceProvider::class);
+// $app->register(Gateway\Providers\EventServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -108,7 +108,7 @@ $app->middleware([
 */
 
 $app->router->group([
-    'namespace' => 'App\Http\Controllers',
+    'namespace' => 'Gateway\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });

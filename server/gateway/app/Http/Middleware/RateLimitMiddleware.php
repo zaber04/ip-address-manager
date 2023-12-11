@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Gateway\Http\Middleware;
 
-use App\Traits\ApiResponse;
-use App\Exceptions\CustomThrottleRequestsException;
+use Gateway\Traits\ApiResponse;
+use Gateway\Exceptions\CustomThrottleRequestsException;
 
 use Closure;
 
@@ -183,7 +183,7 @@ class RateLimitMiddleware
      * @param      <type>                           $responseCallback  The response callback
      *
      * @throws     \Illuminate\Http\Exceptions\     (description)
-     *              HttpResponseException  
+     *              HttpResponseException
      *
      * @return     ThrottleRequestsException        The exception.
      */
@@ -204,7 +204,7 @@ class RateLimitMiddleware
 
         throw new HttpResponseException($exception->getResponse());
     }
-    
+
     /**
      * Gets the time until next retry.
      *

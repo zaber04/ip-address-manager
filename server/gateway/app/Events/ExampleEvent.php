@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace Gateway\Events;
 
 class ExampleEvent extends Event
 {

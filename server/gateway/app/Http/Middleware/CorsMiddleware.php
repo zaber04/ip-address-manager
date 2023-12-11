@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Middleware;
+namespace Gateway\Http\Middleware;
 
 use Illuminate\Http\Request; // we will extend this later and use that
 use Closure;
