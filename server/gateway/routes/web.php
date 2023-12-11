@@ -2,8 +2,6 @@
 
 declare(strict_types = 1);
 
-use App\Http\Middleware\RateLimitMiddleware;
-
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -27,9 +25,10 @@ use App\Http\Middleware\RateLimitMiddleware;
 // TODO: use api versioning --> v1, v2, ...
 // TODO: add routes, load balancing, rate limiting, ...
 
+$router->get('/', ['uses' => GatewayController::class . '@welcome']);
 
-$router->group(['prefix' => 'api', 'middleware' => RateLimitMiddleware::class], function () use ($router) {
-    $router->get('/', ['uses' => GatewayController::class . '@welcome']);
+$router->group(['prefix' => 'api'], function () use ($router) {
+    
 
     // $router->group(['prefix' => 'v1'], function () use ($router) {
     //     $router->group(['prefix' => 'auth'], function () use ($router) {
@@ -39,5 +38,7 @@ $router->group(['prefix' => 'api', 'middleware' => RateLimitMiddleware::class], 
     //     });
     // });
 });
+
+
 
 
