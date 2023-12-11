@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace IpHandler\Jobs;
 
 class ExampleJob extends Job
 {

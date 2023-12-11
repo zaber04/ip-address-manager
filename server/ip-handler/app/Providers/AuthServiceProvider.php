@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace IpHandler\Providers;
 
-use App\Models\User;
+use IpHandler\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace IpHandler\Listeners;
 
-use App\Events\ExampleEvent;
+use IpHandler\Events\ExampleEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
