@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Controllers;
+namespace Gateway\Http\Controllers;
 
-use App\Traits\ApiResponse;
+use Gateway\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 

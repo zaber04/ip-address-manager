@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Gateway\Console\Commands;
 
 use Illuminate\Console\Command;
-// use Illuminate\Support\Facades\DB;
 use PDO;
 
 class CreateDatabaseCommand extends Command
@@ -42,7 +41,7 @@ class CreateDatabaseCommand extends Command
         try {
             $dbname = $this->argument('dbname');
 
-            // using raw PHP --> We can accept a connection string as argument to make versatile
+            // using raw PHP --> We can accept a connection string as argument to make versatile (have to change signature with extra optional argument)
             $default_connection = "mysql:host=" . env('DB_HOST') . ";port=" . env('DB_PORT');
             $user = env('DB_USERNAME');
             $pass = env('DB_PASSWORD');

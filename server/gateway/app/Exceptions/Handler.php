@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace Gateway\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
