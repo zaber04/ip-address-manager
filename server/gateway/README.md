@@ -2,7 +2,7 @@
 
 All our requests will come to this microservice and it will redirect them to appropiate microservice. We can implement rate limiting here.
 
-## Journey
+## How to Use
 
 <!-- Create DB -->
 First we create a database. I have already created a custom command manually (since lumen don't have easy way to create command) for creating database. For simplicity, the command skips advanced approaches preffered in production environment.
@@ -17,6 +17,10 @@ php artisan make:database your_db_name
 ```bash
 php artisan migrate
 ```
+
+## Journey
+
+Here, I am keeping the journey experience throughout the project implementation.
 
 ## Rate Limit
 

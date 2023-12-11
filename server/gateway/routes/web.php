@@ -28,8 +28,6 @@ declare(strict_types = 1);
 $router->get('/', ['uses' => GatewayController::class . '@welcome']);
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    
-
     // $router->group(['prefix' => 'v1'], function () use ($router) {
     //     $router->group(['prefix' => 'auth'], function () use ($router) {
     //     });
