@@ -173,14 +173,15 @@ class RateLimitMiddleware
     /**
      * Builds an exception.
      *
-     * @param      \Illuminate\Http\Request                           $request           The request
-     * @param      string                                             $key               The key
-     * @param      int                                                $maxAttempts       The maximum attempts
-     * @param      <type>                                             $responseCallback  The response callback
+     * @param      \Illuminate\Http\Request         $request           The request
+     * @param      string                           $key               The key
+     * @param      int                              $maxAttempts       The maximum attempts
+     * @param      <type>                           $responseCallback  The response callback
      *
-     * @throws     \Illuminate\Http\Exceptions\HttpResponseException  (description)
+     * @throws     \Illuminate\Http\Exceptions\     (description)
+     *              HttpResponseException  
      *
-     * @return     ThrottleRequestsException                          The exception.
+     * @return     ThrottleRequestsException        The exception.
      */
     protected function buildException(Request $request, string $key, int $maxAttempts, $responseCallback = null): ThrottleRequestsException
     {
