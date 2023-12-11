@@ -14,3 +14,27 @@ Users can view an audit log of changes made.
 ## Communication
 
 We are using `json` as ommunication protocol due to size of the app. However, if there is lots of intercommunicating services, we will use `gRPC` to reduce transmission latency.
+
+
+## Authentication Microservice
+
+1. Responsible for user authentication and token management.
+2. Handles user login, issues authentication tokens, and supports token refresh.
+3. Ensures that all subsequent requests to other microservices require a valid authenticated token.
+4. Manages user sessions and token expiration.
+
+## Gateway Microservice
+
+1. Receives all incoming requests
+2. Rate limits requests
+
+## IpHandler Microservice
+
+1. Stores IP
+2. Updates IP
+3. Shows IP list
+4. Maintains IP history
+5. Maintains users actions log as "audit log" for each session 
+
+We didn't use a seperate "Audit Log Microservice" due to small number of functionality and direct depency on "ip update".
+
