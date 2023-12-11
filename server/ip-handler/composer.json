@@ -15,10 +15,11 @@
     },
     "autoload": {
         "psr-4": {
-            "IpHandler\\": "app/",
+            "Authentication\\": "../authentication/app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Gateway\\": "../gateway/app/"
+            "Gateway\\": "../gateway/app/",
+            "IpHandler\\": "app/"
         }
     },
     "autoload-dev": {

@@ -17,7 +17,9 @@
         "psr-4": {
             "Authentication\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Gateway\\": "../gateway/app/",
+            "IpHandler\\": "../ip-handler/app/"
         }
     },
     "autoload-dev": {
