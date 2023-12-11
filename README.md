@@ -10,3 +10,7 @@ Here, in our app, users will be able to log in and store (in DB) new IP addresse
 During storing in db, IP addresses will be validated. Authenticaed & authorized user can modify the label of an IP address.
 We will maintain history (audit trail) for every login, addition or change.
 Users can view an audit log of changes made.
+
+## Communication
+
+We are using `json` as ommunication protocol due to size of the app. However, if there is lots of intercommunicating services, we will use `gRPC` to reduce transmission latency.
