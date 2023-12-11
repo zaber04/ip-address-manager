@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace Authentication\Listeners;
 
-use App\Events\ExampleEvent;
+use Authentication\Events\ExampleEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 

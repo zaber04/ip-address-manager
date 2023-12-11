@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace Authentication\Providers;
 
-use App\Models\User;
+use Authentication\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
