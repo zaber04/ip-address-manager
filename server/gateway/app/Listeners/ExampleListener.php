@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace Gateway\Listeners;
 
-use App\Events\ExampleEvent;
+use Gateway\Events\ExampleEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 

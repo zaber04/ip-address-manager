@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace Gateway\Providers;
 
-use App\Models\User;
+use Gateway\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 

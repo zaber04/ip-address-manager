@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions;
+namespace Gateway\Exceptions;
 
-use App\Traits\ApiResponse;
+use Gateway\Traits\ApiResponse;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;

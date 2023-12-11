@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Traits;
+namespace Gateway\Traits;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
