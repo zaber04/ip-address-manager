@@ -2,6 +2,8 @@
 
 All our requests will come to this microservice and it will redirect them to appropiate microservice. We can implement rate limiting here.
 
+Due to small number of api endpoints and microservices we did not create a service registry wtphich automatically discover new microservice and bootstrap.
+
 ## How to Use
 
 <!-- Create DB -->

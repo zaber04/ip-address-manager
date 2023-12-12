@@ -5,10 +5,12 @@ declare(strict_types = 1);
 namespace Gateway\Http\Controllers;
 
 use Gateway\Traits\ApiResponse;
+
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
-
+use Faker\Factory as FakerFactory;
 
 class GatewayController extends BaseController
 {
@@ -22,10 +24,17 @@ class GatewayController extends BaseController
      */
     public function welcome(Request $request)
     {
-        $appVersion = app()->version();
+        $appVersion  = app()->version();
         $serviceName = "API Gateway";
-        $message = "Welcome to '" . $serviceName . "' microservice.<br>" . $appVersion;
+        $message     = "Welcome to '" . $serviceName . "' microservice. App version: " . $appVersion;
 
-        return response($message, 200);
+        $data = [
+            'message' => $message,
+            'success' => true,
+            'status'  => JsonResponse::HTTP_OK,
+            'host_ip' => $request->getClientIp()
+        ];
+
+        return $this->jsonResponseWith($data, JsonResponse::HTTP_OK);
     }
 }

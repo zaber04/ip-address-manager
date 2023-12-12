@@ -60,6 +60,8 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('database');
+$app->configure('tinker');
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +97,7 @@ $app->middleware([
 // $app->register(Gateway\Providers\AppServiceProvider::class);
 // $app->register(Gateway\Providers\AuthServiceProvider::class);
 // $app->register(Gateway\Providers\EventServiceProvider::class);
+$app->register(\Laravel\Tinker\TinkerServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
