@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace IpHandler\Http\Controllers;
 
-use IpHandler\Models\IpAddress;
 use Gateway\Traits\ApiResponse;
 use Gateway\Traits\LoggingTrait;
 use Gateway\Traits\ExceptionHandlerTrait;
+use IpHandler\Models\IpAddress;
+use IpHandler\Traits\PaginationTrait;
 
 
-use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Rule;
-
+use Laravel\Lumen\Routing\Controller as BaseController;
 
 class IpHandlerController extends BaseController
 {
     use ApiResponse;
     use LoggingTrait;
     use ExceptionHandlerTrait;
+    use PaginationTrait;
 
     /**
      * Display a paginated listing of IP addresses.
@@ -35,18 +35,13 @@ class IpHandlerController extends BaseController
     public function index(Request $request): JsonResponse
     {
         try {
-            // Valid request parameters?
-            $this->validate($request, [
-                'page'       => 'integer|min:1',
-                'per_page'   => 'integer|min:1|max:100',
-                'sort_field' => Rule::in(['created_at', 'ip', 'id']), // valid sort fields
-                'sort_order' => Rule::in(['asc', 'desc'])
-            ]);
+            // Validate pagination parameters
+            $this->validatePagination($request);
 
-            // Default pagination values
+            // default pagination values
             $pagination = $this->getPaginationParams($request);
 
-            // Fetch with latest first and sort (stable api if sorted by created_at)
+            // Fetch with latest entry first and sort (stable api if sorted by created_at)
             $ipAddresses = IpAddress::orderBy($pagination['sort_field'], $pagination['sort_order'])
                 ->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
 
@@ -58,7 +53,7 @@ class IpHandlerController extends BaseController
             $errorInfo = ['url' => $request->path(), 'function' => 'IpHandlerController@index'];
             return $this->handleException($request, $e, $errorInfo);
         } catch (\Exception $e) {
-            $errorInfo = ['url' => $request->path(), 'function' => 'index'];
+            $errorInfo = ['url' => $request->path(), 'function' => 'IpHandlerController@index'];
             return $this->handleException($request, $e, $errorInfo, JsonResponse::HTTP_BAD_REQUEST);
         }
     }
@@ -82,8 +77,6 @@ class IpHandlerController extends BaseController
                 'ip'    => $request->input('ip'),
                 'label' => $request->input('label'),
             ]);
-
-            // $this->logRequestAndResponse(['function' => 'IpHandlerController@store','url' => $request->path(), 'query' => $request->query()], $ipAddresses);
 
             return $this->jsonResponseWith(['ip_address' => $ipAddress], JsonResponse::HTTP_CREATED);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
@@ -114,8 +107,6 @@ class IpHandlerController extends BaseController
             }
 
             $ipAddress = IpAddress::findOrFail($id);
-
-            // $this->logRequestAndResponse(['function' => 'IpHandlerController@store','url' => $request->path(), 'query' => $request->query()], $ipAddresses);
 
             return $this->jsonResponseWith(['ip_address' => $ipAddress], JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
@@ -163,33 +154,5 @@ class IpHandlerController extends BaseController
             $errorInfo = ['function' => 'IpHandlerController@update'];
             return $this->handleException($request, $e, $errorInfo, JsonResponse::HTTP_BAD_REQUEST);
         }
-    }
-
-    /**
-     * Archive the specified IP address from the database.
-     *
-     * @param  string  $id
-     * @return JsonResponse
-     */
-    public function archive(string $id): JsonResponse
-    {
-        return $this->jsonResponseWith(['message' => 'Archive is not supported'], JsonResponse::HTTP_NO_CONTENT);
-    }
-
-    /**
-     * Get pagination parameters.
-     *
-     * @param Request $request
-     * @return array
-     */
-    private function getPaginationParams(Request $request): array
-    {
-        // we can use .env for these default values
-        return [
-            'page'       => $request->input('page', 1),
-            'per_page'   => $request->input('per_page', 20),
-            'sort_field' => $request->input('sort_field', 'created_at'),
-            'sort_order' => $request->input('sort_order', 'desc'),
-        ];
     }
 }
