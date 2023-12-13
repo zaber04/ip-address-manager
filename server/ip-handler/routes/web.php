@@ -13,6 +13,10 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->group(['prefix' => 'ip-addresses'], function () use ($router) {
+    $router->get('/', 'IpHandlerController@index');
+    $router->post('/', 'IpHandlerController@store');
+    $router->get('/{id}', 'IpHandlerController@show');
+    $router->put('/{id}', 'IpHandlerController@update');
+    // $router->delete('/{id}', 'IpHandlerController@archive');
 });

@@ -5,37 +5,19 @@ declare(strict_types=1);
 namespace Gateway\Traits;
 
 use Gateway\Models\ErrorLog;
+
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 trait LoggingTrait
 {
     /**
-     * Validate and format the error data array based on the ErrorLog model.
-     *
-     * @param  array  $errorData  Should follow ErrorLog model
-     * @return array
-     */
-    private function validateAndFormatErrorData(array $errorData): array
-    {
-        $fillableAttributes = (new ErrorLog())->getFillable();
-
-        // all required keys present?
-        $requiredKeys = array_diff($fillableAttributes, array_keys($errorData));
-        foreach ($requiredKeys as $key) {
-            $errorData[$key] = null;
-        }
-
-        return $errorData;
-    }
-
-    /**
      * Log and respond with an error JSON response.
      *
      * @param  array  $errorData
      * @return JsonResponse
      */
-    public function logAndErrorResponse(array $errorData): JsonResponse
+    public function logAndStoreError(array $errorData): void
     {
         try {
             // Validate and format the error data
@@ -46,10 +28,32 @@ trait LoggingTrait
             // Save error in the database
             $this->saveErrorToDatabase($validatedErrorData);
         } catch (\Exception $e) {
-            $this->logSecondaryError('Secondary error occurred: ' . $e->getMessage());
-
-            return response()->json(['error' => 'Internal Server Error'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            Log::error('Secondary error occurred: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Validate and format the error data array based on the ErrorLog model.
+     *
+     * @param  array  $errorData  Should follow ErrorLog model
+     * @return array
+     */
+    private function validateAndFormatErrorData(array $errorData): array
+    {
+        // process fields
+        $errorData['param'] = json_encode($errorData['param']);
+        $errorData['error'] = json_encode($errorData['error']);
+
+        // match with our model
+        $fillableAttributes = (new ErrorLog())->getFillable();
+
+        // all required keys present?
+        $requiredKeys = array_diff($fillableAttributes, array_keys($errorData));
+        foreach ($requiredKeys as $key) {
+            $errorData[$key] = null;
+        }
+
+        return $errorData;
     }
 
     /**
@@ -66,6 +70,16 @@ trait LoggingTrait
         } catch (\Exception $e) {
             Log::error('Error saving to database: ' . $e->getMessage());
         }
+    }
+
+
+    /**
+     * Logs the request on success
+     */
+    private function logRequestAndResponse(array $requestData, mixed $responseData): void
+    {
+        Log::info('API Request', ['request' => $requestData]);
+        Log::info('API Response', ['response' => $responseData]);
     }
 }
 

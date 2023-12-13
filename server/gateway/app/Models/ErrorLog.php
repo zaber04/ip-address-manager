@@ -19,9 +19,7 @@ class ErrorLog extends Model
         'functionName',
         'statusCode',
         'message',
-        'error'
+        'error',
+        'ip'
     ];
-
-    // 'ip' is optional
-    protected $guarded = ['ip'];
 }
