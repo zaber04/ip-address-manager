@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ErrorLog extends Model
 {
-    use HasUuids, HasFactory;
+    use HasUuids; // primary key uuid
+    use HasFactory;
 
     protected $fillable = [
         'url',
