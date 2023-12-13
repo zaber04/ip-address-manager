@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "92349cb28edd03fc664907cf9290705c",
+    "content-hash": "f5da707cd5326fe658966e1fca8ead70",
     "packages": [
         {
             "name": "brick/math",
@@ -705,7 +705,7 @@
         },
         {
             "name": "illuminate/broadcasting",
-            "version": "v10.36.0",
+            "version": "v10.37.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/broadcasting.git",
@@ -1191,16 +1191,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v10.36.0",
+            "version": "v10.37.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "0edc7e075bde779bdfe7cf2a2b6cec01d0eaae22"
+                "reference": "2cce84c568b21d81e5d686e9bb3a6a97b92bb924"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/0edc7e075bde779bdfe7cf2a2b6cec01d0eaae22",
-                "reference": "0edc7e075bde779bdfe7cf2a2b6cec01d0eaae22",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/2cce84c568b21d81e5d686e9bb3a6a97b92bb924",
+                "reference": "2cce84c568b21d81e5d686e9bb3a6a97b92bb924",
                 "shasum": ""
             },
             "require": {
@@ -1256,7 +1256,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-12-11T19:31:00+00:00"
+            "time": "2023-12-12T16:36:26+00:00"
         },
         {
             "name": "illuminate/encryption",
@@ -1731,7 +1731,7 @@
         },
         {
             "name": "illuminate/queue",
-            "version": "v10.36.0",
+            "version": "v10.37.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/queue.git",

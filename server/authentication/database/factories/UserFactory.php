@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Authentication\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+
 
 class UserFactory extends Factory
 {
@@ -22,8 +24,12 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+            'first_name' => $this->faker->firstName,
+            'last_name'  => $this->faker->lastName,
+            'email'      => $this->faker->unique()->safeEmail,
+            'password'   => Hash::make('secret_password'), // we can use env() with default value
+            'contact'    => $this->faker->phoneNumber,
+            'address'    => $this->faker->address,
         ];
     }
 }
