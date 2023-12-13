@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace IpHandler\Http\Controllers;
 
 use IpHandler\Models\AuditTrail;
+use IpHandler\Traits\PaginationTrait;
 use Gateway\Traits\ApiResponse;
 use Gateway\Traits\LoggingTrait;
 use Gateway\Traits\ExceptionHandlerTrait;
-use IpHandler\Traits\PaginationTrait;
+
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;

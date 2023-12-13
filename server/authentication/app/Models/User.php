@@ -2,6 +2,8 @@
 
 namespace Authentication\Models;
 
+
+
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -12,9 +14,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
+class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
-    use HasUuids, Authenticatable, Authorizable, HasFactory, SoftDeletes;
+    use HasUuids;
+    use Authenticatable;
+    use Authorizable;
+    use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +30,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var string[]
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'contact', 'address'
+        'first_name', 'last_name', 'email', 'password', 'contact', 'address' /*, role */
     ];
 
     /**
@@ -47,8 +55,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'contact' => 'string',
-        'address' => 'string',
+        'contact' => 'string',  // can apply phone no format actually
+        'address' => 'string'
     ];
 
     /**
@@ -57,12 +65,33 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array<string, string>
      */
     public static $rules = [
-        'name'     => 'required|string|max:255',
-        'email'    => 'required|email|unique:users|max:255',
-        'password' => 'required|string|min:8|max:255',
-        'contact'  => 'nullable|string|max:20',
-        'address'  => 'nullable|string|max:255'
+        'last_name'  => 'required|string|max:255',
+        'first_name' => 'required|string|max:255',
+        'email'      => 'required|email|unique:users|max:255',
+        'password'   => 'required|string|min:8|max:255',
+        'contact'    => 'nullable|string|max:20',
+        'address'    => 'nullable|string|max:255'
     ];
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
     /**
      * Set the password attribute and automatically hash it.

@@ -76,9 +76,9 @@ $app->configure('app');
 //     Authentication\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => Authentication\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => Authentication\Http\Middleware\Authenticate::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -92,8 +92,9 @@ $app->configure('app');
 */
 
 // $app->register(Authentication\Providers\AppServiceProvider::class);
-// $app->register(Authentication\Providers\AuthServiceProvider::class);
+$app->register(Authentication\Providers\AuthServiceProvider::class);
 // $app->register(Authentication\Providers\EventServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

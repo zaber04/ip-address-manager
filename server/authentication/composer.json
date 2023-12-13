@@ -9,7 +9,8 @@
         "illuminate/broadcasting": "^10.37",
         "illuminate/database": "^10.37",
         "illuminate/queue": "^10.37",
-        "laravel/lumen-framework": "^10.0"
+        "laravel/lumen-framework": "^10.0",
+        "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

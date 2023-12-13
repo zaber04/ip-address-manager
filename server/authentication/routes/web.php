@@ -16,3 +16,20 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api/auth'], function () use ($router) {
+    // register a user and get token
+    $router->post('/register', 'AuthController@register');
+
+    // log in user and get token
+    $router->post('/login', 'AuthController@login');
+
+    // log out user
+    $router->post('/logout', 'AuthController@logout');
+
+    // refresh jwt
+    $router->post('/refresh', 'AuthController@refresh');
+
+    // get user details
+    $router->post('/user-profile', 'AuthController@me');
+});
