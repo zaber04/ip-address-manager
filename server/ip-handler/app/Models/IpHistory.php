@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * Provide history for each ip
  * Chages of this single ip over time by various users
  *
- * // we haven't implement this feature yet in IpHandlerController
+ * // we haven't implement this feature yet
  */
 class IpHistory extends Model
 {
