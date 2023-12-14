@@ -1,8 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace AuthenticationDatabase\Seeders;
 
 use Authentication\Models\User;
+use AuthenticationDatabase\Factories\UserFactory;
 
 use Illuminate\Database\Seeder;
 
