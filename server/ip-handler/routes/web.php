@@ -13,6 +13,7 @@
 |
 */
 
+// @TODO: Put these apis behind auth
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'ip-addresses'], function () use ($router) {
         $router->get('/', 'IpHandlerController@index');
@@ -31,9 +32,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'audit-trails'], function () use ($router) {
         // this endpoint should have Role Based Access Control Policy
         $router->get('/', 'AuditTrailController@index');
-
-        // this end point is hit when a user logs in --> not done yet
-        // $router->post('/', 'AuditTrailController@store');
 
         // this end point returns the changes current user did in this session
         $router->get('/{id}', 'AuditTrailController@show');

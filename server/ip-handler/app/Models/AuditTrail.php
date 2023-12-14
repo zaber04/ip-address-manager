@@ -2,7 +2,7 @@
 
 namespace IpHandler\Models;
 
-use Gateway\Enums\AuditActionEnum;
+use Gateway\Enums\ActionEnum;
 use Authentication\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +15,11 @@ class AuditTrail extends Model
     use HasUuids; // primary key uuid
     use HasFactory;
 
-    protected $fillable = ['action', 'property_name', 'old_data', 'new_data', 'user_id'];
+    public const PROPERTY_NAME = 'IP Address';
+
+    // session id helps us filter actions of a user across the session
+    protected $fillable = ['action', 'property_name', 'old_data', 'new_data', 'user_id',  'session_id'];
+
     protected $guarded  = ['property_id', 'table_updated'];
 
     /**
@@ -24,8 +28,21 @@ class AuditTrail extends Model
     protected $casts = [
         'old_data' => 'json',
         'new_data' => 'json',
-        'action'   => AuditActionEnum::class
+        'action'   => ActionEnum::class
     ];
+
+    /**
+     * Rules
+     */
+    public static $rules = [
+        'action'        => ['required', 'string', 'enum: ' . ActionEnum::class],
+        'property_name' => 'required|string',
+        'old_data'      => 'nullable|string|json',
+        'new_data'      => 'nullable|string|json',
+        'user_id'       => 'required|exists:users,id',
+        'session_id'    => 'nullable|uuid'
+    ];
+
 
     /**
      * Define the relationship with the 'User' model.

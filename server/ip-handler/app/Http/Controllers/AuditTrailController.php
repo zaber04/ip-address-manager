@@ -34,6 +34,7 @@ class AuditTrailController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
+        // @TODO: Show based on user session id
         try {
             // Valid request parameters?
             $this->validatePagination($request);
@@ -61,29 +62,6 @@ class AuditTrailController extends BaseController
     }
 
     /**
-     * Store a newly created audit trail in the database.
-     * This should be instantiated when an user logs in
-     *
-     * @param  Request  $request
-     * @return JsonResponse
-     * @throws ValidationException
-     */
-    public function store(Request $request): JsonResponse
-    {
-        try {
-            // Start an audit trail when a user logs in
-
-            return $this->jsonResponseWith(['audit_trail' => []], JsonResponse::HTTP_CREATED);
-        } catch (ValidationException | ModelNotFoundException | QueryException $e) {
-            $errorInfo = ['url' => $request->path(), 'function' => 'AuditTrailController@store'];
-            return $this->handleException($request, $e, $errorInfo);
-        } catch (\Exception $e) {
-            $errorInfo = ['url' => $request->path(), 'function' => 'AuditTrailController@store'];
-            return $this->handleException($request, $e, $errorInfo, JsonResponse::HTTP_BAD_REQUEST);
-        }
-    }
-
-    /**
      * Display the specified Audit Trail.
      *
      * @param  Request $request
@@ -93,9 +71,7 @@ class AuditTrailController extends BaseController
     public function show(Request $request, string  $id): JsonResponse
     {
         try {
-            $validator = Validator::make(['id' => $id], [
-                'id' => 'required|uuid',
-            ]);
+            $validator = Validator::make(['id' => $id], ['id' => 'required|uuid']);
 
             if ($validator->fails()) {
                 throw new ValidationException($validator);

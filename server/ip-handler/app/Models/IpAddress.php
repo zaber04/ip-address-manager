@@ -19,8 +19,10 @@ class IpAddress extends Model
 
     public static $rules = [
         'ip'       => 'required|ip',
-        'label'    => 'required|string|max:255',
+        'label'    => 'required|string|min:1|max:255',
     ];
+
+    protected $maxLabelLength = 255;
 
     // we need a boolean field 'archive' wtih default false providing soft delete feature
 
@@ -29,7 +31,49 @@ class IpAddress extends Model
      *
      * @var array
      */
-    public static $messages = [
+    protected $messages = [
         'ip.ip' => 'The IP address must be a valid IPv4 or IPv6 address.',
     ];
+
+    /**
+     * Get the rules for validation.
+     *
+     * @return array
+     */
+    public static function getValidationRules(): array
+    {
+        return self::$rules;
+    }
+
+    /**
+     * Get the validation messages.
+     *
+     * @return array
+     */
+    public static function getValidationMessages(): array
+    {
+        return self::$messages;
+    }
+
+    /**
+     * Get the maximum length for the label.
+     *
+     * @return int
+     */
+    public function getMaxLabelLength(): int
+    {
+        return $this->maxLabelLength;
+    }
+
+    /**
+     * Validate the given data against the IpAddress model rules.
+     *
+     * @param  array  $data
+     * @return void
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public static function validate(array $data): void
+    {
+        validator($data, static::$rules)->validate();
+    }
 }
