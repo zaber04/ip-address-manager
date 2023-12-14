@@ -1,5 +1,7 @@
 <?php
 
+use Authentication\Models\User;
+
 return [
     'defaults' => [
         'guard' => 'api',
@@ -16,7 +18,9 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => \Authentication\Models\User::class
+            'model' => User::class
         ]
-    ]
+    ],
+
+    'jwt_refresh_minutes' => env('JWT_REFRESH_MINUTES', 30),
 ];

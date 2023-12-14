@@ -14,7 +14,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 
+use Illuminate\Support\Str;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
@@ -55,8 +57,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'contact' => 'string',  // can apply phone no format actually
-        'address' => 'string'
+        'contact'           => 'string',  // can apply phone no format actually
+        'address'           => 'string'
     ];
 
     /**
@@ -90,7 +92,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        $customClaims = [
+            'user_id' => $this->id
+        ];
+
+        return $customClaims;
     }
 
     /**

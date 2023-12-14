@@ -5,8 +5,16 @@ declare(strict_types=1);
 namespace Authentication\Http\Controllers;
 
 use Authentication\Models\User;
+use Authentication\Events\UserLoggedIn;
+// use Authentication\Exceptions\AuthenticationException;
+// use Authentication\Exceptions\InvalidCredentialsException;
+// use Authentication\Exceptions\UserRegistrationException;
+// use Authentication\Exceptions\TokenRefreshException;
+// use Authentication\Exceptions\UserLogoutException;
+use Authentication\Services\TokenService;
+use Authentication\Services\UserService;
 use Gateway\Traits\ApiResponse;
-use Gateway\Traits\LoggingTrait;
+// use Gateway\Traits\LoggingTrait;
 use Gateway\Traits\ExceptionHandlerTrait;
 
 
@@ -15,19 +23,28 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTFactory;
 
 
+// @TODO: Implement comprehensive exception handling for auth microservice @zaber04
 class AuthController extends Controller
 {
     use ApiResponse;
-    use LoggingTrait;
+    // use LoggingTrait;
     use ExceptionHandlerTrait;
 
-    public function __construct()
+    // protected $tokenService;
+    // protected $userService;
+
+    // @TODO: Properly integrate and test the two services by dependency injection for better SOC
+    public function __construct(/*TokenService $tokenService, UserService $userService*/)
     {
         $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
+        // $this->tokenService = $tokenService;
+        // $this->userService  = $userService;
     }
 
     /**
@@ -38,6 +55,7 @@ class AuthController extends Controller
      */
     public function register(Request $request): JsonResponse
     {
+        // @TODO: Use the tokenservice & userservice for better SOC
         try {
             // Validation
             $this->validate($request, User::$rules);
@@ -45,12 +63,18 @@ class AuthController extends Controller
             // Create user
             $user = User::create($request->all());
 
-            // Generate token
-            $token = JWTAuth::fromUser($user);
-            print_r($token);
+            // Include additional claims during JWT creation
+            $claims = [
+                'session_id' => $this->generateSessionId(),
+                'user_id'    => $user->id,
+                'user'       => $user
+            ];
 
-            // Refresh token for later use
-            // $refreshToken = JWTAuth::refresh(JWTAuth::getToken());
+            // Generate token
+            $token = JWTAuth::fromUser($user, $claims);
+
+            // Trigger event to save user id and user IP
+            event(new UserLoggedIn($claims['user_id'], $claims['session_id'], $request->ip()));
 
             // Prepare token payload
             $tokenArray = $this->tokenPayload($token, ['user' => $user, 'message' => 'User registered successfully']);
@@ -74,24 +98,43 @@ class AuthController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
+        // @TODO: Use the tokenservice & userservice for better SOC
         try {
             // Validation
             $this->validate($request, [
-                'email'    => 'required|email',
-                'password' => 'required|string'
+                'email'    => 'required|email|max:255',
+                'password' => 'required|string|min:8|max:255'
             ]);
 
             // Attempt to log in
             $credentials = $request->only(['email', 'password']);
-            $token = JWTAuth::attempt($credentials);
+            $isValid     = auth()->attempt($credentials);
 
-            if (!$token) {
+            if (!$isValid) {
                 // Invalid credentials
                 return $this->jsonResponseWith(['message' => 'Invalid credentials'], JsonResponse::HTTP_UNAUTHORIZED);
             }
 
-            // Refresh token for later use
-            // $refreshToken = JWTAuth::refresh(JWTAuth::getToken());
+            $user  = User::where('email', $credentials['email'])->first();
+            $session_id = $this->generateSessionId();
+
+            // Include additional claims during JWT creation
+            $userProperties = [
+                // send selected properties to keep jwt shorter
+                "first_name" => $user->first_name,
+                "last_name"  => $user->last_name,
+                "email"      => $user->email
+            ];
+            $payload = JWTFactory::sub($user->id)
+                ->user($userProperties)
+                ->session_id($session_id)
+                ->make();
+
+            $tokenObject = JWTAuth::encode($payload);
+            $token = $tokenObject->get();
+
+            // Trigger event to save user id and user IP
+            event(new UserLoggedIn($user->id, $session_id, $request->ip()));
 
             // Prepare token payload
             $tokenArray = $this->tokenPayload($token, ['message' => 'Login successful']);
@@ -117,7 +160,8 @@ class AuthController extends Controller
     {
         try {
             // Refresh token
-            $tokenArray = $this->tokenPayload(JWTAuth::refresh(JWTAuth::getToken()), ['message' => 'Token refreshed']);
+            $token = JWTAuth::refresh(JWTAuth::getToken());
+            $tokenArray = $this->tokenPayload($token, ['message' => 'Token refreshed']);
 
             return $this->jsonResponseWith($tokenArray);
         } catch (ModelNotFoundException | QueryException $e) {
@@ -174,15 +218,23 @@ class AuthController extends Controller
      * @param string $token
      * @return JsonResponse
      */
-    protected function tokenPayload(string $token,  array $extraPayload = []): array
+    protected function tokenPayload($token,  array $extraPayload = []): array
     {
         $tokenArray = [
             'access_token'  => $token,
             'token_type'    => 'bearer',
             'user'          => auth()->user(),
-            'expires_in'    => JWTAuth::factory()->getTTL() * env('JWT_REFRESH_MINUTES', 30)
+            'expires_in'    => JWTAuth::factory()->getTTL() *  config('auth.jwt_refresh_minutes')
         ];
 
         return array_merge($tokenArray, $extraPayload);
+    }
+
+    /**
+     * Generates a UUID which we use to mark a users session
+     */
+    protected function generateSessionId(): string
+    {
+        return Str::uuid()->toString();
     }
 }

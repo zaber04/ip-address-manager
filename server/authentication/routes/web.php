@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -12,10 +14,6 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
 
 $router->group(['prefix' => 'api/auth'], function () use ($router) {
     // register a user and get token
