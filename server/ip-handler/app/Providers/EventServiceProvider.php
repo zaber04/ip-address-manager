@@ -14,8 +14,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \Authentication\Events\UserLoggedIn::class => [
-            \IpHandler\Listeners\BeginAuditTrail::class,
+        \Authentication\Events\UserEvent::class => [
+            \IpHandler\Listeners\AuditTrailListener::class,
         ],
     ];
 

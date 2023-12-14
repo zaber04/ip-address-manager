@@ -11,11 +11,11 @@ class EventServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $listen = [
-        \Authentication\Events\ExampleEvent::class => [
-            \Authentication\Listeners\ExampleListener::class,
-        ],
-    ];
+    // protected $listen = [
+    //     \Authentication\Events\ExampleEvent::class => [
+    //         \Authentication\Listeners\ExampleListener::class,
+    //     ],
+    // ];
 
     /**
      * Determine if events and listeners should be automatically discovered.

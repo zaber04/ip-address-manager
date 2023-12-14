@@ -12,6 +12,6 @@ enum ActionEnum:string {
     case DELETE  = 'delete';
     case INSERT  = 'insert';
     case UPDATE  = 'update';
-    case LOGIN   = 'login';
+    case LOGIN   = 'login'; // register is being considered as login
     case LOGOUT  = 'logout';
 }
