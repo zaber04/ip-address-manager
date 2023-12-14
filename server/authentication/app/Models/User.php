@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 
-use Illuminate\Support\Str;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 

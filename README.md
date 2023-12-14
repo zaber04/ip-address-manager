@@ -1,28 +1,58 @@
 # ip-address-manager
 
 We are building an IP Address Management Solution using microservice architecture.
-This is my first time working with Lumen and I'm excited about it.
+We will use API-GATEWAY-PATTERN for developing our microservices. This is one of the most common and simplest design pattern for building microservices.
+
+## Declaration
+
+This is my first time working with Lumen Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project.
 
 ## Goal
 
 Here, in our app, users will be able to log in and store (in DB) new IP addresses with a label.
-<!-- Upon login user will have `access_token` and `refresh_token`. -->
-During storing in db, IP addresses will be validated. Authenticaed & authorized user can modify the label of an IP address.
+Upon login user will have `access_token` which will be refreshed.
+During storing in db, IP addresses will be validated. Authenticated & authorized user can modify the label of an IP address.
 We will maintain history (audit trail) for every login, addition or change.
 Users can view an audit log of changes made.
 
 ## Communication
 
-We are using `json` as ommunication protocol due to size of the app. However, if there is lots of intercommunicating services, we will use `gRPC` to reduce transmission latency.
+We are using `json` as ommunication protocol due to size of the app. However, if there is lots of intercommunicating services, we will use `gRPC` to reduce transmission latency. Specially in PHP, where json isn't native, `gRPC` is likely to provide more than 30% latency improvement.
+
+## Limitations
+
+Since Lumen is a micro framework, a lot of commands aren't available and doesn't offer auto generation. Many features and libraries and facades of laravel are absent in lumen. Hence most of the codes require manual writing, adding time in development. However, it's stripped down structure offers the flexibility to add only what's needed for each service.
 
 ## Monorepo and Database
 
 Our microservices are in monorepo setup allowing easier resource sharing. We are using same database setup for all the miroservices requiring them to use less requests and local fetching.
 
-## authentication
+Typically microservices are built in polyrepo which provides better seperation and makes development easier. However, this also means fetching resources require composer library or hitting an API endpoint which can add up delay.
+
+Monorepo design solves the delay issue by sharing libraries. It's only challege is maintaining strict library namespace structure for library sharing. It also don't require making external API request.
+
+Maintaining Database operations in monorepo requires careful implementation of the models and factories.
+
+## Authentication
 
 We will use JWT for stateless authentication. Each microservice will be careful to avoid algo none attack. This choice comes with the requirement of implementing a centralized blacklist (SPOF) or kafka based decentralized event subscription based blacklist. However, for simplicity, we didn't implement a authorization revokation mechanism.
 
 ## Authorization
 
-We are assuming, all logged in users have access to all routes and hence didn't implement acess control policy.
+We are assuming, all logged in users have access to all routes and hence didn't implement acess control policy. Hence we didn't implement access control policy (role based, host based, time based, location based) or any SOD matrix.
+
+## Subsctiption
+
+In a monolith we can perform multiple actions together. However, here those actions might be in seperate microservice. Hence, we have to come up with approach for this.
+So, we have a few solutions at hand -
+
+1. `Message queue`: Using Kafka would provide us fault tolerance and at-least-once delivery guarantee.
+2. `Redis cache pub-sub`: We can simply spun up a redis microservice and all microservice could use it as a pub-sub provider.
+3. `API request`: We can actually create a few extra API endpoints to provide specific support. But it would simply create too many endpoints.
+4. `Event Trigger`: We can trigger events from one microservice and set listeners on other microservices and take action on that.
+
+Considering the number of events being small, we chose not to use a meesage queue or redis and used `event trigger` instead.
+
+## Service Registry
+
+Service registry allows auto integration of new microservice and endpoints. However, we have only a handful of end points in our application and hence a service registry isn't implemented.

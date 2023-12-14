@@ -9,7 +9,8 @@
         "illuminate/broadcasting": "^10.37",
         "illuminate/database": "^10.37",
         "illuminate/queue": "^10.37",
-        "laravel/lumen-framework": "^10.0"
+        "laravel/lumen-framework": "^10.0",
+        "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -18,11 +19,17 @@
     },
     "autoload": {
         "psr-4": {
+            "IpHandler\\": "app/",
+            "IpHandlerDatabase\\Factories\\": "database/factories/",
+            "IpHandlerDatabase\\Seeders\\": "database/seeders/",
+
             "Authentication\\": "../authentication/app/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/",
+            "AuthenticationDatabase\\Factories\\": "../authentication/database/factories/",
+            "AuthenticationDatabase\\Seeders\\": "../authentication/database/seeders/",
+
             "Gateway\\": "../gateway/app/",
-            "IpHandler\\": "app/"
+            "GatewayDatabase\\Factories\\": "../gateway/database/factories/",
+            "GatewayDatabase\\Seeders\\": "../gateway/database/seeders/"
         }
     },
     "autoload-dev": {

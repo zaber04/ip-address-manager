@@ -20,10 +20,16 @@
     "autoload": {
         "psr-4": {
             "Authentication\\": "app/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/",
+            "AuthenticationDatabase\\Factories\\": "database/factories/",
+            "AuthenticationDatabase\\Seeders\\": "database/seeders/",
+
             "Gateway\\": "../gateway/app/",
-            "IpHandler\\": "../ip-handler/app/"
+            "GatewayDatabase\\Factories\\": "../gateway/database/factories/",
+            "GatewayDatabase\\Seeders\\": "../gateway/database/seeders/",
+
+            "IpHandler\\": "../ip-handler/app/",
+            "IpHandlerDatabase\\Factories\\": "../ip-handler/database/factories/",
+            "IpHandlerDatabase\\Seeders\\": "../ip-handler/database/seeders/"
         }
     },
     "autoload-dev": {
