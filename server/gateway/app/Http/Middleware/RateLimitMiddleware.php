@@ -2,7 +2,7 @@
 
 namespace Gateway\Http\Middleware;
 
-use Gateway\Traits\ApiResponse;
+use Gateway\Traits\ApiResponseTrait;
 use Gateway\Exceptions\CustomThrottleRequestsException;
 
 use Closure;
@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class RateLimitMiddleware
 {
-    use ApiResponse;        // Maintain response format
+    use ApiResponseTrait;        // Maintain response format
     use InteractsWithTime;  // Time based algorithm -->  tocken bucket
     use Macroable;          // For extendibility
 

@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Authentication\Events;
 
-// use Illuminate\Broadcasting\InteractsWithSockets;
-// use Illuminate\Foundation\Events\Dispatchable;
+
 use Illuminate\Support\Carbon;
 
 class UserLoggedIn extends Event
 {
-    // use Dispatchable, InteractsWithSockets;
-
     public string $userId;
     public string $sessionId;
     public string $ip;

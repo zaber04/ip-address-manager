@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 trait ExceptionHandlerTrait
 {
-    use ApiResponse;
+    use ApiResponseTrait;
     use LoggingTrait;
 
     /**

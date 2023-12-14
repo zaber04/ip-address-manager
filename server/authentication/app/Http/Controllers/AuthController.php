@@ -11,10 +11,9 @@ use Authentication\Events\UserLoggedIn;
 // use Authentication\Exceptions\UserRegistrationException;
 // use Authentication\Exceptions\TokenRefreshException;
 // use Authentication\Exceptions\UserLogoutException;
-use Authentication\Services\TokenService;
-use Authentication\Services\UserService;
-use Gateway\Traits\ApiResponse;
-// use Gateway\Traits\LoggingTrait;
+// use Authentication\Services\TokenService;
+// use Authentication\Services\UserService;
+use Gateway\Traits\ApiResponseTrait;
 use Gateway\Traits\ExceptionHandlerTrait;
 
 
@@ -32,7 +31,7 @@ use Tymon\JWTAuth\Facades\JWTFactory;
 // @TODO: Implement comprehensive exception handling for auth microservice @zaber04
 class AuthController extends Controller
 {
-    use ApiResponse;
+    use ApiResponseTrait;
     // use LoggingTrait;
     use ExceptionHandlerTrait;
 

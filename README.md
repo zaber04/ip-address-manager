@@ -5,7 +5,7 @@ We will use API-GATEWAY-PATTERN for developing our microservices. This is one of
 
 ## Declaration
 
-This is my first time working with Lumen Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project.
+This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project.
 
 ## Goal
 
@@ -56,3 +56,19 @@ Considering the number of events being small, we chose not to use a meesage queu
 ## Service Registry
 
 Service registry allows auto integration of new microservice and endpoints. However, we have only a handful of end points in our application and hence a service registry isn't implemented.
+
+## CORS & Trusted Host & Trusted Proxies
+
+Lumen doesn't come with these features and hence we have implemented a basic version of these for our application.
+
+## Rate Limiter
+
+Lumen doesn't come with rate limit or throttle middleware and hence we have implemented a basic version of these for our application.
+
+## Api Response Pattern
+
+We have implemented our own api response pattern for uniform behavior.
+
+## Logging
+
+We have implemented our own custom logging trait to make use of systematic logging for errors.

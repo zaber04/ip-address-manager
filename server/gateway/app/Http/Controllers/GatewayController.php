@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Gateway\Http\Controllers;
 
-use Gateway\Traits\ApiResponse;
+use Gateway\Traits\ApiResponseTrait;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Faker\Factory as FakerFactory;
 
 class GatewayController extends BaseController
 {
-    use ApiResponse;
+    use ApiResponseTrait;
 
     /**
      * Welcome route. Used for initial development

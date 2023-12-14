@@ -6,7 +6,7 @@ namespace IpHandler\Http\Controllers;
 
 use IpHandler\Models\AuditTrail;
 use IpHandler\Traits\PaginationTrait;
-use Gateway\Traits\ApiResponse;
+use Gateway\Traits\ApiResponseTrait;
 use Gateway\Traits\LoggingTrait;
 use Gateway\Traits\ExceptionHandlerTrait;
 
@@ -21,7 +21,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class AuditTrailController extends BaseController
 {
-    use ApiResponse;
+    use ApiResponseTrait;
     use LoggingTrait;
     use ExceptionHandlerTrait;
     use PaginationTrait;
@@ -42,14 +42,9 @@ class AuditTrailController extends BaseController
             // Default pagination values
             $pagination = $this->getPaginationParams($request);
 
-            /**
-             * Fetch with latest entry first and sort (stable api if sorted by created_at)
-             */
+            // Fetch with latest entry first and sort (stable api if sorted by created_at)
             $auditTrails = AuditTrail::orderBy($pagination['sort_field'], $pagination['sort_order'])
                 ->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
-
-            // Log the request and response
-            // $this->logRequestAndResponse(['function' => 'AuditTrailController@index','url' => $request->path(), 'query' => $request->query()], $auditTrails);
 
             return $this->jsonResponseWith(['audit_trails' => $auditTrails], JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
