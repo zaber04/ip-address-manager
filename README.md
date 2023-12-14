@@ -7,6 +7,30 @@ We will use API-GATEWAY-PATTERN for developing our microservices. This is one of
 
 This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project.
 
+## Microservices
+
+## Authentication Microservices
+
+1. Responsible for user authentication and token management.
+2. Handles user login, issues authentication tokens, and supports token refresh.
+3. Ensures that all subsequent requests to other microservices require a valid authenticated token.
+4. Manages user sessions and token expiration.
+
+## Gateway Microservice
+
+1. Receives all incoming requests
+2. Rate limits requests
+
+## IpHandler Microservice
+
+1. Stores IP
+2. Updates IP
+3. Shows IP list
+4. Maintains IP history
+5. Maintains users actions log as "audit log" for each session (log in, changes, log out)
+
+We didn't use a seperate "Audit Log Microservice" due to small number of functionality and direct depency on "ip update".
+
 ## Goal
 
 Here, in our app, users will be able to log in and store (in DB) new IP addresses with a label.

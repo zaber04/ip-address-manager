@@ -18,8 +18,8 @@ class IpAddress extends Model
     ];
 
     public static $rules = [
-        'ip'       => 'required|ip',
-        'label'    => 'required|string|min:1|max:255',
+        'ip'    => 'required|string|ip|unique:ip_addresses,ip_address', // both IP4 & IP6
+        'label' => 'required|string|min:1|max:255'
     ];
 
     protected $maxLabelLength = 255;
@@ -75,5 +75,20 @@ class IpAddress extends Model
     public static function validate(array $data): void
     {
         validator($data, static::$rules)->validate();
+    }
+
+    /**
+     * Store new IP
+     */
+    public static function createWithAttributes($ip, $label)
+    {
+        $ipAddress = new self([
+            'ip'    => $ip,
+            'label' => $label,
+        ]);
+
+        $ipAddress->save();
+
+        return $ipAddress;
     }
 }
