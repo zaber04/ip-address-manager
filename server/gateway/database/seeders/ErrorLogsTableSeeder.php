@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace GatewayDatabase\Seeders;
 
 
 use Gateway\Models\ErrorLog;

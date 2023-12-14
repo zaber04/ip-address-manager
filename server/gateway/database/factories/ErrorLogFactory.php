@@ -1,12 +1,11 @@
 <?php
 
-namespace Database\Factories;
-
+namespace GatewayDatabase\Factories;
 
 use Gateway\Models\ErrorLog;
 
 use Faker\Factory as FakerFactory;
-// use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 
 $factory->define(ErrorLog::class, function () {
