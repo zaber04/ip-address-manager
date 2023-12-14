@@ -20,8 +20,8 @@ class BeginAuditTrail implements ShouldQueue
 
     public function handle(UserLoggedIn $event)
     {
-        // @TODO: keep this id in cache and use it for this session
-        $sessionId = Str::uuid();
+        // @TODO: keep sessionid in cache and use it for this session
+        // or we can keep inside jwt and use jwt decoding
 
         // Create a new AuditTrail instance with user id and user ip
         $auditTrail = new AuditTrail([
@@ -30,7 +30,7 @@ class BeginAuditTrail implements ShouldQueue
             'old_data'      => '',
             'new_data'      => '',
             'user_id'       => $event->userId,
-            'session_id'    => $sessionId
+            'session_id'    => $event->sessionId
         ]);
 
         $auditTrail->save();
