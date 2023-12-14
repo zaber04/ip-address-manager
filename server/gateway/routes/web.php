@@ -26,7 +26,7 @@ declare(strict_types = 1);
 // TODO: use api versioning --> v1, v2, ...
 // TODO: add routes, load balancing, rate limiting, ...
 
-$router->get('/', ['uses' => GatewayController::class . '@welcome']);
+$router->get('/', 'GatewayController@welcome');
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     // $router->group(['prefix' => 'v1'], function () use ($router) {

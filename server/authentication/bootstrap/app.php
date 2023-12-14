@@ -95,6 +95,7 @@ $app->routeMiddleware([
 $app->register(Authentication\Providers\AuthServiceProvider::class);
 // $app->register(Authentication\Providers\EventServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+// $app->register(\L5Swagger\L5SwaggerServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
