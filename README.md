@@ -3,6 +3,10 @@
 I am building an IP Address Management Solution using microservice architecture.
 I will be using API-GATEWAY-PATTERN for developing our microservices. This is one of the most common and simplest design pattern for building microservices among 10 patterns for microservices.
 
+## How To Run
+
+To run the project, please follow the `HOW_TO_RUN.md` file instead. This file primarily consists of the experience during the project journey.
+
 ## Research
 
 I sepnt the first one and half days researching on techs on the pros on cons and eventually decided to use Lumen Micro Framework for the project.
