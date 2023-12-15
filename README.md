@@ -13,7 +13,7 @@ I sepnt the first one and half days researching on techs on the pros on cons and
 
 ## Declaration
 
-This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project.
+This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project. I am also working within time constraints and hence UML, ERD diagrams weren't created yet.
 
 ## Microservices
 
@@ -38,6 +38,18 @@ This is my first time working with Lumen Micro Framework and I'm excited about i
 5. Maintains users actions log as "audit log" for each session (log in, changes, log out)
 
 I didn't use a seperate "Audit Log Microservice" due to small number of functionality and direct depency on "ip update". However, in large scale scenario, a seperate microservice with message queue is preferable for high throughput and fault taulerance.
+
+## Routing
+
+For combined routing I have come up with two solutions -
+
+1. `Dynamic Loading with strict host`: Since I didn't use a `service registry microservice` due to the application scope. I implemented a simple `RouterService` instead. It loads all services dynamically.
+
+2. `Dynamic Loading with flexible host`: Later I implemented a slightly different approach to allow flexible host naming using env. This approach felt more cleaner and less coupled.
+
+## Routing Challenges
+
+Not having any `fallback` or wildcard based `any` in lumen unlike laravel poses a strong challenge to handle `route not found` and `route redirection`. I have come up with 3 approaches so far but neither feels clean enough. Edited the default `Exception/Handler.php` for `route not found`.
 
 ## Goal
 

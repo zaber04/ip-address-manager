@@ -14,7 +14,7 @@
 */
 
 // @TODO: Put these apis behind auth
-$router->group(['prefix' => 'api'], function () use ($router) {
+$router->group(['prefix' => ''], function () use ($router) {
     $router->group(['prefix' => 'ip-addresses'], function () use ($router) {
         $router->get('/', 'IpHandlerController@index');
 

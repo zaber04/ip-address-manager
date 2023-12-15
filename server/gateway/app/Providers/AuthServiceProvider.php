@@ -2,8 +2,8 @@
 
 namespace Gateway\Providers;
 
-use Gateway\Models\User;
-use Illuminate\Support\Facades\Gate;
+use Authentication\Models\User;
+// use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider

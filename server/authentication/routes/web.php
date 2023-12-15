@@ -15,7 +15,7 @@ declare(strict_types=1);
 |
 */
 
-$router->group(['prefix' => 'api/auth'], function () use ($router) {
+$router->group(['prefix' => ''], function () use ($router) {
     // register a user and get token
     $router->post('/register', 'AuthController@register');
 
