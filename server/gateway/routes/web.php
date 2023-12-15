@@ -19,22 +19,6 @@ declare(strict_types = 1);
 // TODO: use api versioning --> v1, v2, ...
 // TODO: add routes, load balancing, rate limiting, ...
 
-
-$router->group(['prefix' => 'api'], function () use ($router) {
-    // will contain versioning
-    $router->group(['prefix' => 'v1'], function () use ($router) {
-        // will contain authentication microservice routes
-        $router->group(['prefix' => 'auth'], function () use ($router) {
-        });
-
-        // will contain ip-handler microservice routes
-        // must be authenticated user to access these
-        $router->group(['prefix' => 'ip-handler'], function () use ($router) {
-        });
-    });
-});
-
-
 // Just a welcome route without much restriction
 $router->get('/', 'GatewayController@welcome');
 
@@ -81,7 +65,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         });
 
         // IP Handler microservice routes
-        $router->group(['prefix' => 'ip-handler'], function () use ($router) {
+        $router->group(['prefix' => 'ip-handler', 'middleware' => 'auth'], function () use ($router) {
             // Forward requests to the IP Handler microservice
             $router->get('/{route:.*}', 'GatewayController@forwardToIpHandlerService');
             $router->post('/{route:.*}', 'GatewayController@forwardToIpHandlerService');

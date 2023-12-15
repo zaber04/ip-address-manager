@@ -76,8 +76,10 @@ $app->configure('app');
 //     Authentication\Http\Middleware\ExampleMiddleware::class
 // ]);
 
+// Create an alias for the middleware
 $app->routeMiddleware([
-    'auth' => Authentication\Http\Middleware\Authenticate::class,
+    // Register the AuthenticateMiddleware and create an alias 'auth'
+    'auth' => Authentication\Http\Middleware\AuthenticateMiddleware::class,
 ]);
 
 /*

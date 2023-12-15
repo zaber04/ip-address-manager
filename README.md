@@ -26,8 +26,10 @@ This is my first time working with Lumen Micro Framework and I'm excited about i
 
 ## Gateway Microservice
 
-1. Receives all incoming requests
+1. Receives all incoming requests and forwards them
 2. Rate limits requests
+
+*** We intentionally didn't attach any header to verify whether the request is from `gateway` microservice or not. It simply helps us in postman testing. In production environment, apart from jwt, we will be using another level of authorization to enforce routing flow.
 
 ## IpHandler Microservice
 
@@ -129,3 +131,7 @@ I have implemented custom logging trait to make use of systematic logging for er
 ## Setbacks
 
 In the middle of the project, my laptop crashed and some work was lost. Most of the day was lost trying to recover the device and res-setup everything in another older device with almost no dev setup.
+
+## Code Duplications
+
+In some cases, code duplications was used intentionally instead of using `shared library` or `git submodules` or `composer packages` or `symbolic links`. This is often decision choice by case. One example is defining `auth` as a middleware and binding to a class and registering in service provider has been done in each services. In this case, it saved some time. In Lumen, there isn't a much better approach anyway. Even with a library, the manual part is mandatory. You have to add stuff in `bootstrap/app.php` manually.

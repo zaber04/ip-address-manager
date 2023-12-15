@@ -81,9 +81,11 @@ $app->middleware([
     // \G4T\Swagger\Middleware\SetJsonResponseMiddleware::class,
 ]);
 
-// $app->routeMiddleware([
-//     'auth' => Gateway\Http\Middleware\Authenticate::class,
-// ]);
+// Create an alias for the middleware
+$app->routeMiddleware([
+    // Register the AuthenticateMiddleware and create an alias 'auth'
+    'auth' => Authentication\Http\Middleware\AuthenticateMiddleware::class,
+]);
 
 /*
 |--------------------------------------------------------------------------

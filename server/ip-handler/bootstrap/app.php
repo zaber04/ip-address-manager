@@ -76,10 +76,11 @@ $app->configure('app');
 //     IpHandler\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => IpHandler\Http\Middleware\Authenticate::class,
-// ]);
-
+// Create an alias for the middleware
+$app->routeMiddleware([
+    // Register the AuthenticateMiddleware and create an alias 'auth'
+    'auth' => Authentication\Http\Middleware\AuthenticateMiddleware::class,
+]);
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
