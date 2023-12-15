@@ -4,30 +4,24 @@ declare(strict_types=1);
 
 namespace IpHandler\Traits;
 
+use Authentication\Traits\TokenTrait;
 use Gateway\Enums\ActionEnum;
-// use Gateway\Traits\ExceptionHandlerTrait;
 use IpHandler\Models\AuditTrail;
 
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 trait AuditTrailTrait
 {
-    // use ExceptionHandlerTrait;
+    use TokenTrait;
 
     // NO INTERNAL ERROR HANDLING --> Haandled as transaction in controller during usage
     private function storeAuditEvent(Request $request, string $propertyId, ActionEnum $eventType = ActionEnum::UPDATE, string $tableName = 'ip_addresses') {
-        // Extract JWT token from the Authorization header and
-        // get session id and user id for this session
-        $authHeader = $request->header('Authorization');
-        list($tokenType, $token) = explode(' ', $authHeader);
+        // get the jwt token
+        $tokenArray = $this->getTokenArrayFromHeader($request);
 
-        // Decode and validate the token
-        $decodedToken = JWTAuth::decode($token);
-
-        // Access user_id from the token payload
-        $userId    = $decodedToken['user_id'] ?? '';
-        $sessionId = $decodedToken['session_id'] ?? '';
+        // Access user_id & session_id from the token payload
+        $userId    = $tokenArray['user_id'] ?? $tokenArray['sub'] ?? '';
+        $sessionId = $tokenArray['session_id'] ?? '';
 
         // Create a new AuditTrail instance with user id and user ip
         $auditTrail = new AuditTrail([

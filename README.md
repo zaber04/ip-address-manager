@@ -3,6 +3,10 @@
 I am building an IP Address Management Solution using microservice architecture.
 I will be using API-GATEWAY-PATTERN for developing our microservices. This is one of the most common and simplest design pattern for building microservices among 10 patterns for microservices.
 
+## Research
+
+I sepnt the first one and half days researching on techs on the pros on cons and eventually decided to use Lumen Micro Framework for the project.
+
 ## Declaration
 
 This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project.
@@ -52,6 +56,10 @@ I have implimented several custom commands (which are similar to laravel) to mak
 
 In some cases, removal of codes in Lumen has adverse effect and doesn't even allow basic functionalities such as requestFactory() and forces the developers to copy-paste the code from laravel framework code. Lumen also has much weaker and outdated documentation
 
+## Comments / Doxygen
+
+Lumen doesn't have much option for auto generate docblocks and comments. Hence most of the comments and docblocks are genrated manually and with a little help from a doxygen extension in IDE.
+
 ## Monorepo and Database
 
 Our microservices are in monorepo setup allowing easier resource sharing. I am using same database setup for all the miroservices requiring them to use less requests and local fetching.
@@ -70,7 +78,7 @@ I will be using JWT for stateless authentication. Each microservice will be care
 
 I am assuming, all logged in users have access to all routes and hence didn't implement acess control policy. Hence I didn't implement access control policy (role based, host based, time based, location based) or any SOD matrix.
 
-## Subsctiption
+## Subscription
 
 In a monolith we can perform multiple actions together. However, here those actions might be in seperate microservice. Hence, we have to come up with approach for this.
 So, we have a few solutions at hand -
@@ -101,3 +109,7 @@ I have implemented custom api response pattern for uniform behavior.
 ## Logging
 
 I have implemented custom logging trait to make use of systematic logging for errors.
+
+## Setbacks
+
+In the middle of the project, my laptop crashed and some work was lost. Most of the day was lost trying to recover the device and res-setup everything in another older device with almost no dev setup.

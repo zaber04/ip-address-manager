@@ -27,7 +27,7 @@ class AuditTrailListener implements ShouldQueue
                 'action'        => $event->eventType,
                 'property_name' => AuditTrail::PROPERTY_NAME,
                 'old_data'      => '',
-                'new_data'      => "Login time: " . $event->timestamp,
+                'new_data'      => "Event time: " . $event->timestamp,
                 'user_id'       => $event->userId,
                 'session_id'    => $event->sessionId,
                 'user_ip'       => $event->ip
@@ -35,7 +35,7 @@ class AuditTrailListener implements ShouldQueue
 
             $auditTrail->save();
         } catch (\Exception $e) {
-            Log::error('Failed to store login event in db. Event data: ' . json_encode($event) . " Error message: " . $e->getMessage());
+            Log::error('Failed to store login/logout event in db. Event data: ' . json_encode($event) . " Error message: " . $e->getMessage());
         }
     }
 }

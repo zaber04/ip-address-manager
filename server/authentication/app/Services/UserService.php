@@ -2,7 +2,9 @@
 
 namespace Authentication\Services;
 
-use Authentication\Events\UserLoggedIn;
+use Authentication\Events\UserEvent;
+use Gateway\Enums\ActionEnum;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -13,7 +15,7 @@ class UserService
         // logic for user registration
 
         // Trigger event to save user id and user IP
-        event(new UserLoggedIn(Auth::user()->id, $this->generateSessionId(), request()->ip()));
+        event(new UserEvent(Auth::user()->id, $this->generateSessionId(), ActionEnum::LOGIN, request()->ip()));
     }
 
     public function loginUser(array $credentials): array
@@ -26,7 +28,7 @@ class UserService
         }
 
         // Trigger event to save user id and user IP
-        event(new UserLoggedIn(Auth::user()->id, $this->generateSessionId(), request()->ip()));
+        event(new UserEvent(Auth::user()->id, $this->generateSessionId(), ActionEnum::LOGIN, request()->ip()));
 
         return ['message' => 'Login successful'];
     }
