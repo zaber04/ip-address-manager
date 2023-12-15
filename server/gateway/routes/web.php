@@ -16,28 +16,76 @@ declare(strict_types = 1);
 |
 */
 
-
-
-// How will I design the URLs? maybe these?
-// $router->get('/api/v1/gateway', 'GatewayController@index');
-// $router->get('/authenticate', 'AuthenticationController@authenticate');
-// $router->get('/retrieve-data', 'IpHandlerController@retrieveData');
-
 // TODO: use api versioning --> v1, v2, ...
 // TODO: add routes, load balancing, rate limiting, ...
 
-$router->get('/', ['uses' => GatewayController::class . '@welcome']);
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    // $router->group(['prefix' => 'v1'], function () use ($router) {
-    //     $router->group(['prefix' => 'auth'], function () use ($router) {
-    //     });
+    // will contain versioning
+    $router->group(['prefix' => 'v1'], function () use ($router) {
+        // will contain authentication microservice routes
+        $router->group(['prefix' => 'auth'], function () use ($router) {
+        });
 
-    //     $router->group(['prefix' => 'ip-handler'], function () use ($router) {
-    //     });
-    // });
+        // will contain ip-handler microservice routes
+        // must be authenticated user to access these
+        $router->group(['prefix' => 'ip-handler'], function () use ($router) {
+        });
+    });
 });
 
 
+// Just a welcome route without much restriction
+$router->get('/', 'GatewayController@welcome');
 
+// Dynamic Loading with strict host
+/*
+$router->group(['prefix' => 'api'], function () use ($router) {
+    // will contain versioning
+    $router->group(['prefix' => 'v1'], function () use ($router) {
+        // will contain authentication microservice routes
+        $router->group(['prefix' => 'auth'], function () use ($router) {
+            $router->getRoutes()['namespace'] = 'Authentication\Controllers';
+            $router->getRoutes()['as'] = 'auth.';
+            $router->getRoutes()['prefix'] = 'auth';
+            $router->group(['namespace' => 'Authentication\Controllers'], function () use ($router) {
+                // @TODO: test this
+                require base_path('server/authentication/routes/web.php');
+            });
+        });
 
+        // will contain ip-handler microservice routes
+        // must be authenticated user to access these
+        $router->group(['prefix' => 'ip-handler'], function () use ($router) {
+            $router->getRoutes()['namespace'] = 'IpHandler\Controllers';
+            $router->getRoutes()['as'] = 'ip-handler.';
+            $router->getRoutes()['prefix'] = 'ip-handler';
+            $router->group(['namespace' => 'IpHandler\Controllers'], function () use ($router) {
+                // @TODO: test this
+                require base_path('server/ip-handler/routes/web.php');
+            });
+        });
+    });
+});
+*/
+
+// Dynamic Loading with flexible host
+$router->group(['prefix' => 'api'], function () use ($router) {
+    // will contain versioning
+    $router->group(['prefix' => 'v1'], function () use ($router) {
+        // Authentication microservice routes
+        $router->group(['prefix' => 'auth'], function () use ($router) {
+            // Forward requests to the Authentication microservice
+            // neither "$router->any" nor "$router->fallback" is available in Lumen
+            $router->post('/{route:.*}', 'GatewayController@forwardToAuthService');
+        });
+
+        // IP Handler microservice routes
+        $router->group(['prefix' => 'ip-handler'], function () use ($router) {
+            // Forward requests to the IP Handler microservice
+            $router->get('/{route:.*}', 'GatewayController@forwardToIpHandlerService');
+            $router->post('/{route:.*}', 'GatewayController@forwardToIpHandlerService');
+            $router->put('/{route:.*}', 'GatewayController@forwardToIpHandlerService');
+        });
+    });
+});

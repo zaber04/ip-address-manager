@@ -94,6 +94,7 @@ $app->configure('app');
 // $app->register(IpHandler\Providers\AppServiceProvider::class);
 // $app->register(IpHandler\Providers\AuthServiceProvider::class);
 // $app->register(IpHandler\Providers\EventServiceProvider::class);
+// $app->register(\L5Swagger\L5SwaggerServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

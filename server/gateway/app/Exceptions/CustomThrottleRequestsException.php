@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gateway\Exceptions;
 
-use Gateway\Traits\ApiResponse;
+use Gateway\Traits\ApiResponseTrait;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 class CustomThrottleRequestsException extends HttpResponseException
 {
-    use ApiResponse;
+    use ApiResponseTrait;
 
     protected int $statusCode;
     protected string $hostIp;

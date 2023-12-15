@@ -60,6 +60,9 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('database');
+$app->configure('tinker');
+// $app->configure('swagger');
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +78,7 @@ $app->configure('app');
 $app->middleware([
     Gateway\Http\Middleware\RateLimitMiddleware::class,
     Gateway\Http\Middleware\CorsMiddleware::class,
+    // \G4T\Swagger\Middleware\SetJsonResponseMiddleware::class,
 ]);
 
 // $app->routeMiddleware([
@@ -92,9 +96,15 @@ $app->middleware([
 |
 */
 
-// $app->register(Gateway\Providers\AppServiceProvider::class);
+$app->register(Gateway\Providers\AppServiceProvider::class);
+// $app->register(Gateway\Providers\RoutesServiceProvider::class); // using different approach now
 // $app->register(Gateway\Providers\AuthServiceProvider::class);
 // $app->register(Gateway\Providers\EventServiceProvider::class);
+
+$app->register(\Laravel\Tinker\TinkerServiceProvider::class);
+// $app->register(\L5Swagger\L5SwaggerServiceProvider::class);
+// $app->register( \G4T\Swagger\Middleware\SetJsonResponseMiddleware::class);
+
 
 /*
 |--------------------------------------------------------------------------

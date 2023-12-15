@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 
-trait ApiResponse
+trait ApiResponseTrait
 {
     /**
      * Respond with a JSON

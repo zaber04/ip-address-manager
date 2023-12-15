@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace IpHandler\Providers;
 
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
@@ -12,8 +14,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \IpHandler\Events\ExampleEvent::class => [
-            \IpHandler\Listeners\ExampleListener::class,
+        \Authentication\Events\UserEvent::class => [
+            \IpHandler\Listeners\AuditTrailListener::class,
         ],
     ];
 
