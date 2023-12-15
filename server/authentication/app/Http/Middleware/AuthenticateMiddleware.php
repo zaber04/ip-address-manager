@@ -10,6 +10,7 @@ use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticateMiddleware
 {
@@ -45,10 +46,18 @@ class AuthenticateMiddleware
     public function handle(Request $request, Closure $next, ?string $guard = null): mixed
     {
         // Using the 'api' guard from 'config/auth.php' for authentication
-        if ($this->auth->guard($guard)->guest()) {
-            return $this->jsonResponseWith(['error' => 'Unauthorized Request'], JsonResponse::HTTP_UNAUTHORIZED);
-        }
 
-        return $next($request);
+        try {
+            // Check if the user is authenticated using JWT
+            $user = JWTAuth::parseToken()->authenticate();
+
+            if (!$user) {
+                return $this->jsonResponseWith(['error' => 'Unauthorized'], JsonResponse::HTTP_UNAUTHORIZED);
+            }
+
+            return $next($request);
+        } catch (\Exception $e) {
+            return $this->jsonResponseWith(['error' => 'Unauthorized'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
     }
 }

@@ -61,15 +61,15 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->group(['prefix' => 'auth'], function () use ($router) {
             // Forward requests to the Authentication microservice
             // neither "$router->any" nor "$router->fallback" is available in Lumen
-            $router->post('/{route:.*}', 'GatewayController@forwardToAuthService');
+            $router->post('/{routes:.*}', 'GatewayController@forwardToAuthService');
         });
 
         // IP Handler microservice routes
         $router->group(['prefix' => 'ip-handler', 'middleware' => 'auth'], function () use ($router) {
             // Forward requests to the IP Handler microservice
-            $router->get('/{route:.*}', 'GatewayController@forwardToIpHandlerService');
-            $router->post('/{route:.*}', 'GatewayController@forwardToIpHandlerService');
-            $router->put('/{route:.*}', 'GatewayController@forwardToIpHandlerService');
+            $router->get('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+            $router->post('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+            $router->put('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
         });
     });
 });
