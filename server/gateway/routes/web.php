@@ -65,7 +65,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         });
 
         // IP Handler microservice routes
-        $router->group(['prefix' => 'ip-handler', 'middleware' => 'auth'], function () use ($router) {
+        $router->group(['prefix' => 'ip-handler', ['auth', 'refresh.token']], function () use ($router) {
             // Forward requests to the IP Handler microservice
             $router->get('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
             $router->post('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');

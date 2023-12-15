@@ -6,6 +6,7 @@ namespace Authentication\Traits;
 
 use Authentication\Models\User;
 
+use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,9 +29,17 @@ trait TokenTrait
             "email"      => $user->email,
             "user_id"    => $user->id
         ];
+
+        // Set the token expiration time and refresh time
+        $expiration = Carbon::now()->addMinutes(config('auth.jwt_refresh_ttl'))->timestamp;
+        $refreshAt  = Carbon::now()->addMinutes(config('auth.jwt_refresh_minutes'))->timestamp;
+
         $payload = JWTFactory::sub($user->id)
             ->user($userProperties)
             ->session_id($session_id)
+            ->setExpiration($expiration)
+            ->setRefreshFlow()
+            ->setRefreshTTL($refreshAt)
             ->make();
 
         $tokenObject = JWTAuth::encode($payload);
@@ -43,38 +52,43 @@ trait TokenTrait
      * Decodes JWT token from header and returns the payload as array
      */
     private function getTokenArrayFromHeader(Request $request): array {
-        $authHeader = $request->header('Authorization');
-
-        if (!$authHeader) {
-            // For now, let's return an empty array if header is missing
-            // we may throw an exception in the controller if needed
-            // we don't really need to log this since controller might reject the request anyway
-            return [];
-        }
-
-        // Extract the token from the Authorization header
-        list($tokenType, $token) = explode(' ', $authHeader, 2);
-
-        // Decode and validate the token
-        $decodedToken = JWTAuth::decode($token);
-
         try {
-            // Decode and validate the token
-            $decodedToken = JWTAuth::decode($token);
-        } catch (JWTException $e) {
-            // For now, let's return an empty array if header is missing
-            // we may throw an exception in the controller if needed
-            // we don't really need to log this since controller might reject the request anyway
+            $authHeader = $request->header('Authorization');
+
+            if (!$authHeader) {
+                // For now, let's return an empty array if header is missing
+                // we may throw an exception in the controller if needed
+                // we don't really need to log this since controller might reject the request anyway
+                return [];
+            }
+
+            // Extract the token from the Authorization header
+            list($tokenType, $token) = explode(' ', $authHeader, 2);
+
+            // Check if the token is a valid JWT
+            if ($tokenType === 'Bearer') {
+                // Decode the JWT token
+                $decodedToken = JWTAuth::setToken($token)->getPayload();
+                $allClaims = $decodedToken->toArray();
+
+                return $allClaims;
+            }
+
+            return [];
+        } catch (\Exception $e) {
+            
             return [];
         }
-
-        return $decodedToken;
     }
 
     /**
      * Assigns the jwt token as authorization header
+     *
+     * @param string $token
+     * @param \Illuminate\Http\Client\PendingRequest  (using mixed intead) $http
+     * @return \Illuminate\Http\Client\PendingRequest (using mixed intead)
      */
-    private function setTokenInHeader(string $token, PendingRequest $http): PendingRequest {
+    private function setTokenInHeader(string $token, mixed $http): mixed {
         $headers = ['Authorization' => 'Bearer ' . $token];
 
         // Set headers on the HTTP client
@@ -101,7 +115,7 @@ trait TokenTrait
     {
         $tokenArray = [
             'access_token'  => $token,
-            'token_type'    => 'bearer',
+            'token_type'    => 'Bearer',
             'user'          => auth()->user(),
             'expires_in'    => JWTAuth::factory()->getTTL() *  config('auth.jwt_refresh_minutes')
         ];

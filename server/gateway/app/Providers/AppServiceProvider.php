@@ -17,4 +17,14 @@ class AppServiceProvider extends ServiceProvider
             return new \Laravel\Lumen\Http\ResponseFactory();
         });
     }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
+    }
 }

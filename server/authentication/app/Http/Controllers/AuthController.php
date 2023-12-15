@@ -41,7 +41,9 @@ class AuthController extends Controller
     // both services now requires a lot of rework and basic features are now being provided by Traits
     public function __construct(/*TokenService $tokenService, UserService $userService*/)
     {
-        $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
+        $this->middleware('auth:api', ['only' => ['me']]);
+        $this->middleware('refresh.token', ['only' => ['me']]);
+
         // $this->tokenService = $tokenService;
         // $this->userService  = $userService;
     }
@@ -95,9 +97,9 @@ class AuthController extends Controller
         // @TODO: Use the tokenservice & userservice for better SOC
         try {
             // Validate using model rules
-            User::validate([
-                'email'    => $request->input('email'),
-                'password' => $request->input('password')
+            $this->validate($request, [
+                'email'    => User::$rules['email_login'],
+                'password' => User::$rules['password'],
             ]);
 
             // Attempt to log in
@@ -164,7 +166,7 @@ class AuthController extends Controller
             $tokenArray = $this->getTokenArrayFromHeader($request);
 
             // Access user_id & session_id from the token payload
-            $userId    = $tokenArray['user_id'] ?? $tokenArray['sub'] ?? '';
+            $userId = $tokenArray['sub'] ?? $tokenArray['user']['user_id'] ?? '';
             $sessionId = $tokenArray['session_id'] ?? '';
 
             // send logout event to audit-trail-report

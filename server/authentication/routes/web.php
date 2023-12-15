@@ -15,19 +15,23 @@ declare(strict_types=1);
 |
 */
 
-$router->group(['prefix' => ''], function () use ($router) {
-    // register a user and get token
-    $router->post('/register', 'AuthController@register');
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->group(['prefix' => 'v1'], function () use ($router) {
+        $router->group(['prefix' => 'auth'], function () use ($router) {
+            // register a user and get token
+            $router->post('/register', 'AuthController@register');
 
-    // log in user and get token
-    $router->post('/login', 'AuthController@login');
+            // log in user and get token
+            $router->post('/login', 'AuthController@login');
 
-    // log out user
-    $router->post('/logout', 'AuthController@logout');
+            // log out user
+            $router->post('/logout', 'AuthController@logout');
 
-    // refresh jwt
-    $router->post('/refresh', 'AuthController@refresh');
+            // refresh jwt
+            $router->post('/refresh', 'AuthController@refresh');
 
-    // get user details
-    $router->post('/user-profile', 'AuthController@me');
+            // get user details
+            $router->post('/user-profile', 'AuthController@me');
+        });
+    });
 });

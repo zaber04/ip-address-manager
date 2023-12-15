@@ -18,7 +18,7 @@ class IpAddress extends Model
     ];
 
     public static $rules = [
-        'ip'    => 'required|string|ip|unique:ip_addresses,ip_address', // both IP4 & IP6
+        'ip'    => 'required|string|ip|unique:ip_addresses,ip', // both IP4 & IP6
         'label' => 'required|string|min:1|max:255'
     ];
 
@@ -72,10 +72,10 @@ class IpAddress extends Model
      * @return void
      * @throws \Illuminate\Validation\ValidationException
      */
-    public static function validate(array $data): void
-    {
-        validator($data, static::$rules)->validate();
-    }
+    // public static function validate(array $data): void
+    // {
+    //     validator($data, static::$rules)->validate();
+    // }
 
     /**
      * Store new IP

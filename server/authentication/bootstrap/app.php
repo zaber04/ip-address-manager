@@ -27,6 +27,7 @@ $app->withFacades();
 
 $app->withEloquent();
 
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -60,6 +61,8 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('database');
+$app->configure('services');
 
 /*
 |--------------------------------------------------------------------------
@@ -72,15 +75,21 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     Authentication\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    // Authentication\Http\Middleware\ExampleMiddleware::class
+]);
 
 // Create an alias for the middleware
 $app->routeMiddleware([
     // Register the AuthenticateMiddleware and create an alias 'auth'
+    // 'auth' => Authentication\Http\Middleware\Authenticate::class,
     'auth' => Authentication\Http\Middleware\AuthenticateMiddleware::class,
+    'refresh.token' => Authentication\Http\Middleware\RefreshTokenMiddleware::class,
+    // 'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+    // 'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
 ]);
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -93,11 +102,13 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(Authentication\Providers\AppServiceProvider::class);
-$app->register(Authentication\Providers\AuthServiceProvider::class);
-// $app->register(Authentication\Providers\EventServiceProvider::class);
+$app->register(Authentication\Providers\AppServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+// $app->register(Authentication\Providers\AuthServiceProvider::class);
+// $app->register(Authentication\Providers\EventServiceProvider::class);
+
 // $app->register(\L5Swagger\L5SwaggerServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------

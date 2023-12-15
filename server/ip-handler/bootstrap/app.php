@@ -60,6 +60,8 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('database');
+$app->configure('services');
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +82,7 @@ $app->configure('app');
 $app->routeMiddleware([
     // Register the AuthenticateMiddleware and create an alias 'auth'
     'auth' => Authentication\Http\Middleware\AuthenticateMiddleware::class,
+    'refresh.token' => Authentication\Http\Middleware\RefreshTokenMiddleware::class,
 ]);
 /*
 |--------------------------------------------------------------------------
@@ -92,10 +95,12 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(IpHandler\Providers\AppServiceProvider::class);
+$app->register(IpHandler\Providers\AppServiceProvider::class);
 // $app->register(IpHandler\Providers\AuthServiceProvider::class);
 // $app->register(IpHandler\Providers\EventServiceProvider::class);
 // $app->register(\L5Swagger\L5SwaggerServiceProvider::class);
+
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

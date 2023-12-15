@@ -85,7 +85,7 @@ class IpHandlerController extends BaseController
                 );
 
                 // store audit log --> this can throw error and retrun error response
-                $this->storeAuditEvent($request, $ipAddress->id, ActionEnum::INSERT);
+                $this->storeAuditEvent($request, $ipAddress->id, "", ActionEnum::INSERT);
 
                 // Commit the transaction
                 DB::commit();
@@ -156,7 +156,10 @@ class IpHandlerController extends BaseController
             $this->validateId($id);
 
             // Validate the request data
-            IpAddress::validate(['label' => $request->input('label')]);
+            // IpAddress::validate(['label' => $request->input('label')]);
+            $this->validate($request, [
+                'label' => IpAddress::$rules['label']
+            ]);
 
             // Find the IpAddress by ID or throw a ModelNotFoundException
             $ipAddress = IpAddress::findOrFail($id);
@@ -166,10 +169,11 @@ class IpHandlerController extends BaseController
 
             try {
                 // Update the IpAddress with the new label
+                $previousValue = $ipAddress->label;
                 $ipAddress->update(['label' => $request->input('label')]);
 
                 // store audit log --> this can throw error and retrun error response
-                $this->storeAuditEvent($request, $id);
+                $this->storeAuditEvent($request, $id, $previousValue);
 
                 // Commit the transaction
                 DB::commit();

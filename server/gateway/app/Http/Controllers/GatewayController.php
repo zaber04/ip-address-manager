@@ -50,7 +50,7 @@ class GatewayController extends BaseController
         // retrieve authentication service base url
         $authServiceBaseUrl = config('services.auth.base_url');
 
-        // update request endpoint --> /api/auth/login becomes /login
+        // request endpoint --> /api/auth/login remains /api/auth/login in Lumen (no prefix removal)
         $authServiceEndpoint = $request->path();
 
         // Forward the request to the Authentication microservice
@@ -60,7 +60,8 @@ class GatewayController extends BaseController
             ->withHeaders($request->headers->all())
             ->{$request->method()}($authServiceEndpoint, $request->all());
 
-        return $response;
+        // Directly return the response and status code
+        return response($response->json(), $response->status());
     }
 
     /**
@@ -79,6 +80,7 @@ class GatewayController extends BaseController
             ->withHeaders($request->headers->all())
             ->{$request->method()}($ipHandlerEndpoint, $request->all());
 
-        return $response;
+        // Directly return the response and status code
+        return response($response->json(), $response->status());
     }
 }

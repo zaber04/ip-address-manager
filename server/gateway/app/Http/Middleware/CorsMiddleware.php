@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Gateway\Http\Middleware;
 
 use Illuminate\Http\Request; // we will extend this later and use that
@@ -9,7 +7,7 @@ use Closure;
 use Symfony\Component\HttpFoundation\Response;
 
 class CorsMiddleware {
-	public function handle(Request $request, Closure $next): Response
+	public function handle(Request $request, Closure $next)
     {
         /** @var Response $response */
         $response = $next($request);

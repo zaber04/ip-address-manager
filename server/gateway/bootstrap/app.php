@@ -61,6 +61,7 @@ $app->singleton(
 
 $app->configure('app');
 $app->configure('database');
+$app->configure('services');
 $app->configure('tinker');
 // $app->configure('swagger');
 
@@ -85,6 +86,7 @@ $app->middleware([
 $app->routeMiddleware([
     // Register the AuthenticateMiddleware and create an alias 'auth'
     'auth' => Authentication\Http\Middleware\AuthenticateMiddleware::class,
+    'refresh.token' => Authentication\Http\Middleware\RefreshTokenMiddleware::class,
 ]);
 
 /*
@@ -103,6 +105,7 @@ $app->register(Gateway\Providers\AppServiceProvider::class);
 // $app->register(Gateway\Providers\AuthServiceProvider::class);
 // $app->register(Gateway\Providers\EventServiceProvider::class);
 
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(\Laravel\Tinker\TinkerServiceProvider::class);
 // $app->register(\L5Swagger\L5SwaggerServiceProvider::class);
 // $app->register( \G4T\Swagger\Middleware\SetJsonResponseMiddleware::class);

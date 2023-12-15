@@ -68,7 +68,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public static $rules = [
         'last_name'  => 'required|string|max:255',
         'first_name' => 'required|string|max:255',
-        'email'      => 'required|email|unique:users|max:255',
+        'email'      => 'required|email|unique:users|max:255', // check unique for registration only
+        'email_login'=> 'required|email|max:255',
         'password'   => 'required|string|min:8|max:255',
         'contact'    => 'nullable|string|max:20',
         'address'    => 'nullable|string|max:255'

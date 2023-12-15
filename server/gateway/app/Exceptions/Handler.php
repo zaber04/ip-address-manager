@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception):JsonResponse|Response
     {
         if ($exception instanceof NotFoundHttpException) {
-            return new Response(['error' => 'Not Found'], JsonResponse::HTTP_NOT_FOUND);
+            return new Response(['error' => 'HTTP Not Found'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         return parent::render($request, $exception);

@@ -20,7 +20,7 @@ class UserEvent extends Event
         $this->userId    = $userId;
         $this->sessionId = $sessionId;
         $this->ip        = $ip;
-        $this->eventType = $eventType;
+        $this->eventType = $eventType->value;
         $this->timestamp = Carbon::now()->timestamp;
     }
 }

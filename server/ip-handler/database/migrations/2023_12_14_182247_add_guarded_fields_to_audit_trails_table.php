@@ -16,8 +16,8 @@ class AddGuardedFieldsToAuditTrailsTable extends Migration
     {
         Schema::table('audit_trails', function (Blueprint $table) {
             // Add the guarded fields
-            $table->string('property_id');
-            $table->string('table_updated');
+            $table->string('property_id')->nullable();
+            $table->string('table_updated')->nullable();
         });
     }
 

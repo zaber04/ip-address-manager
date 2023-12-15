@@ -15,19 +15,19 @@ trait AuditTrailTrait
     use TokenTrait;
 
     // NO INTERNAL ERROR HANDLING --> Haandled as transaction in controller during usage
-    private function storeAuditEvent(Request $request, string $propertyId, ActionEnum $eventType = ActionEnum::UPDATE, string $tableName = 'ip_addresses') {
+    private function storeAuditEvent(Request $request, string $propertyId, string $previousValue = "", ActionEnum $eventType = ActionEnum::UPDATE, string $tableName = 'ip_addresses') {
         // get the jwt token
         $tokenArray = $this->getTokenArrayFromHeader($request);
 
         // Access user_id & session_id from the token payload
-        $userId    = $tokenArray['user_id'] ?? $tokenArray['sub'] ?? '';
+        $userId    = $tokenArray['sub'] ?? $tokenArray['user']['user_id']  ?? '';
         $sessionId = $tokenArray['session_id'] ?? '';
 
         // Create a new AuditTrail instance with user id and user ip
         $auditTrail = new AuditTrail([
             'action'        => $eventType,
             'property_name' => AuditTrail::PROPERTY_NAME,
-            'old_data'      => '',
+            'old_data'      => $previousValue,
             'new_data'      => $request->input('label'),
             'user_id'       => $userId,
             'session_id'    => $sessionId,

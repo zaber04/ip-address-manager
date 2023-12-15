@@ -88,6 +88,13 @@ Monorepo design solves the delay issue by sharing libraries. It's only challege 
 
 Maintaining Database operations in monorepo requires careful implementation of the models and factories.
 
+## Monorepo Work Approach
+
+For monorepo, I have come up with my own branching and naming strategy. I don't know what most other people does, but I have come up with my own solution and found it be easier to maintain.
+
+Here it is -
+For each microservice, a seperate sub branch under dev branch (`dev-{{micro_service_name}}`) is created. Ideally, changes for each microservice is made within the respective branch and then merged with dev (both way). Additionally for specific sub-project or sub-service, more subbranch can be creatd following *STRICT* naming convention. A sub branch will have their parent branch as prefix, making it feel like a directory. For example, we have created `dev-gateway` for `gateway` microservice and we can create `dev-gateway-security` to explore additional API security practices (OWASP standard). In this convention, it is important to *NOT MERGE ANY BRANCH WITH ANOTHER AS YOU LIKE*.  `dev-gateway-security` should be merged with `dev-gateway` *ONLY*. `dev-gateway` can be merged with `dev` and with any branch with `dev-gateway-*` naming pattern. This maintains clean branch and any rollback or rebase or cherry picking becomes very easy.
+
 ## Authentication
 
 I will be using JWT for stateless authentication. Each microservice will be careful to avoid algo none attack. This choice comes with the requirement of implementing a centralized blacklist (SPOF) or kafka based decentralized event subscription based blacklist. However, for simplicity, I didn't implement a authorization revokation mechanism.
@@ -135,3 +142,9 @@ In the middle of the project, my laptop crashed and some work was lost. Most of 
 ## Code Duplications
 
 In some cases, code duplications was used intentionally instead of using `shared library` or `git submodules` or `composer packages` or `symbolic links`. This is often decision choice by case. One example is defining `auth` as a middleware and binding to a class and registering in service provider has been done in each services. In this case, it saved some time. In Lumen, there isn't a much better approach anyway. Even with a library, the manual part is mandatory. You have to add stuff in `bootstrap/app.php` manually.
+
+## Cross server communication Failure
+
+1. One very amusing problem I faced is hitting an API endpoint of a service from POSTMAN works fine but fails when another microservice calls upon it. After following long trail of stack trace errors, it turns out in Lumen, you need to have a few more packages for inter communication.
+
+2. If a request is forwarded to another service, it's essential to capture the status code of the forwarded service and integrate properly with originating service. Otherwise, first service will always return 200.
