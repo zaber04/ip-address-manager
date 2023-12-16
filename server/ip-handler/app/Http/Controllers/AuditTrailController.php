@@ -63,7 +63,53 @@ class AuditTrailController extends BaseController
      * @param  string  $id
      * @return JsonResponse
      */
-    public function show(Request $request, string  $id): JsonResponse
+    public function showByUserId(Request $request, string  $id): JsonResponse
+    {
+        try {
+            $validator = Validator::make(['user_id' => $id], ['user_id' => 'required|exists:users,id']);
+
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+
+            // $id referes to 'user_id' field of the table
+            try {
+                $auditTrails = AuditTrail::where('user_id', $id)
+                    ->where('session_id', function ($query) use ($id) {
+                        $query->select('session_id')
+                            ->from('audit_trails')
+                            ->where('user_id', $id)
+                            ->orderBy('created_at', 'desc')
+                            ->limit(1);
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+                // audit trails --> empty is ok
+
+                return $this->jsonResponseWith(['audit_trails' => $auditTrails], JsonResponse::HTTP_OK);
+
+            } catch (\Exception $e) {
+                // Rethrow the exception
+                throw new QueryException($e->getMessage(), $e->getPrevious(), $e->getCode(), $e);
+            }
+        } catch (ValidationException | ModelNotFoundException | QueryException $e) {
+            $errorInfo = ['url' => $request->path(), 'function' => 'AuditTrailController@show'];
+            return $this->handleException($request, $e, $errorInfo);
+        } catch (\Exception $e) {
+            $errorInfo = ['url' => $request->path(), 'function' => 'AuditTrailController@show'];
+            return $this->handleException($request, $e, $errorInfo, JsonResponse::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Display the specified user's last session's Audit Trail.
+     *
+     * @param  Request $request
+     * @param  string  $id
+     * @return JsonResponse
+     */
+    public function showByAuditId(Request $request, string  $id): JsonResponse
     {
         try {
             $validator = Validator::make(['id' => $id], ['id' => 'required|uuid']);

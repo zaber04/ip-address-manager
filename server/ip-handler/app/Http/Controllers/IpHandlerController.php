@@ -72,7 +72,7 @@ class IpHandlerController extends BaseController
     public function store(Request $request): JsonResponse
     {
         try {
-            IpAddress::validate($request->all());
+            $this->validate($request, IpAddress::$rules);
 
             // Start a database transaction
             DB::beginTransaction();

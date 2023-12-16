@@ -1,6 +1,6 @@
 {
 	"info": {
-		"name": "IpAddressManager2",
+		"name": "IpAddressManager",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -8,149 +8,256 @@
 			"name": "ip-handler",
 			"item": [
 				{
-					"name": "Get Ip Addresses",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{YOUR_JWT_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{host_name}}/api/v1/ip-handler/ip-addresses/",
-							"host": [
-								"{{host_name}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"ip-handler",
-								"ip-addresses",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get A Ip Addresses",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{YOUR_JWT_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{host_name}}/api/v1/ip-handler/ip-addresses/:id",
-							"host": [
-								"{{host_name}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"ip-handler",
-								"ip-addresses",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "9ad8c496-e91f-498b-a677-650ebc3cb374"
+					"name": "ip-addresses",
+					"item": [
+						{
+							"name": "Get Ip Addresses",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{YOUR_JWT_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host_name}}/api/v1/ip-handler/ip-addresses/",
+									"host": [
+										"{{host_name}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"ip-handler",
+										"ip-addresses",
+										""
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Set Ip Addresses",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
 							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{YOUR_JWT_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"ip\": \"192.168.0.4\",\r\n    \"label\": \"printer\"\r\n}"
+							"response": []
 						},
-						"url": {
-							"raw": "{{host_name}}/api/v1/ip-handler/ip-addresses/",
-							"host": [
-								"{{host_name}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"ip-handler",
-								"ip-addresses",
-								""
-							],
-							"query": [
-								{
-									"key": "auth",
-									"value": null,
-									"disabled": true
+						{
+							"name": "Get A Ip Addresses",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{YOUR_JWT_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host_name}}/api/v1/ip-handler/ip-addresses/:id",
+									"host": [
+										"{{host_name}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"ip-handler",
+										"ip-addresses",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9ad8c496-e91f-498b-a677-650ebc3cb374"
+										}
+									]
 								}
-							]
+							},
+							"response": []
+						},
+						{
+							"name": "Set Ip Addresses",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{YOUR_JWT_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ip\": \"192.168.0.4\",\r\n    \"label\": \"printer\"\r\n}"
+								},
+								"url": {
+									"raw": "{{host_name}}/api/v1/ip-handler/ip-addresses/",
+									"host": [
+										"{{host_name}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"ip-handler",
+										"ip-addresses",
+										""
+									],
+									"query": [
+										{
+											"key": "auth",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Ip Addresses",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{YOUR_JWT_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"label\": \"brother printer\"\r\n}"
+								},
+								"url": {
+									"raw": "{{host_name}}/api/v1/ip-handler/ip-addresses/:id",
+									"host": [
+										"{{host_name}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"ip-handler",
+										"ip-addresses",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9adba651-777a-4b70-9a5f-e18138fcb1ca"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Update Ip Addresses",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{YOUR_JWT_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"label\": \"brother printer\"\r\n}"
-						},
-						"url": {
-							"raw": "{{host_name}}/api/v1/ip-handler/ip-addresses/:id",
-							"host": [
-								"{{host_name}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"ip-handler",
-								"ip-addresses",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "9adba651-777a-4b70-9a5f-e18138fcb1ca"
+					"name": "audit-trails",
+					"item": [
+						{
+							"name": "Get All Audit Trails",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{YOUR_JWT_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host_name}}/api/v1/ip-handler/audit-trails/",
+									"host": [
+										"{{host_name}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"ip-handler",
+										"audit-trails",
+										""
+									]
 								}
-							]
+							},
+							"response": []
+						},
+						{
+							"name": "Get this user's last session audit trails",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{YOUR_JWT_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host_name}}/api/v1/ip-handler/audit-trails/user/:id",
+									"host": [
+										"{{host_name}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"ip-handler",
+										"audit-trails",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9ad75495-0a7e-49fc-acac-2bdb40c254a2",
+											"description": "user uuid"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get a specific audit entry",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{YOUR_JWT_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host_name}}/api/v1/ip-handler/audit-trails/trail/:id",
+									"host": [
+										"{{host_name}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"ip-handler",
+										"audit-trails",
+										"trail",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9adcc82b-63f4-41bb-9310-e9e886d206c2",
+											"description": "audit table primary id - uuid"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},

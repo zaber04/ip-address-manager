@@ -76,7 +76,7 @@ trait TokenTrait
 
             return [];
         } catch (\Exception $e) {
-            
+
             return [];
         }
     }
@@ -114,10 +114,10 @@ trait TokenTrait
     private function tokenPayload(string $token,  array $extraPayload = []): array
     {
         $tokenArray = [
-            'access_token'  => $token,
-            'token_type'    => 'Bearer',
+            'accessToken'  => $token,
+            'tokenType'    => 'Bearer',
             'user'          => auth()->user(),
-            'expires_in'    => JWTAuth::factory()->getTTL() *  config('auth.jwt_refresh_minutes')
+            'expiresIn'    => JWTAuth::factory()->getTTL() *  config('auth.jwt_refresh_minutes')
         ];
 
         return array_merge($tokenArray, $extraPayload);

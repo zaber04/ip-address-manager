@@ -47,6 +47,6 @@ trait ExceptionHandlerTrait
 
         $this->logAndStoreError($errorLogData);
 
-        return $this->jsonResponseWith($errorLogData, $statusCode);
+        return $this->jsonResponseWith(['errorLog' => $errorLogData, 'message' => 'Validation exception error.'], $statusCode);
     }
 }

@@ -36,7 +36,10 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth', 'refresh.token']], f
                 $router->get('/', 'AuditTrailController@index');
 
                 // this end point returns the changes current user did in this session
-                $router->get('/{id}', 'AuditTrailController@show');
+                $router->get('/user/{id}', 'AuditTrailController@showByUserId');
+
+                // get a specific audit trail entry
+                $router->get('/trail/{id}', 'AuditTrailController@showByAuditId');
 
                 // no update, delete or archive
             });

@@ -98,7 +98,7 @@ class AuthController extends Controller
         try {
             // Validate using model rules
             $this->validate($request, [
-                'email'    => User::$rules['email_login'],
+                'email'    => 'required|email|max:255', // not unique
                 'password' => User::$rules['password'],
             ]);
 
