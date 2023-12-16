@@ -43,8 +43,7 @@ class AuditTrailController extends BaseController
             $pagination = $this->getPaginationParams($request);
 
             // Fetch with latest entry first and sort (stable api if sorted by created_at)
-            $auditTrails = AuditTrail::orderBy($pagination['sort_field'], $pagination['sort_order'])
-                ->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
+            $auditTrails = AuditTrail::orderBy($pagination['sort_field'], $pagination['sort_order'])->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
 
             return $this->jsonResponseWith(['data' => $auditTrails], JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
@@ -72,6 +71,12 @@ class AuditTrailController extends BaseController
                 throw new ValidationException($validator);
             }
 
+            // Valid request parameters?
+            $this->validatePagination($request);
+
+            // Default pagination values
+            $pagination = $this->getPaginationParams($request);
+
             // $id referes to 'user_id' field of the table
             try {
                 $auditTrails = AuditTrail::where('user_id', $id)
@@ -82,12 +87,12 @@ class AuditTrailController extends BaseController
                             ->orderBy('created_at', 'desc')
                             ->limit(1);
                     })
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->orderBy($pagination['sort_field'], $pagination['sort_order'])
+                    ->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
 
                 // audit trails --> empty is ok
 
-                return $this->jsonResponseWith(['data' => ['data' => $auditTrails]], JsonResponse::HTTP_OK);
+                return $this->jsonResponseWith(['data' => $auditTrails], JsonResponse::HTTP_OK);
 
             } catch (\Exception $e) {
                 // Rethrow the exception
