@@ -10,6 +10,7 @@
         "guzzlehttp/guzzle": "^7.8",
         "illuminate/broadcasting": "^10.37",
         "illuminate/database": "^10.37",
+        "illuminate/events": "*",
         "illuminate/queue": "^10.37",
         "laravel/lumen-framework": "^10.0",
         "tymon/jwt-auth": "^2.0"

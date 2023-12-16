@@ -21,6 +21,9 @@ class CreateAuditTrailsTable extends Migration
             $table->json('new_data')->nullable();
             $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->uuid('session_id')->nullable();
+            $table->string('property_id')->nullable();
+            $table->string('table_updated')->nullable();
+            $table->string('user_ip')->nullable();
             $table->timestamps();
         });
 

@@ -97,7 +97,7 @@ class IpHandlerController extends BaseController
                 throw $e;
             }
 
-            return $this->jsonResponseWith(['ip_address' => $ipAddress], JsonResponse::HTTP_CREATED);
+            return $this->jsonResponseWith(['data' => ['data' => [$ipAddress]]], JsonResponse::HTTP_CREATED);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
             // Rollback the changes
             DB::rollBack();
@@ -185,7 +185,7 @@ class IpHandlerController extends BaseController
                 throw $e;
             }
 
-            return $this->jsonResponseWith(['ip_address' => $ipAddress], JsonResponse::HTTP_OK);
+            return $this->jsonResponseWith(['data' => ['data' => [$ipAddress]]], JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
             $errorInfo = ['function' => 'IpHandlerController@update'];
             return $this->handleException($request, $e, $errorInfo);

@@ -456,10 +456,7 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"zaber.mahbub1@gmail.com\",\r\n    \"password\": \"secret_password\"\r\n}"
-						},
+						"body": {},
 						"url": {
 							"raw": "{{host_name}}/api/v1/auth/logout",
 							"host": [

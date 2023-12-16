@@ -95,17 +95,23 @@ Only brilliant outcome was, I was able to create custom commands in one microser
 For monorepo, I have come up with my own branching and naming strategy. I don't know what most other people does, but I have come up with my own solution and found it be easier to maintain.
 
 Here it is -
-For each microservice, a seperate sub branch under dev branch (`dev-{{micro_service_name}}`) is created. Ideally, changes for each microservice is made within the respective branch and then merged with dev (both way). Additionally for specific sub-project or sub-service, more subbranch can be creatd following *STRICT* naming convention. A sub branch will have their parent branch as prefix, making it feel like a directory. For example, we have created `dev-gateway` for `gateway` microservice and we can create `dev-gateway-security` to explore additional API security practices (OWASP standard). In this convention, it is important to *NOT MERGE ANY BRANCH WITH ANOTHER AS YOU LIKE*.  `dev-gateway-security` should be merged with `dev-gateway` *ONLY*. `dev-gateway` can be merged with `dev` and with any branch with `dev-gateway-*` naming pattern. This maintains clean branch and any rollback or rebase or cherry picking becomes very easy.
+For each microservice, a seperate sub branch under dev branch (`dev-{{micro_service_name}}`) is created. Ideally, changes for each microservice is made within the respective branch and then merged with dev (both way). Additionally for specific sub-project or sub-service, more subbranch can be creatd following *STRICT* naming convention. A sub branch will have their parent branch as prefix, making it feel like a directory. For example, we have created `dev-gateway` for `gateway` microservice and we can create `dev-gateway-security` to explore additional API security practices (OWASP standard). In this convention, it is important to **NOT MERGE ANY BRANCH WITH ANOTHER AS YOU LIKE**.  `dev-gateway-security` should be merged with `dev-gateway` **ONLY**. `dev-gateway` can be merged with `dev` and with any branch with `dev-gateway-*` naming pattern. This maintains clean branch and any rollback or rebase or cherry picking becomes very easy.
 
 It is also essential to commit files related to same microservices should be committed together (if in dev). Maintaining goruping as much as possible helps.
 
 ## Authentication
 
-I will be using JWT for stateless authentication. Each microservice will be careful to avoid algo none attack. This choice comes with the requirement of implementing a centralized blacklist (SPOF) or kafka based decentralized event subscription based blacklist. However, for simplicity, I didn't implement a authorization revokation mechanism.
+I will be using JWT for stateless authentication. Each microservice will be careful to avoid algo none attack. This choice comes with the requirement of implementing a centralized blacklist (SPOF) or kafka based decentralized event subscription based blacklist. 
+
+However, for simplicity, I'm using centralized balcklisting
+
+## Multi Session
+
+For simplicity, same user multisession is blocked. New login will trigger old token blacklisting.
 
 ## Authorization
 
-I am assuming, all logged in users have access to all routes and hence didn't implement acess control policy. Hence I didn't implement access control policy (role based, host based, time based, location based) or any SOD matrix.
+I am assuming, all logged in users have access to all routes and hence didn't implement acess control policy. Hence I didn't implement I did not implement Host Based Acces Control (HBAC), Role Based Acces Control (RBAC) and Time Based Acces Control (TBAC) or any SOD matrix.
 
 ## Subscription
 
@@ -127,9 +133,21 @@ Service registry allows auto integration of new microservice and endpoints. Howe
 
 Lumen doesn't come with these features and hence I have implemented a basic version of these for our application.
 
-## Rate Limiter
+## Rate Limit
 
-Lumen doesn't come with rate limit or throttle middleware and hence I have implemented a basic version of these for our application.
+For rate limit, we implemented `token bucket algorithm`. We will allow a certain number of requests (env file will give us value) to be added to bucket at a fixed rate. When a request comes, we remove a token from the bucket. If the bucket is empty, the request is denied. This approach allows some burstiness while still limiting the rate. We are using this approach assuming, this gateway isn't distrubuted, rather centralized.
+
+We are using ip-based-limiter instead of key-based-limiter since we don't have authenticated user initially. We can still enforce key-based-limit in applicable microservice seperately.
+
+For this project context, we are implimenting rate limit for this microservice only. If we needed to implement in multiple microservices - deploying it as a package and importing in each services (as needed) would be more pragmatic.
+
+### Why not queue the request and process later?
+
+We chose rate-limiter over request-throttler to prevent abuse. However, it can still be implemented later if needed.
+
+### Why didn't we use third party rate limiter?
+
+To keep our microservice as light as possible, we are focused on using minimal & as-required packages. Instead of bulky & advanced packagaes we are using simple as-needed implementation to reduce lag.
 
 ## Api Response Pattern
 
@@ -141,7 +159,7 @@ I have implemented custom logging trait to make use of systematic logging for er
 
 ## Setbacks
 
-In the middle of the project, my laptop crashed and some work was lost. Most of the day was lost trying to recover the device and res-setup everything in another older device with almost no dev setup.
+In the middle of the project, **my laptop crashed and some work was lost**. Most of the day was lost trying to recover the device and res-setup everything in another older device with almost no dev setup. Losing favourite workstation is quite upsetting!
 
 ## Code Duplications
 
@@ -157,4 +175,6 @@ In some cases, code duplications was used intentionally instead of using `shared
 
 As a primarily backend developer, I don't always implement front end and hence I am a lot behind on current structure of angular. While working with this project, I noticed angular 17 is a lot different from the versions I have previously used (9-14). Looks like I need to spend 100 hours on angular practice.
 
-Due to time constraint, I developed front end in half a day (intentionally avoiding modular structure).
+Due to time constraint, I developed front end in half a day (intentionally avoiding modular structure) with some help from ai. This part is not production ready. It has several incosistency and failure scenarios. Will re-write this once get some time.
+
+However, working with the project made me research current trend in angular and helped refresh the experience.

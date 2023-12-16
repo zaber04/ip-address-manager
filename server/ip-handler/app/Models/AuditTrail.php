@@ -18,9 +18,7 @@ class AuditTrail extends Model
     public const PROPERTY_NAME = 'IP Address';
 
     // session id helps us filter actions of a user across the session
-    protected $fillable = ['action', 'property_name', 'old_data', 'new_data', 'user_id',  'session_id', 'user_ip'];
-
-    protected $guarded  = ['property_id', 'table_updated'];
+    protected $fillable = ['action', 'property_name', 'old_data', 'new_data', 'user_id',  'session_id', 'user_ip', 'property_id', 'table_updated'];
 
     /**
      * Cast to native types.

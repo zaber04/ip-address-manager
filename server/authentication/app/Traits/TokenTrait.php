@@ -27,15 +27,17 @@ trait TokenTrait
             "first_name" => $user->first_name,
             "last_name"  => $user->last_name,
             "email"      => $user->email,
-            "user_id"    => $user->id
+            "user_id"    => $user->id,
+            "session_id" => $session_id
         ];
 
         // Set the token expiration time and refresh time
         $expiration = Carbon::now()->addMinutes(config('auth.jwt_refresh_ttl'))->timestamp;
         $refreshAt  = Carbon::now()->addMinutes(config('auth.jwt_refresh_minutes'))->timestamp;
 
-        $payload = JWTFactory::sub($user->id)
+        $payload = JWTFactory::sub($session_id)
             ->user($userProperties)
+            ->user_id($user->id)
             ->session_id($session_id)
             ->setExpiration($expiration)
             ->setRefreshFlow()
@@ -114,10 +116,10 @@ trait TokenTrait
     private function tokenPayload(string $token,  array $extraPayload = []): array
     {
         $tokenArray = [
-            'accessToken'  => $token,
-            'tokenType'    => 'Bearer',
-            'user'          => auth()->user(),
-            'expiresIn'    => JWTAuth::factory()->getTTL() *  config('auth.jwt_refresh_minutes')
+            'accessToken' => $token,
+            'tokenType'   => 'Bearer',
+            'user'        => auth()->user(),
+            'expiresIn'   => JWTAuth::factory()->getTTL() *  config('auth.jwt_refresh_minutes')
         ];
 
         return array_merge($tokenArray, $extraPayload);

@@ -20,8 +20,9 @@ trait AuditTrailTrait
         $tokenArray = $this->getTokenArrayFromHeader($request);
 
         // Access user_id & session_id from the token payload
-        $userId    = $tokenArray['sub'] ?? $tokenArray['user']['user_id']  ?? '';
-        $sessionId = $tokenArray['session_id'] ?? '';
+        $client_ip = $request->getClientIp();
+        $userId    = $tokenArray['user_id'] ?? $tokenArray['user']['user_id']  ?? $tokenArray['sub'] ?? $client_ip;
+        $sessionId = $tokenArray['session_id'] ?? $tokenArray['user']['session_id'] ?? $userId;
 
         // Create a new AuditTrail instance with user id and user ip
         $auditTrail = new AuditTrail([
@@ -33,7 +34,7 @@ trait AuditTrailTrait
             'session_id'    => $sessionId,
             'property_id'   => $propertyId, // stores the uuid of the entry IpAdress
             'table_updated' => $tableName, //?
-            'user_ip'       => $request->getClientIp()
+            'user_ip'       => $client_ip
         ]);
 
         $auditTrail->save();

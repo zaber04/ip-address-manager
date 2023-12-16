@@ -116,10 +116,10 @@ class AuthController extends Controller
             $token      = $this->generateToken($user, $session_id);
 
             // Trigger event to save user id and user IP
-            event(new UserEvent($user->id, $session_id, ActionEnum::LOGIN, $request->ip()));
+            $eresp = event(new UserEvent($user->id, $session_id, ActionEnum::LOGIN, $request->ip()));
 
             // Prepare token payload
-            $tokenArray = $this->tokenPayload($token, ['message' => 'Login successful']);
+            $tokenArray = $this->tokenPayload($token, ['message' => 'Login successful', 'event_resp' => $eresp]);
 
             return $this->jsonResponseWith($tokenArray, JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
@@ -166,10 +166,12 @@ class AuthController extends Controller
             $tokenArray = $this->getTokenArrayFromHeader($request);
 
             // Access user_id & session_id from the token payload
-            $userId = $tokenArray['sub'] ?? $tokenArray['user']['user_id'] ?? '';
-            $sessionId = $tokenArray['session_id'] ?? '';
+            $client_ip = $request->getClientIp();
+            $userId    = $tokenArray['user_id'] ?? $tokenArray['user']['user_id']  ?? $tokenArray['sub'] ?? $client_ip;
+            $sessionId = $tokenArray['session_id'] ?? $tokenArray['user']['session_id'] ?? $userId;
 
             // send logout event to audit-trail-report
+            // we could send a POST request instead
             event(new UserEvent($userId, $sessionId, ActionEnum::LOGOUT, $request->ip()));
 
             Auth::logout();
