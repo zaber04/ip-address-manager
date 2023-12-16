@@ -1,0 +1,85 @@
+<section class="bg-gradient-to-r from-purple-500 via-blue-500 to-green-500 h-screen">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-white">
+            {{ pageContent.pageTitle }}
+        </a>
+        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    {{ pageContent.signInTitle }}
+                </h1>
+
+                <ng-container *ngIf="errors !== null">
+                    <div class="px-4 py-3 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">{{ errors.message }}</div>
+                </ng-container>
+
+                <form class="space-y-4 md:space-y-6" [formGroup]="form" (submit)="processFormSubmit()">
+                    <div>
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ pageContent.emailLabel }}</label>
+                        <input
+                            type="email"
+                            formControlName="email"
+                            id="email"
+                            class="input-field"
+                            placeholder="name@company.com"
+                            required=""
+                            autocomplete="off"
+                        />
+
+                        <ng-container *ngIf="form.get('email')?.errors && (form.get('email')?.touched || form.get('email')?.dirty)">
+                            <app-form-error *ngIf="form.hasError" message="{{ pageContent.emailInvalidMessage }}"></app-form-error>
+                        </ng-container>
+
+                        <app-form-error *ngIf="errors && errors['messages']" [message]="errors['messages']"></app-form-error>
+
+                    </div>
+                    <div>
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ pageContent.passwordLabel }}</label>
+                        <input
+                            type="password"
+                            formControlName="password"
+                            id="password"
+                            placeholder="••••••••"
+                            class="input-field"
+                            required=""
+                            autocomplete="off"
+							minlength="8"
+							maxlength="255"
+                        />
+                        <ng-container *ngIf="form.get('password')?.errors && (form.get('password')?.touched || form.get('password')?.dirty)">
+                            <app-form-error *ngIf="form.hasError" message="{{ pageContent.emailInvalidMessage }}"></app-form-error>
+                        </ng-container>
+
+                        <app-form-error *ngIf="errors && errors['messages']" [message]="errors['messages']"></app-form-error>
+
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input
+                                    id="remember"
+                                    formControlName="remember"
+                                    aria-describedby="remember"
+                                    type="checkbox"
+                                    class="checkbox-field"
+                                />
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="remember" class="text-gray-500 dark:text-gray-300">{{ pageContent.rememberMeLabel }}</label>
+                            </div>
+                        </div>
+                        <a routerLink="/forgot-password" class="text-sm font-medium text-purple-600 hover:underline dark:text-purple-500">{{ pageContent.forgotPasswordLink }}</a>
+                    </div>
+                    <button
+                        type="submit"
+                        class="submit-button"
+                        [disabled]="form.invalid || triedSubmission"
+                    >
+                        {{ pageContent.signInButtonText }} <i class="fa fa-circle-o-notch fa-spin" *ngIf="triedSubmission"></i>
+                    </button>
+                    <p class="text-sm font-light text-gray-500 dark:text-gray-400">{{ pageContent.signUpMessage }} <a routerLink="/register" class="font-medium text-purple-600 hover:underline dark:text-purple-500">{{ pageContent.signUpLink }}</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

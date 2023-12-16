@@ -101,7 +101,7 @@ It is also essential to commit files related to same microservices should be com
 
 ## Authentication
 
-I will be using JWT for stateless authentication. Each microservice will be careful to avoid algo none attack. This choice comes with the requirement of implementing a centralized blacklist (SPOF) or kafka based decentralized event subscription based blacklist. 
+I will be using JWT for stateless authentication. Each microservice will be careful to avoid algo none attack. This choice comes with the requirement of implementing a centralized blacklist (SPOF) or kafka based decentralized event subscription based blacklist.
 
 However, for simplicity, I'm using centralized balcklisting
 
@@ -173,8 +173,8 @@ In some cases, code duplications was used intentionally instead of using `shared
 
 ## Angular Challengers
 
-As a primarily backend developer, I don't always implement front end and hence I am a lot behind on current structure of angular. While working with this project, I noticed angular 17 is a lot different from the versions I have previously used (9-14). Looks like I need to spend 100 hours on angular practice.
+As a primarily backend developer, I rarely implement front end and hence I am a lot behind on current structure of angular. While working with this project, I noticed angular 17 is a lot different from the versions I have previously used (9-14). Looks like I need to spend 100 hours on angular practice.
 
-Due to time constraint, I developed front end in half a day (intentionally avoiding modular structure) with some help from ai. This part is not production ready. It has several incosistency and failure scenarios. Will re-write this once get some time.
+Due to time constraint, I developed front end in less than a day (intentionally avoiding modular structure) with some help from ai and the code is a pure mumbo jumbo. This part is not production ready. It has several incosistency and failure scenarios. Will re-write this once get some time. Services has too many methods in one file (no seperation of concern).
 
-However, working with the project made me research current trend in angular and helped refresh the experience.
+However, working with the project made me research current trend in angular and helped refresh the experience. It definitely made me careful about the api end point output pattern and make all apis output consistent. This was a learning experience.

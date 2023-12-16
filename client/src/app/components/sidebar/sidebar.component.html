@@ -1,0 +1,23 @@
+<div class="page-sidebar">
+	<a class="logo-box" routerLink="/">
+		<span>{{ sidebar.title }}</span>
+	</a>
+	<div class="page-sidebar-inner">
+		<div class="page-sidebar-menu">
+			<ul class="accordion-menu">
+				<li [class.active]="thisPath === '/'">
+					<a routerLink="/"
+						><i class="{{ sidebar.menuItems[0].icon }}"></i>
+						<span>{{ sidebar.menuItems[0].label }}</span></a
+					>
+				</li>
+				<li [class.active]="thisPath.indexOf('/ip-addresses') > -1">
+					<a routerLink="/ip-addresses"
+						><i class="{{ sidebar.menuItems[1].icon }}"></i>
+						<span>{{ sidebar.menuItems[1].label }}</span></a
+					>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

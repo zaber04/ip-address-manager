@@ -1,0 +1,9 @@
+<nav *ngIf="pageLinks">
+	<ul class="pagination justify-content-center">
+		<ng-container *ngFor="let link of pageLinks">
+		<li class="page-item" [ngClass]="{'disabled': link.active || !link.url }">
+			<button type="button" class="page-link" (click)="navigatePage(link)" [innerHTML]="link.label"></button>
+		</li>
+		</ng-container>
+	</ul>
+</nav>
