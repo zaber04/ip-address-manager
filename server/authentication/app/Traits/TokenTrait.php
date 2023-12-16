@@ -39,7 +39,7 @@ trait TokenTrait
             ->user($userProperties)
             ->user_id($user->id)
             ->session_id($session_id)
-            ->setExpiration($expiration)
+            ->setExpiration($expiration) // @TODO: not being applied on exp --> bug
             ->setRefreshFlow()
             ->setRefreshTTL($refreshAt)
             ->make();

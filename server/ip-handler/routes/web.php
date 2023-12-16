@@ -26,7 +26,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth', 'refresh.token']], f
                 $router->get('/{id}', 'IpHandlerController@show');
 
                 // updated ip and updates audit-trail
-                $router->put('/{id}', 'IpHandlerController@update');
+                $router->patch('/{id}', 'IpHandlerController@update');
 
                 // no delete or archive
             });

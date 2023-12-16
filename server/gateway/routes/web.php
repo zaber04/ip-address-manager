@@ -69,7 +69,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             // Forward requests to the IP Handler microservice
             $router->get('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
             $router->post('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
-            $router->put('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+            $router->patch('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
         });
     });
 });

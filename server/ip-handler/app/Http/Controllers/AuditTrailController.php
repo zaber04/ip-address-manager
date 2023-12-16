@@ -79,7 +79,8 @@ class AuditTrailController extends BaseController
 
             // $id referes to 'user_id' field of the table
             try {
-                $auditTrails = AuditTrail::where('user_id', $id)
+                $auditTrails = AuditTrail::with('user')
+                    ->where('user_id', $id)
                     ->where('session_id', function ($query) use ($id) {
                         $query->select('session_id')
                             ->from('audit_trails')
