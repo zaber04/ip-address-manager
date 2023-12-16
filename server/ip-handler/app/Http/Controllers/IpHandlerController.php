@@ -52,7 +52,7 @@ class IpHandlerController extends BaseController
             // Log the request and response
             // $this->logRequestAndResponse(['function' => 'IpHandlerController@index','url' => $request->path(), 'query' => $request->query()], $ipAddresses);
 
-            return $this->jsonResponseWith(['ip_addresses' => $ipAddresses], JsonResponse::HTTP_OK);
+            return $this->jsonResponseWith(['data' => $ipAddresses], JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
             $errorInfo = ['url' => $request->path(), 'function' => 'IpHandlerController@index'];
             return $this->handleException($request, $e, $errorInfo);
@@ -131,7 +131,7 @@ class IpHandlerController extends BaseController
 
             $ipAddress = IpAddress::findOrFail($id);
 
-            return $this->jsonResponseWith(['ip_address' => $ipAddress], JsonResponse::HTTP_OK);
+            return $this->jsonResponseWith(['data' => ['data' => [$ipAddress]]], JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
             $errorInfo = ['function' => 'IpHandlerController@show'];
             return $this->handleException($request, $e, $errorInfo);

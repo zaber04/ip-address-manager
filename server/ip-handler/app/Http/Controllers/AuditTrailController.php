@@ -46,7 +46,7 @@ class AuditTrailController extends BaseController
             $auditTrails = AuditTrail::orderBy($pagination['sort_field'], $pagination['sort_order'])
                 ->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
 
-            return $this->jsonResponseWith(['audit_trails' => $auditTrails], JsonResponse::HTTP_OK);
+            return $this->jsonResponseWith(['data' => $auditTrails], JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
             $errorInfo = ['url' => $request->path(), 'function' => 'AuditTrailController@index'];
             return $this->handleException($request, $e, $errorInfo);
@@ -87,7 +87,7 @@ class AuditTrailController extends BaseController
 
                 // audit trails --> empty is ok
 
-                return $this->jsonResponseWith(['audit_trails' => $auditTrails], JsonResponse::HTTP_OK);
+                return $this->jsonResponseWith(['data' => ['data' => $auditTrails]], JsonResponse::HTTP_OK);
 
             } catch (\Exception $e) {
                 // Rethrow the exception
@@ -120,7 +120,7 @@ class AuditTrailController extends BaseController
 
             $auditTrail = AuditTrail::findOrFail($id);
 
-            return $this->jsonResponseWith(['audit_trail' => $auditTrail], JsonResponse::HTTP_OK);
+            return $this->jsonResponseWith(['data' => ['data' => [$auditTrail]]], JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
             $errorInfo = ['url' => $request->path(), 'function' => 'AuditTrailController@show'];
             return $this->handleException($request, $e, $errorInfo);
