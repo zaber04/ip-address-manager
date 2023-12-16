@@ -88,12 +88,16 @@ Monorepo design solves the delay issue by sharing libraries. It's only challege 
 
 Maintaining Database operations in monorepo requires careful implementation of the models and factories.
 
-## Monorepo Work Approach
+Only brilliant outcome was, I was able to create custom commands in one microservice and reference them in other microservices kernel.
+
+## Monorepo Branch Approach
 
 For monorepo, I have come up with my own branching and naming strategy. I don't know what most other people does, but I have come up with my own solution and found it be easier to maintain.
 
 Here it is -
 For each microservice, a seperate sub branch under dev branch (`dev-{{micro_service_name}}`) is created. Ideally, changes for each microservice is made within the respective branch and then merged with dev (both way). Additionally for specific sub-project or sub-service, more subbranch can be creatd following *STRICT* naming convention. A sub branch will have their parent branch as prefix, making it feel like a directory. For example, we have created `dev-gateway` for `gateway` microservice and we can create `dev-gateway-security` to explore additional API security practices (OWASP standard). In this convention, it is important to *NOT MERGE ANY BRANCH WITH ANOTHER AS YOU LIKE*.  `dev-gateway-security` should be merged with `dev-gateway` *ONLY*. `dev-gateway` can be merged with `dev` and with any branch with `dev-gateway-*` naming pattern. This maintains clean branch and any rollback or rebase or cherry picking becomes very easy.
+
+It is also essential to commit files related to same microservices should be committed together (if in dev). Maintaining goruping as much as possible helps.
 
 ## Authentication
 
