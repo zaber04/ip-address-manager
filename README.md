@@ -152,3 +152,9 @@ In some cases, code duplications was used intentionally instead of using `shared
 1. One very amusing problem I faced is hitting an API endpoint of a service from POSTMAN works fine but fails when another microservice calls upon it. After following long trail of stack trace errors, it turns out in Lumen, you need to have a few more packages for inter communication.
 
 2. If a request is forwarded to another service, it's essential to capture the status code of the forwarded service and integrate properly with originating service. Otherwise, first service will always return 200.
+
+## Angular Challengers
+
+As a primarily backend developer, I don't always implement front end and hence I am a lot behind on current structure of angular. While working with this project, I noticed angular 17 is a lot different from the versions I have previously used (9-14). Looks like I need to spend 100 hours on angular practice.
+
+Due to time constraint, I developed front end in half a day (intentionally avoiding modular structure).
