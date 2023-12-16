@@ -23,8 +23,10 @@ trait ApiResponseTrait
         // Server error responses ( 500 – 599 )
         if ($statusCode >= 400) {
             $data['success'] = false;
+            $data['message'] = $data['message'] ?? 'Request failed.';
         } else {
             $data['success'] = true;
+            $data['message'] = $data['message'] ?? 'Request successful.';
         }
 
         return response()->json($data, $statusCode);
