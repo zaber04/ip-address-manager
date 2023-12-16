@@ -116,7 +116,7 @@
 						{
 							"name": "Update Ip Addresses",
 							"request": {
-								"method": "PUT",
+								"method": "PATCH",
 								"header": [
 									{
 										"key": "Content-Type",
