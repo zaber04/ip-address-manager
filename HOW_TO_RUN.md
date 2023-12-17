@@ -2,7 +2,7 @@
 
 To run the project follow these steps. I have exported the postman API endpoints as JSON. import it in postman.
 
-## To run server
+## To run server indivially
 
 1. cd server/gateway/
 2. cp .env.example .env
@@ -32,7 +32,12 @@ To run the project follow these steps. I have exported the postman API endpoints
 
 Now we should have users in db with `'email'= 'admin.user@example.com'` and `'password' = 'secret_password'`
 
+## To run front end
 <!-- Move to "angular" -->
 1. cd client
 2. npm install
 3. ng serve --open
+
+## Docker
+
+We can use docker and avoid all the hassle.
