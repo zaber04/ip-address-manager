@@ -177,6 +177,8 @@ As a primarily backend developer, I rarely implement front end and hence I am a 
 
 Due to time constraint, I developed front end in less than a day (intentionally avoiding modular structure) with some help from ai and the code is a pure mumbo jumbo. This part is not production ready. It has several incosistency and failure scenarios. Will re-write this once get some time. Services has too many methods in one file (no seperation of concern).
 
+I can write complex Common Table Expression query while pivoting multiple table in bigquery but that's still much easier than angular!!!
+
 However, working with the project made me research current trend in angular and helped refresh the experience. It definitely made me careful about the api end point output pattern and make all apis output consistent. This was a learning experience.
 
 Lumen not supporting angular's OPTIONS request required me to come up with custom solution.

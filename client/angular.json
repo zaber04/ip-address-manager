@@ -24,6 +24,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+			"allowedCommonJsDependencies": [
+				"sweetalert2"
+			  ],
             "outputPath": "dist/client",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -38,9 +41,21 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/assets/plugins/bootstrap/css/bootstrap.min.css",
+              "src/assets/plugins/font-awesome/css/font-awesome.min.css",
+              "src/assets/plugins/ionicons/css/ionicons.css",
+              "src/assets/css/skin/skin-wet-asphalt.css",
+              "src/assets/css/app.min.css",
+              "src/assets/css/style.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+				"src/assets/plugins/jquery/jquery.min.js",
+				"src/assets/plugins/jquery-ui/jquery-ui.js",
+				"src/assets/plugins/popper/popper.js",
+				"src/assets/plugins/bootstrap/js/bootstrap.min.js",
+				"src/assets/js/custom.js"
+			],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
