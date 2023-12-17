@@ -14,10 +14,10 @@ export class SidebarComponent implements OnDestroy {
 	@Input() collapse = false;
 
 	sidebar = {
-		title: 'IP Address Management',
+		title: 'IP Address Manager',
 		menuItems: [
-			{ path: '/', icon: 'fa fa-tachometer', label: 'Audit Trail' },
-			{ path: '/ip-addresses', icon: 'fa fa-object-group', label: 'IP Address' }
+			{ path: '/', label: 'Audit Trail' },
+			{ path: '/ip-handler', label: 'IP Address' }
 		]
 	};
 

@@ -35,6 +35,7 @@ export class HeaderComponent {
 		Swal.fire({
 			title: 'Log Out',
 			text: 'Thanks for visiting us',
+			imageUrl: 'assets/images/icon/loading-buffering.gif',
 			showConfirmButton: false,
 			allowOutsideClick: false
 		});
@@ -43,7 +44,7 @@ export class HeaderComponent {
 			if (result.success) {
 				this.authService.clearStorage();
 				Swal.close();
-				this.router.navigate(['/login']);
+				this.router.navigate(['login']);
 			}
 		});
 	}
