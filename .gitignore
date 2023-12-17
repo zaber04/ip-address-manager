@@ -70,3 +70,6 @@ Thumbs.db
 # editor settings
 client/.vscode/*
 client/.angular/*
+
+
+client/src/assets/*
