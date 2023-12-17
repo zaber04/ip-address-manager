@@ -28,6 +28,7 @@ export class PaginationService {
 		this.ipAddress.list = ipAddresses;
 	}
 
+	// observable any -->
 	getIpAddresses(): Observable<IPaginatedIpResponse> {
 		return of(this.ipAddress.list);
 	}

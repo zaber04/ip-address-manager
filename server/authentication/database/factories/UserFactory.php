@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'first_name' => $this->faker->firstName,
             'last_name'  => $this->faker->lastName,
             'email'      => $this->faker->unique()->safeEmail,
-            'password'   => Hash::make('secret_password'), // we can use env() with default value
+            'password'   => 'secret_password',
             'contact'    => $this->faker->phoneNumber,
             'address'    => $this->faker->address,
         ];

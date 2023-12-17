@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IPaginatedIpResponse, ISingleIp } from '../../../interfaces/IpAddress.interfaces';
+import { IIPResponse, IPaginatedIpResponse, ISingleIp } from '../../../interfaces/IpAddress.interfaces';
 import { Observable, Subscription, finalize } from 'rxjs';
 import { SubSink } from 'subsink';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -67,6 +67,7 @@ export class IpListComponent implements OnInit, OnDestroy {
 				this.ipAddressSubscription = this.ipAddresses$.pipe(finalize(() => this.isLoading = false)).subscribe({
 					next: response => {
 						this.ipAddressList = response;
+						console.log({'list': this.ipAddressList});
 						this.paginationService.setIpAddresses(this.ipAddressList);
 						this.paginationService.setSelectedPage(this.currentPageIndex);
 					},
@@ -87,9 +88,12 @@ export class IpListComponent implements OnInit, OnDestroy {
 					this.ipAddressSubscription.unsubscribe();
 				}
 
-				this.ipAddressSubscription = this.ipAddresses$.pipe(finalize(() => this.isLoading = false)).subscribe({
+				this.ipAddressSubscription = this.ipAddresses$.pipe(
+					finalize(() => this.isLoading = false))
+					.subscribe({
 					next: response => {
 						this.ipAddressList = response;
+						console.log({'list': this.ipAddressList});
 						this.paginationService.setIpAddresses(this.ipAddressList);
 						this.paginationService.setSelectedPage(this.currentPageIndex);
 					},
