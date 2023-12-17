@@ -1,63 +1,110 @@
-version: '3'
+version: '3.8'
 
 services:
   gateway:
     build:
-      context: ./server/gateway
+      context: ./server/gateway  # build context
+      dockerfile: Dockerfile  # Dockerfile name
+    container_name: ip-address-manager-gateway
     ports:
-      - "8000:80"  # Expose gateway on port 8000
+      - "8000:80"
     networks:
-      - server_db_cache
+      - app_network
     depends_on:
+      - authentication
+      - ip-handler
       - mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ip_handler
+      DB_USERNAME: root
     volumes:
       - gateway-data:/var/www/html/storage/gateway
+
 
   authentication:
     build:
       context: ./server/authentication
+      dockerfile: Dockerfile
+    container_name: ip-address-manager-authentication
     ports:
-      - "8001:80"  # Expose authentication on port 8001
+      - "8001:80"
     networks:
-      - server_db_cache
+      - app_network
     depends_on:
       - mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ip_handler
+      DB_USERNAME: root
     volumes:
       - authentication-data:/var/www/html/storage/authentication
+
 
   ip-handler:
     build:
       context: ./server/ip-handler
+      dockerfile: Dockerfile
+    container_name: ip-address-manager-ip-handler
     ports:
-      - "8002:80"  # Expose ip-handler on port 8002
+      - "8002:80"
     networks:
-      - server_db_cache
+      - app_network
     depends_on:
       - mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ip_handler
+      DB_USERNAME: root
     volumes:
       - ip-handler-data:/var/www/html/storage/ip-handler
 
+
   mysql:
     image: mysql:latest
+    container_name: ip-address-manager-mysql
     environment:
-      # I will read from .env later
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_DATABASE: ip_handler
-      # MYSQL_USER: root
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
-      # MYSQL_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ip_handler
+      DB_USERNAME: root
     ports:
       - "3306:3306"
     networks:
-      - server_db_cache
+      - app_network
     volumes:
       - mysql-data:/var/lib/mysql
 
 
-networks:
-  server_db_cache:
-    driver: bridge
+  angular-app:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
 
+
+networks:
+  app_network:
+    driver: bridge
 
 volumes:
   ip-handler-data:

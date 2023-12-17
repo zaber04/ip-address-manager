@@ -13,6 +13,10 @@
 |
 */
 
+// Just a welcome route without much restriction
+$router->get('/', 'IpHandlerController@welcome');
+
+
 // @TODO: Put these apis behind auth
 $router->group(['prefix' => 'api', 'middleware' => ['auth', 'refresh.token']], function () use ($router) {
     $router->group(['prefix' => 'v1'], function () use ($router) {

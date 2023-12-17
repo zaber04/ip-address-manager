@@ -1,17 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Gateway\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -52,12 +51,28 @@ class Handler extends ExceptionHandler
      *
      * @throws \Throwable
      */
-    public function render($request, Throwable $exception):JsonResponse|Response
+    public function render($request, Throwable $exception)
     {
-        if ($exception instanceof NotFoundHttpException) {
-            return new Response(['error' => 'HTTP Not Found'], JsonResponse::HTTP_NOT_FOUND);
+
+        if ($exception instanceof HttpException) {
+            return $this->renderHttpException($exception);
         }
 
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Render the given HttpException.
+     *
+     * @param \Symfony\Component\HttpKernel\Exception\HttpException $e
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function renderHttpException(HttpException $e)
+    {
+        $status  = $e->getStatusCode();
+        $message = $e->getMessage() ?: JsonResponse::$statusTexts[$status];
+
+        return response()->json(['error' => $message, 'statusCode' => $status, 'success' => false], $status);
     }
 }

@@ -182,3 +182,7 @@ I can write complex Common Table Expression query while pivoting multiple table 
 However, working with the project made me research current trend in angular and helped refresh the experience. It definitely made me careful about the api end point output pattern and make all apis output consistent. This was a learning experience.
 
 Lumen not supporting angular's OPTIONS request required me to come up with custom solution.
+
+## DevOps Challenges
+
+I enjoyed setting up the devops files line by line and got much clearer picture on what each line does.

@@ -14,7 +14,8 @@
         "laravel/lumen-framework": "^10.0",
         "laravel/tinker": "^2.8",
         "league/flysystem": "^3.23",
-        "tymon/jwt-auth": "^2.0"
+        "tymon/jwt-auth": "^2.0",
+        "zaber04/lumen-api-resources": "dev-master"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -52,5 +53,11 @@
         "sort-packages": true
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/zaber04/lumen-api-resources.git"
+        }
+    ]
 }

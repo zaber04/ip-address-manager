@@ -15,6 +15,9 @@ declare(strict_types=1);
 |
 */
 
+// Just a welcome route without much restriction
+$router->get('/', 'AuthController@welcome');
+
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->group(['prefix' => 'auth'], function () use ($router) {

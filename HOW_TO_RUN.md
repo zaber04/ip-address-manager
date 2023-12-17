@@ -1,6 +1,6 @@
 # How To Run
 
-To run the project follow these steps-
+To run the project follow these steps. I have exported the postman API endpoints as JSON. import it in postman.
 
 ## To run server
 
@@ -16,23 +16,23 @@ To run the project follow these steps-
 10. php -S localhost:8000 -t public
 
 <!-- Move to "authentication" microservice -->
-11. cd authentication
-12. composer install
-13. php artisan migrate
-14. php artisan db:seed --class=UsersTableSeeder
-15. php -S localhost:8001 -t public
+1. cd authentication
+2. composer install
+3. php artisan migrate
+4. php artisan db:seed --class=UsersTableSeeder
+5. php -S localhost:8001 -t public
 
 <!-- Move to "ip-handler" microservice -->
-16. cd ip-handler
-17. composer install
-18. php artisan migrate
-19. php artisan db:seed --class=AuditTrailSeeder
-20. php artisan db:seed --class=IpAddressSeeder
-21. php -S localhost:8002 -t public
+1. cd ip-handler
+2. composer install
+3. php artisan migrate
+4. php artisan db:seed --class=AuditTrailSeeder
+5. php artisan db:seed --class=IpAddressSeeder
+6. php -S localhost:8002 -t public
 
 Now we should have users in db with `'email'= 'admin.user@example.com'` and `'password' = 'secret_password'`
 
 <!-- Move to "angular" -->
-22. cd client
-23. npm install
-24. ng serve --open
+1. cd client
+2. npm install
+3. ng serve --open

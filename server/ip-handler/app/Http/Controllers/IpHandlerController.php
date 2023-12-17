@@ -208,4 +208,24 @@ class IpHandlerController extends BaseController
             throw new ValidationException($validator);
         }
     }
+
+    /**
+     * Welcome route. Used for initial development
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function welcome(Request $request)
+    {
+        $appVersion  = app()->version();
+        $message     = "Welcome to 'IP-HANDLER' microservice. App version: " . $appVersion;
+
+        $data = [
+            'message' => $message,
+            'success' => true,
+            'host_ip' => $request->getClientIp()
+        ];
+
+        return $this->jsonResponseWith($data, JsonResponse::HTTP_OK);
+    }
 }

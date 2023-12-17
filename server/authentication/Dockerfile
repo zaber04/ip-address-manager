@@ -1,27 +1,35 @@
-# Dockerfile for authentication
-FROM php:8.0-apache
+# server/authentication/Dockerfile
+
+# Use the official PHP 8.2 Apache base image
+FROM php:8.2-apache
 
 # Set the working directory to /var/www/html
 WORKDIR /var/www/html
 
-# Copy the contents of the authentication directory into the container at /var/www/html
-COPY . /var/www/html
+# Copy the authentication application into the container at /var/www/html
+COPY . .
 
-# Enable Apache modules
-RUN a2enmod rewrite
+# Set the permissions for the storage directory
+RUN chown -R www-data:www-data storage
+RUN chmod -R 775 storage
 
-# Set permissions for the web server
-RUN chown -R www-data:www-data /var/www/html
-RUN chmod -R 755 /var/www/html
+# Enable Apache mod_rewrite and mod_proxy
+RUN a2enmod rewrite proxy proxy_http
 
-# Copy the authentication-specific Apache configuration
-COPY apache-config/000-default.conf /etc/apache2/sites-available/000-default.conf
+# Copy the Apache configuration file for authentication
+COPY apache-config/authentication.conf /etc/apache2/sites-available/authentication.conf
 
-# Enable the site
-RUN a2ensite 000-default
+# Enable Apache site configuration
+RUN a2ensite authentication.conf
 
-# Expose port 80 for Apache
+# Allow the container to rewrite Apache configurations
+RUN usermod -u 1000 www-data
+
+# Restart Apache to apply changes
+RUN service apache2 restart
+
+# Expose port 80 for web traffic
 EXPOSE 80
 
-# Start Apache in the foreground
+# Specify the command to run on container start
 CMD ["apache2-foreground"]

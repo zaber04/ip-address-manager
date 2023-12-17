@@ -26,13 +26,11 @@ class GatewayController extends BaseController
     public function welcome(Request $request)
     {
         $appVersion  = app()->version();
-        $serviceName = "API Gateway";
-        $message     = "Welcome to '" . $serviceName . "' microservice. App version: " . $appVersion;
+        $message     = "Welcome to 'GATEWAY' microservice. App version: " . $appVersion;
 
         $data = [
             'message' => $message,
             'success' => true,
-            'status'  => JsonResponse::HTTP_OK,
             'host_ip' => $request->getClientIp()
         ];
 

@@ -204,4 +204,24 @@ class AuthController extends Controller
             return $this->handleException(request(), $e, $errorInfo, JsonResponse::HTTP_BAD_REQUEST);
         }
     }
+
+    /**
+     * Welcome route. Used for initial development
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function welcome(Request $request)
+    {
+        $appVersion  = app()->version();
+        $message     = "Welcome to 'AUTHENTICATION' microservice. App version: " . $appVersion;
+
+        $data = [
+            'message' => $message,
+            'success' => true,
+            'host_ip' => $request->getClientIp()
+        ];
+
+        return $this->jsonResponseWith($data, JsonResponse::HTTP_OK);
+    }
 }
