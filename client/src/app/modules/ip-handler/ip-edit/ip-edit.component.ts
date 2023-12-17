@@ -28,7 +28,7 @@ export class IpEditComponent implements OnInit, OnDestroy {
 	};
 
 	buttons = {
-		manageIps: 'Manage IPs',
+		manageIps: 'Create IP',
 		updateIp: 'Update IP',
 	};
 
@@ -79,7 +79,7 @@ export class IpEditComponent implements OnInit, OnDestroy {
 	}
 
 	goToNewIpList() {
-		this.router.navigate(['ip-addresses']);
+		this.router.navigate(['ip-handler']);
 	}
 
 	handleSubmit() {
@@ -92,15 +92,15 @@ export class IpEditComponent implements OnInit, OnDestroy {
 						this.paginationService.setSelectedIp(null as any);
 						Swal.fire({
 							title: 'Success!',
-							text: 'IP Address has been updated successfully.',
+							text: 'IP updated successfully.',
 							icon: 'success',
-							confirmButtonText: 'OKAY'
+							confirmButtonText: 'ok'
 						}).then(() => {
 							const pageIndex = this.paginationService.getSelectedPage();
 							if (pageIndex > 1) {
-								this.router.navigate(['/ip-addresses'], { queryParams: { page: pageIndex } });
+								this.router.navigate(['/ip-handler'], { queryParams: { page: pageIndex } });
 							} else {
-								this.router.navigate(['/ip-addresses']);
+								this.router.navigate(['/ip-handler']);
 							}
 						});
 					},

@@ -1,4 +1,3 @@
-<!-- Header Section -->
 <div class="pageheader pd-y-25">
     <div class="pd-t-5 pd-b-5">
         <div class="flex justify-between">
@@ -10,20 +9,15 @@
     </div>
 </div>
 
-<!-- Main Content Section -->
 <div class="row clearfix">
     <div class="col-md-12 col-lg-12 col-xl-12">
-        <!-- IP Addresses Card -->
         <div class="card mb-4 shadow-1">
             <div class="card-header">
                 <h4 class="card-header-title">{{ titles.cardTitles }}</h4>
             </div>
             <div class="card-body collapse show">
                 <ng-container *ngIf="isLoading === false; else loading">
-
-                    <!-- IP Addresses Data Wrapper -->
                     <div class="data-wrapper" *ngIf="(ipAddressList?.total || 0) > 0; else noIpAddressFoundBlock">
-                        <!-- IP Addresses Table -->
                         <table class="table table-responsive table-hover">
                             <thead>
                                 <tr>
@@ -37,7 +31,6 @@
                             </thead>
 
                             <tbody>
-                                <!-- Loop through IP Addresses Data -->
                                 <tr *ngFor="let ip of ipAddressList?.data">
                                     <td>{{ ip.id }}</td>
                                     <td>{{ ip.ip }}</td>
@@ -45,7 +38,7 @@
                                     <td>{{ ip.created_at }}</td>
                                     <td>{{ ip.updated_at }}</td>
                                     <td>
-                                        <a [routerLink]="['/ip-addresses/edit', ip.id]" (click)="setSelectedIp(ip)" class="btn btn-info">
+                                        <a [routerLink]="['/ip-handler/edit', ip.id]" (click)="setSelectedIp(ip)" class="btn btn-info">
                                             {{ buttons.edit }} <i class="fa fa-edit"></i>
                                         </a>
                                     </td>
@@ -53,16 +46,14 @@
                             </tbody>
                         </table>
 
-                        <!-- Pagination Component -->
                         <app-pagination
-                            [baseUrl]="'/ip-addresses'"
+                            [baseUrl]="'/ip-handler'"
                             [currentPageIndex]="ipAddressList?.current_page"
                             [lastPageIndex]="ipAddressList?.last_page"
                             [pageLinks]="ipAddressList?.links"
                         ></app-pagination>
                     </div>
 
-                    <!-- No IP Address Found Block -->
                     <ng-template #noIpAddressFoundBlock>
                         <div class="text-left">
                             <p class="text-base text-red-800">{{ messages.noIpFound }}</p>
@@ -70,7 +61,6 @@
                     </ng-template>
                 </ng-container>
 
-                <!-- Loading Template -->
                 <ng-template #loading>
                     <div class="text-center">
                         <p class="text-3xl">{{ messages.pleaseWait }}</p>

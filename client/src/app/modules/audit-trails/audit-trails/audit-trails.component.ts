@@ -46,7 +46,6 @@ export class AuditTrailsComponent implements OnInit, OnDestroy {
 					this.currentPageIndex = queryParams['page'];
 					this.paginationService.setAuditLogs(null as any);
 					this.paginationService.setAuditSelectedPageIndex(null as any);
-					// this.logs$ = this.ipHandlerService.getLogs(this.currentPageIndex);
 					this.logs$ = this.ipHandlerService.getAuditTrailByUserId(this.authService.getUserId(), this.currentPageIndex);
 				}
 
@@ -70,7 +69,6 @@ export class AuditTrailsComponent implements OnInit, OnDestroy {
 				if (this.paginationService.auditLog?.list && this.currentPageIndex === this.paginationService.auditLog.pageSelected) {
 					this.logs$ = this.paginationService.getAuditLogs();
 				} else {
-					// this.logs$ = this.ipHandlerService.getLogs(this.currentPageIndex);
 					this.logs$ = this.ipHandlerService.getAuditTrailByUserId(this.authService.getUserId(), this.currentPageIndex);
 				}
 

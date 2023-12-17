@@ -29,7 +29,7 @@ export class IpCreateComponent {
 		const ipPattern =
 			"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
 		this.form = this.fb.group({
-			ip_address: ['', [Validators.required, Validators.pattern(ipPattern)]],
+			ip: ['', [Validators.required, Validators.pattern(ipPattern)]],
 			label: ['', [Validators.required]],
 		})
 	}
@@ -43,27 +43,27 @@ export class IpCreateComponent {
 		this.submitting = true;
 		if (this.form.valid) {
 			this.ipHandlerService.createIpAddress(this.form.value)
-				.pipe(finalize(() => this.submitting = false))
-				.subscribe({
-					next: response => {
-						Swal.fire({
-							title: 'Successfull',
-							text: 'IP is stored.',
-							icon: 'success',
-							confirmButtonText: 'OKAY'
-						}).then(() => {
-							const pageIndex = this.paginationService.getSelectedPage();
-							if (pageIndex > 1) {
-								this.router.navigate(['/ip-addresses'], { queryParams: { page: pageIndex } });
-							} else {
-								this.router.navigate(['/ip-addresses']);
-							}
-						});
-					},
-					error: ({ error }) => {
-						this.errors = error?.errors;
-					}
-				});
+			.pipe(finalize(() => this.submitting = false))
+			.subscribe({
+				next: response => {
+					Swal.fire({
+						title: 'Successfull',
+						text: 'IP is stored.',
+						icon: 'success',
+						confirmButtonText: 'ok'
+					}).then(() => {
+						const pageIndex = this.paginationService.getSelectedPage();
+						if (pageIndex > 1) {
+							this.router.navigate(['/ip-handler'], { queryParams: { page: pageIndex } });
+						} else {
+							this.router.navigate(['/ip-handler']);
+						}
+					});
+				},
+				error: ({ error }) => {
+					this.errors = error?.errors;
+				}
+			});
 		}
 	}
 

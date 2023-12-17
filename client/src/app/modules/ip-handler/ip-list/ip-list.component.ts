@@ -103,7 +103,7 @@ export class IpListComponent implements OnInit, OnDestroy {
 	}
 
 	createIpFormView() {
-		this.router.navigate(['ip-addresses/create']);
+		this.router.navigate(['ip-handler/create']);
 	}
 
 	setSelectedIp(ipAddress: ISingleIp) {
