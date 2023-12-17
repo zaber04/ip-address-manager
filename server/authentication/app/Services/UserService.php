@@ -3,7 +3,7 @@
 namespace Authentication\Services;
 
 use Authentication\Events\UserEvent;
-use Gateway\Enums\ActionEnum;
+use Zaber04\LumenApiResources\Enums\ActionEnum;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;

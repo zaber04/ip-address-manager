@@ -6,10 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-// use League\Flysystem\Adapter\Local as LocalAdapter;
-// use League\Flysystem\Adapter\Local as LocalAdapter;
 use League\Flysystem\FilesystemAdapter as LocalAdapter;
-// use League\Flysystem\Adapter\LocalFilesystemAdapter as LocalAdapter;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\MountManager;
 

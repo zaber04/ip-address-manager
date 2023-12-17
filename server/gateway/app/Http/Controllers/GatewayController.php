@@ -4,14 +4,13 @@ declare(strict_types = 1);
 
 namespace Gateway\Http\Controllers;
 
-use Gateway\Traits\ApiResponseTrait;
+use Zaber04\LumenApiResources\Traits\ApiResponseTrait;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
-// use Faker\Factory as FakerFactory;
 
 class GatewayController extends BaseController
 {

@@ -12,9 +12,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \Authentication\Events\UserEvent::class => [
-            \IpHandler\Listeners\AuditTrailListener::class,
-        ],
+        // \Authentication\Events\UserEvent::class => [
+        //     \IpHandler\Listeners\AuditTrailListener::class,
+        //     // this is an issue --> how will I sync now? docker don't give acccess to this location
+        // ],
     ];
 
     /**

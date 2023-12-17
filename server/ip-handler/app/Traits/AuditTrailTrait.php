@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace IpHandler\Traits;
 
-use Authentication\Traits\TokenTrait;
-use Gateway\Enums\ActionEnum;
+use Zaber04\LumenApiResources\Traits\TokenTrait;
+use Zaber04\LumenApiResources\Enums\ActionEnum;
 use IpHandler\Models\AuditTrail;
 
 use Illuminate\Http\Request;

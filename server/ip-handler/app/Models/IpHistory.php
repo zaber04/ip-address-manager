@@ -2,7 +2,7 @@
 
 namespace IpHandler\Models;
 
-use Authentication\Models\User;
+use Zaber04\LumenApiResources\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;

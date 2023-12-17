@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace IpHandler\Http\Controllers;
 
-use Gateway\Enums\ActionEnum;
-use Gateway\Traits\ApiResponseTrait;
-use Gateway\Traits\LoggingTrait;
-use Gateway\Traits\ExceptionHandlerTrait;
+use Zaber04\LumenApiResources\Enums\ActionEnum;
+use Zaber04\LumenApiResources\Traits\ApiResponseTrait;
+use Zaber04\LumenApiResources\Traits\LoggingTrait;
+use Zaber04\LumenApiResources\Traits\ExceptionHandlerTrait;
 use IpHandler\Models\IpAddress;
 use IpHandler\Traits\AuditTrailTrait;
 use IpHandler\Traits\PaginationTrait;

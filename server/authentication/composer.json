@@ -1,6 +1,6 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
+    "name": "ip-address-manager/authentication",
+    "description": "Authentication microservice",
     "keywords": ["framework", "laravel", "lumen"],
     "license": "MIT",
     "type": "project",
@@ -25,15 +25,7 @@
         "psr-4": {
             "Authentication\\": "app/",
             "AuthenticationDatabase\\Factories\\": "database/factories/",
-            "AuthenticationDatabase\\Seeders\\": "database/seeders/",
-
-            "Gateway\\": "../gateway/app/",
-            "GatewayDatabase\\Factories\\": "../gateway/database/factories/",
-            "GatewayDatabase\\Seeders\\": "../gateway/database/seeders/",
-
-            "IpHandler\\": "../ip-handler/app/",
-            "IpHandlerDatabase\\Factories\\": "../ip-handler/database/factories/",
-            "IpHandlerDatabase\\Seeders\\": "../ip-handler/database/seeders/"
+            "AuthenticationDatabase\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

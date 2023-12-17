@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00d7f961dbe518c8f1e871cba1e125fa",
+    "content-hash": "380e5398dc945d292cbe39d4d29794d7",
     "packages": [
         {
             "name": "brick/math",
@@ -2120,6 +2120,70 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2023-12-11T16:51:38+00:00"
+        },
+        {
+            "name": "illuminate/routing",
+            "version": "v10.37.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/routing.git",
+                "reference": "260d5993fc08d668ae158cf87c01d667870f74f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/routing/zipball/260d5993fc08d668ae158cf87c01d667870f74f6",
+                "reference": "260d5993fc08d668ae158cf87c01d667870f74f6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-filter": "*",
+                "ext-hash": "*",
+                "illuminate/collections": "^10.0",
+                "illuminate/container": "^10.0",
+                "illuminate/contracts": "^10.0",
+                "illuminate/http": "^10.0",
+                "illuminate/macroable": "^10.0",
+                "illuminate/pipeline": "^10.0",
+                "illuminate/session": "^10.0",
+                "illuminate/support": "^10.0",
+                "php": "^8.1",
+                "symfony/http-foundation": "^6.4",
+                "symfony/http-kernel": "^6.2",
+                "symfony/routing": "^6.2"
+            },
+            "suggest": {
+                "illuminate/console": "Required to use the make commands (^10.0).",
+                "nyholm/psr7": "Required to use PSR-7 bridging features (^1.2).",
+                "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^2.0)."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "10.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Routing\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "The Illuminate Routing package.",
+            "homepage": "https://laravel.com",
+            "support": {
+                "issues": "https://github.com/laravel/framework/issues",
+                "source": "https://github.com/laravel/framework"
+            },
+            "time": "2023-12-07T19:28:35+00:00"
         },
         {
             "name": "illuminate/session",
@@ -5791,6 +5855,89 @@
             "time": "2023-11-17T21:06:49+00:00"
         },
         {
+            "name": "symfony/routing",
+            "version": "v6.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/routing.git",
+                "reference": "0c95c164fdba18b12523b75e64199ca3503e6d40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/0c95c164fdba18b12523b75e64199ca3503e6d40",
+                "reference": "0c95c164fdba18b12523b75e64199ca3503e6d40",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/deprecation-contracts": "^2.5|^3"
+            },
+            "conflict": {
+                "doctrine/annotations": "<1.12",
+                "symfony/config": "<6.2",
+                "symfony/dependency-injection": "<5.4",
+                "symfony/yaml": "<5.4"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^1.12|^2",
+                "psr/log": "^1|^2|^3",
+                "symfony/config": "^6.2|^7.0",
+                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
+                "symfony/expression-language": "^5.4|^6.0|^7.0",
+                "symfony/http-foundation": "^5.4|^6.0|^7.0",
+                "symfony/yaml": "^5.4|^6.0|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Routing\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Maps an HTTP request to a set of configuration variables",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "router",
+                "routing",
+                "uri",
+                "url"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/routing/tree/v6.4.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-12-01T14:54:37+00:00"
+        },
+        {
             "name": "symfony/service-contracts",
             "version": "v3.4.0",
             "source": {
@@ -6515,6 +6662,67 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "zaber04/lumen-api-resources",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zaber04/lumen-api-resources.git",
+                "reference": "eaeae277c68b19aad54564cd4ead529ed826cd7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zaber04/lumen-api-resources/zipball/eaeae277c68b19aad54564cd4ead529ed826cd7e",
+                "reference": "eaeae277c68b19aad54564cd4ead529ed826cd7e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.8",
+                "illuminate/console": "*",
+                "illuminate/container": "*",
+                "illuminate/events": "*",
+                "illuminate/filesystem": "*",
+                "illuminate/routing": "*",
+                "illuminate/support": "*",
+                "illuminate/translation": "*",
+                "laravel/lumen-framework": "^10.0",
+                "laravel/tinker": "^2.8",
+                "league/flysystem": "^3.23",
+                "php": "^8.1",
+                "tymon/jwt-auth": "^2.0"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.9.1",
+                "mockery/mockery": "^1.4.4",
+                "phpunit/phpunit": "^10.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Zaber04\\LumenApiResources\\": "src/"
+                }
+            },
+            "scripts": {
+                "post-root-package-install": [
+                    "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Lumen API Resources Package",
+            "keywords": [
+                "api",
+                "lumen",
+                "resources"
+            ],
+            "support": {
+                "source": "https://github.com/zaber04/lumen-api-resources/tree/master",
+                "issues": "https://github.com/zaber04/lumen-api-resources/issues"
+            },
+            "time": "2023-12-17T19:05:12+00:00"
         }
     ],
     "packages-dev": [
@@ -8280,7 +8488,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "zaber04/lumen-api-resources": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

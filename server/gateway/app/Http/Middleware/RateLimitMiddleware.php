@@ -2,7 +2,7 @@
 
 namespace Gateway\Http\Middleware;
 
-use Gateway\Traits\ApiResponseTrait;
+use Zaber04\LumenApiResources\Traits\ApiResponseTrait;
 use Gateway\Exceptions\CustomThrottleRequestsException;
 
 use Closure;

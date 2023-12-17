@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace IpHandler\Listeners;
 
-use Authentication\Events\UserEvent;
+use Authentication\Events\UserEvent; // no longer will work --> @TODO
 use IpHandler\Models\AuditTrail;
 
 use Illuminate\Contracts\Queue\ShouldQueue;

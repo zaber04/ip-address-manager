@@ -83,8 +83,8 @@ $app->middleware([
 $app->routeMiddleware([
     // Register the AuthenticateMiddleware and create an alias 'auth'
     // 'auth' => Authentication\Http\Middleware\Authenticate::class,
-    'auth' => Authentication\Http\Middleware\AuthenticateMiddleware::class,
-    'refresh.token' => Authentication\Http\Middleware\RefreshTokenMiddleware::class,
+    'auth' => \Zaber04\LumenApiResources\Http\Middleware\AuthenticateMiddleware::class,
+    'refresh.token' => \Zaber04\LumenApiResources\Http\Middleware\RefreshTokenMiddleware::class,
     // 'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
     // 'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
 ]);

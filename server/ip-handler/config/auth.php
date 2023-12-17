@@ -1,6 +1,6 @@
 <?php
 
-use Authentication\Models\User;
+use Zaber04\LumenApiResources\Models\User;
 
 return [
     'defaults' => [

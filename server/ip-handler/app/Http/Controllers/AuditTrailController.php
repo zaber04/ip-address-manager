@@ -6,9 +6,9 @@ namespace IpHandler\Http\Controllers;
 
 use IpHandler\Models\AuditTrail;
 use IpHandler\Traits\PaginationTrait;
-use Gateway\Traits\ApiResponseTrait;
-use Gateway\Traits\LoggingTrait;
-use Gateway\Traits\ExceptionHandlerTrait;
+use Zaber04\LumenApiResources\Traits\ApiResponseTrait;
+use Zaber04\LumenApiResources\Traits\LoggingTrait;
+use Zaber04\LumenApiResources\Traits\ExceptionHandlerTrait;
 
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -78,27 +78,21 @@ class AuditTrailController extends BaseController
             $pagination = $this->getPaginationParams($request);
 
             // $id referes to 'user_id' field of the table
-            try {
-                $auditTrails = AuditTrail::with('user')
-                    ->where('user_id', $id)
-                    ->where('session_id', function ($query) use ($id) {
-                        $query->select('session_id')
-                            ->from('audit_trails')
-                            ->where('user_id', $id)
-                            ->orderBy('created_at', 'desc')
-                            ->limit(1);
-                    })
-                    ->orderBy($pagination['sort_field'], $pagination['sort_order'])
-                    ->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
+            // DO NOT USE --> ::with() --> N+1 problem (inefficient)
+            $auditTrails = AuditTrail::select('audit_trails.*')
+                ->leftJoin('audit_trails as latest', function ($join) use ($id) {
+                    $join->on('audit_trails.session_id', '=', 'latest.session_id')
+                        ->where('latest.user_id', '=', $id)
+                        ->orderByDesc('latest.created_at')
+                        ->limit(1);
+                })
+                ->where('audit_trails.user_id', $id)
+                ->orderBy($pagination['sort_field'], $pagination['sort_order'])
+                ->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
 
-                // audit trails --> empty is ok
+            // audit trails --> empty is ok
 
-                return $this->jsonResponseWith(['data' => $auditTrails], JsonResponse::HTTP_OK);
-
-            } catch (\Exception $e) {
-                // Rethrow the exception
-                throw new QueryException($e->getMessage(), $e->getPrevious(), $e->getCode(), $e);
-            }
+            return $this->jsonResponseWith(['data' => $auditTrails], JsonResponse::HTTP_OK);
         } catch (ValidationException | ModelNotFoundException | QueryException $e) {
             $errorInfo = ['url' => $request->path(), 'function' => 'AuditTrailController@show'];
             return $this->handleException($request, $e, $errorInfo);

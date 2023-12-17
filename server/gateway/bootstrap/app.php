@@ -85,8 +85,8 @@ $app->middleware([
 // Create an alias for the middleware
 $app->routeMiddleware([
     // Register the AuthenticateMiddleware and create an alias 'auth'
-    'auth' => Authentication\Http\Middleware\AuthenticateMiddleware::class,
-    'refresh.token' => Authentication\Http\Middleware\RefreshTokenMiddleware::class,
+    'auth' => \Zaber04\LumenApiResources\Http\Middleware\AuthenticateMiddleware::class,
+    'refresh.token' => \Zaber04\LumenApiResources\Http\Middleware\RefreshTokenMiddleware::class,
 ]);
 
 /*

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49a8a1b8d2d003636b2a2195a2159f15",
+    "content-hash": "f2169a4f75ceb2300401aac2d7f3c9f1",
     "packages": [
         {
             "name": "brick/math",
@@ -6405,12 +6405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zaber04/lumen-api-resources.git",
-                "reference": "69a78d9fe9f1963abbe67b6efb0867c03a4cfbd8"
+                "reference": "eaeae277c68b19aad54564cd4ead529ed826cd7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zaber04/lumen-api-resources/zipball/69a78d9fe9f1963abbe67b6efb0867c03a4cfbd8",
-                "reference": "69a78d9fe9f1963abbe67b6efb0867c03a4cfbd8",
+                "url": "https://api.github.com/repos/zaber04/lumen-api-resources/zipball/eaeae277c68b19aad54564cd4ead529ed826cd7e",
+                "reference": "eaeae277c68b19aad54564cd4ead529ed826cd7e",
                 "shasum": ""
             },
             "require": {
@@ -6437,13 +6437,8 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Zaber04\\LumenApiResources\\": "app/",
-                    "Zaber04\\LumenApiResources\\Database\\Factories\\": "database/factories/",
-                    "Zaber04\\LumenApiResources\\Database\\Seeders\\": "database/seeders/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
+                    "Zaber04\\LumenApiResources\\": "src/"
+                }
             },
             "scripts": {
                 "post-root-package-install": [
@@ -6463,7 +6458,7 @@
                 "source": "https://github.com/zaber04/lumen-api-resources/tree/master",
                 "issues": "https://github.com/zaber04/lumen-api-resources/issues"
             },
-            "time": "2023-12-17T15:26:14+00:00"
+            "time": "2023-12-17T19:05:12+00:00"
         },
         {
             "name": "zircote/swagger-php",

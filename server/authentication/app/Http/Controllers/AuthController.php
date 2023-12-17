@@ -6,7 +6,7 @@ namespace Authentication\Http\Controllers;
 
 use Authentication\Models\User;
 use Authentication\Events\UserEvent;
-use Authentication\Traits\TokenTrait;
+
 // use Authentication\Exceptions\AuthenticationException;
 // use Authentication\Exceptions\InvalidCredentialsException;
 // use Authentication\Exceptions\UserRegistrationException;
@@ -14,9 +14,11 @@ use Authentication\Traits\TokenTrait;
 // use Authentication\Exceptions\UserLogoutException;
 // use Authentication\Services\TokenService;
 // use Authentication\Services\UserService;
-use Gateway\Enums\ActionEnum;
-use Gateway\Traits\ApiResponseTrait;
-use Gateway\Traits\ExceptionHandlerTrait;
+
+use \Zaber04\LumenApiResources\Enums\ActionEnum;
+use \Zaber04\LumenApiResources\Traits\ApiResponseTrait;
+use \Zaber04\LumenApiResources\Traits\ExceptionHandlerTrait;
+use \Zaber04\LumenApiResources\Traits\TokenTrait;
 
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;

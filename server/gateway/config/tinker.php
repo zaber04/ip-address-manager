@@ -44,7 +44,7 @@ return [
    */
 
    'dont_alias' => [
-      'App\Zaber',
+      'Gateway\Zaber',
    ],
 
 ];

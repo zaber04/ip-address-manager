@@ -2,7 +2,7 @@
 
 namespace GatewayDatabase\Factories;
 
-use Gateway\Models\ErrorLog;
+use Zaber04\LumenApiResources\Models\ErrorLog;
 
 use Faker\Factory as FakerFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;

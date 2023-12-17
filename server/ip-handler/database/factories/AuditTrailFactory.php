@@ -2,9 +2,9 @@
 
 namespace IpHandlerDatabase\Factories;
 
-use Gateway\Enums\ActionEnum;
+use Zaber04\LumenApiResources\Enums\ActionEnum;
 use IpHandler\Models\AuditTrail;
-use AuthenticationDatabase\Factories\UserFactory;
+use Zaber04\LumenApiResources\Database\Factories\UserFactory;
 
 
 use Illuminate\Database\Eloquent\Factories\Factory;

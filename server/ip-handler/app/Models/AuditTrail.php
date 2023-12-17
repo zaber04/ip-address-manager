@@ -2,12 +2,10 @@
 
 namespace IpHandler\Models;
 
-use Gateway\Enums\ActionEnum;
-use Authentication\Models\User;
+use Zaber04\LumenApiResources\Enums\ActionEnum;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AuditTrail extends Model
@@ -47,8 +45,9 @@ class AuditTrail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+    // this microservice don't know the definition of auth microservice user
+    // public function user(): BelongsTo
+    // {
+    //     return $this->belongsTo(User::class, 'user_id');
+    // }
 }

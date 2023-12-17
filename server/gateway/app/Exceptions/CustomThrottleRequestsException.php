@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gateway\Exceptions;
 
-use Gateway\Traits\ApiResponseTrait;
+use Zaber04\LumenApiResources\Traits\ApiResponseTrait;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;

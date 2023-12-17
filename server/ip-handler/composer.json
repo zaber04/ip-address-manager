@@ -1,6 +1,6 @@
 {
     "name": "ip-address-manager/ip-handler",
-    "description": "Handles CRUD for managing ip addresses.",
+    "description": "Handles CRUD for managing IP addresses.",
     "keywords": ["framework", "laravel", "lumen"],
     "license": "MIT",
     "type": "project",
@@ -25,15 +25,7 @@
         "psr-4": {
             "IpHandler\\": "app/",
             "IpHandlerDatabase\\Factories\\": "database/factories/",
-            "IpHandlerDatabase\\Seeders\\": "database/seeders/",
-
-            "Authentication\\": "../authentication/app/",
-            "AuthenticationDatabase\\Factories\\": "../authentication/database/factories/",
-            "AuthenticationDatabase\\Seeders\\": "../authentication/database/seeders/",
-
-            "Gateway\\": "../gateway/app/",
-            "GatewayDatabase\\Factories\\": "../gateway/database/factories/",
-            "GatewayDatabase\\Seeders\\": "../gateway/database/seeders/"
+            "IpHandlerDatabase\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

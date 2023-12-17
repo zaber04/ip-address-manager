@@ -26,15 +26,7 @@
         "psr-4": {
             "Gateway\\": "app/",
             "GatewayDatabase\\Factories\\": "database/factories/",
-            "GatewayDatabase\\Seeders\\": "database/seeders/",
-
-            "Authentication\\": "../authentication/app/",
-            "AuthenticationDatabase\\Factories\\": "../authentication/database/factories/",
-            "AuthenticationDatabase\\Seeders\\": "../authentication/database/seeders/",
-
-            "IpHandler\\": "../ip-handler/app/",
-            "IpHandlerDatabase\\Factories\\": "../ip-handler/database/factories/",
-            "IpHandlerDatabase\\Seeders\\": "../ip-handler/database/seeders/"
+            "GatewayDatabase\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

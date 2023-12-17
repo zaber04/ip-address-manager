@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Authentication\Events;
 
-use Gateway\Enums\ActionEnum;
+use Zaber04\LumenApiResources\Enums\ActionEnum;
 use Illuminate\Support\Carbon;
 
 class UserEvent extends Event
