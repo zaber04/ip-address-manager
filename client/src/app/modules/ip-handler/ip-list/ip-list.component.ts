@@ -13,14 +13,29 @@ import { PaginationService } from '../../../services/pagination.service';
 })
 
 export class IpListComponent implements OnInit, OnDestroy {
-
 	isLoading = false;
 	errors: any = null;
 	ipAddresses$: Observable<IPaginatedIpResponse> | undefined;
 	ipAddressList: IPaginatedIpResponse | undefined;
 	subscriptions = new SubSink();
 	ipAddressSubscription = new Subscription;
-	currentPageIndex:number = 1;
+	currentPageIndex: number = 1;
+
+
+	titles = {
+		pageTitles:  'IP Address List',
+		cardTitles:  'IP Address List'
+	}
+
+	buttons = {
+		addNewIp: 'Add New IP',
+		edit: 'Update',
+	};
+
+	messages = {
+		noIpFound: 'No IP address available.',
+		pleaseWait: 'Please Wait For A While...',
+	};
 
 	constructor(
 		private router: Router,

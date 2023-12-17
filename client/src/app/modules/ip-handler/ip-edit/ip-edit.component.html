@@ -1,1 +1,62 @@
-<p>ip-edit works!</p>
+<!-- ip-address-update.component.html -->
+
+<div class="pageheader pd-y-25">
+    <div class="pd-t-5 pd-b-5">
+        <div class="flex justify-between">
+            <h1 class="pd-0 mg-0 tx-20 text-overflow">{{ pageTitles.ipAddresses }}</h1>
+            <button class="btn btn-info" type="button" (click)="goToNewIpList()">{{ buttons.manageIps }}</button>
+        </div>
+    </div>
+</div>
+
+<div class="row clearfix">
+    <div class="col-md-6 offset-md-3">
+        <!--================================-->
+        <!-- IP Addresses Start -->
+        <!--================================-->
+        <ng-container *ngIf="loading === false; else loadingBlock">
+            <div class="card mb-4 shadow-1">
+                <div class="card-header">
+                    <h4 class="card-header-title">{{ pageTitles.updateIp }}</h4>
+                </div>
+                <div class="card-body collapse show">
+                    <form class="row" [formGroup]="form" (submit)="handleSubmit()">
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                <label for="label">{{ labels.commentLabel }}</label>
+                                <input type="text" formControlName="label" id="label" class="form-control"
+                                       placeholder="{{ placeholders.commentLabel }}" autocomplete="off" />
+
+                                <ng-container *ngIf="form.get('label')?.errors && (form.get('label')?.touched || form.get('label')?.dirty)">
+                                    <app-form-error *ngIf="form.get('label')?.errors" message="{{ errorMessages.label }}"></app-form-error>
+                                </ng-container>
+
+                                <app-form-error *ngIf="errors && errors?.messages?.label"
+                                                [message]="errors.messages.label[0]"></app-form-error>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-info"
+                                        [disabled]="triedSubmission || form.invalid">{{ buttons.updateIp }}
+                                    <i class="fa fa-circle-o-notch fa-spin" *ngIf="triedSubmission"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-template #loadingBlock>
+            <div class="card mb-4 shadow-1">
+                <div class="card-body">
+                    <div class="text-center">
+                        <p class="text-3xl">{{ loadingMessages.pleaseWait }}</p>
+                        <p><i class="fa fa-circle-o-notch fa-spin text-3xl"></i></p>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

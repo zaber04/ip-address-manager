@@ -81,7 +81,8 @@ export class LoginComponent implements OnDestroy {
 							title: 'Login successful',
 							text: 'Login successful.',
 							icon: 'success',
-							showConfirmButton: false
+							showConfirmButton: false,
+							timer: 2000
 						});
 
 						if (this.form.get('remember')?.value || false) {
