@@ -13,7 +13,7 @@ I sepnt the first one and half days researching on techs on the pros on cons and
 
 ## Declaration
 
-This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project. I am also working within time constraints and hence UML, ERD diagrams weren't created yet.
+This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project. I am also working within time constraints and hence UML, ERD diagrams weren't created yet. I am a confident backend developer and aware of API scalalibility, API design patterns, API OWASP security and proficient in third party API integration, however I'm extreamly terrible in front end - specially in strict & complex framework like Angular (in which I am quite novice even though I make APIs for angular everyday). Hence, I have chosen angular front end for this project to challenge myself in the most challanging way possible.
 
 ## Microservices
 
@@ -171,13 +171,13 @@ In some cases, code duplications was used intentionally instead of using `shared
 
 2. If a request is forwarded to another service, it's essential to capture the status code of the forwarded service and integrate properly with originating service. Otherwise, first service will always return 200.
 
-## Angular Challengers
+## Angular Challenges
 
 As a primarily backend developer, I rarely implement front end and hence I am a lot behind on current structure of angular. While working with this project, I noticed angular 17 is a lot different from the versions I have previously used (9-14). Looks like I need to spend 100 hours on angular practice.
 
-Due to time constraint, I developed front end in less than a day (intentionally avoiding modular structure) with some help from ai and the code is a pure mumbo jumbo. This part is not production ready. It has several incosistency and failure scenarios. Will re-write this once get some time. Services has too many methods in one file (no seperation of concern).
+Due to time constraint, I developed front end in less than a day (intentionally avoiding modular structure) with  help from ai and the code is a pure mumbo jumbo. This part is not production ready. It has several incosistency and failure scenarios. Will re-write this once get some time. Services has too many methods in one file (no seperation of concern).
 
-I can write complex Common Table Expression query while pivoting multiple table in bigquery but that's still much easier than angular!!!
+I can write complex Common Table Expression query while pivoting multiple table in bigquery but that's still much easier than angular!!! I managed to generate a poor front end with strong help from chat gpt.
 
 However, working with the project made me research current trend in angular and helped refresh the experience. It definitely made me careful about the api end point output pattern and make all apis output consistent. This was a learning experience.
 
