@@ -7,9 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { HttpHandlerInterceptor } from './interceptors/http-handler.interceptor';
-import { LocalStorageUtil } from './utils/local-storage.util';
-import { IpHandlerModule } from './modules/ip-handler/ip-handler.module';
-import { AuditTrailsModule } from './modules/audit-trails/audit-trails.module';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
@@ -26,10 +23,9 @@ import { JwtModule } from "@auth0/angular-jwt";
 		HttpClientModule,
 		HeaderComponent,
     	SidebarComponent,
-		// JWTmodule
 	],
 	providers: [
-		// provideHttpClient(withFetch()),
+		provideHttpClient(withFetch()),
 		provideClientHydration(),
 		{
 			provide: HTTP_INTERCEPTORS, useClass: HttpHandlerInterceptor, multi: true,

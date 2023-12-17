@@ -23,11 +23,11 @@ export class LoginComponent implements OnDestroy {
 	errors: IError = { message: "We have error" };
 
 	pageContent = {
-		pageTitle: 'IP Address Management',
-		signInTitle: 'Sign in to your account',
+		pageTitle: 'IP Address Manager',
+		signInTitle: 'Sign in',
 		emailLabel: 'Your email',
 		passwordLabel: 'Your password',
-		emailInvalidMessage: 'Email is invalid.',
+		emailInvalidMessage: 'Invalid Email',
 		passwordRequiredMessage: 'Password is required.',
 		rememberMeLabel: 'Remember me',
 		forgotPasswordLink: 'Forgot password?',
