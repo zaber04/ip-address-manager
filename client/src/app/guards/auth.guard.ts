@@ -16,15 +16,7 @@ export class AuthGuard implements CanActivate {
 
 		// not logged in
 		this.authService.clearStorage();
-
-		Swal.fire({
-			title            : 'Failed!',
-			text             : 'Unauthorized. Please log in',
-			icon             : 'error',
-			confirmButtonText: 'Login'
-		}).then(() => {
-			this.router.navigate(['login']);
-		});
+		this.router.navigate(['login']);
 
 		return false;
 	}

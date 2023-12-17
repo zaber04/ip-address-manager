@@ -1,1 +1,22 @@
-<router-outlet></router-outlet>
+<ng-container *ngIf="!loginUI; else loginForm">
+    <div class="page-container">
+    <app-sidebar [collapse]="sidebar"></app-sidebar>
+    <div [ngClass]="sidebar ? 'page-content-full' : 'page-content'">
+        <app-header></app-header>
+            <div class="page-inner">
+                <div id="main-wrapper">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <footer class="page-footer bg-gray-100">
+                <div class="pd-y-10 pd-x-25">
+                    <span class="tx-italic text-muted">Copyright&copy; 2023</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #loginForm>
+    <router-outlet></router-outlet>
+</ng-template>

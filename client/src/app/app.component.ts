@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
+import { initFlowbite } from 'flowbite';
+import { UiService } from './services/ui.service';
 
 @Component({
 	selector: 'app-root',
@@ -14,8 +16,7 @@ export class AppComponent {
 	sidebar = false;
 
 	constructor(
-		private router: Router,
-		// private sharedService: SharedService,
+		private router: Router, private uiService: UiService
 	) {
 		this.router.events.subscribe(event => {
 			if (event instanceof NavigationStart) {
@@ -26,5 +27,11 @@ export class AppComponent {
 				}
 			}
 		});
+
+		this.uiService.sidebarCollapseStatus.subscribe(result => this.sidebar = result);
+	}
+
+	ngOnInit(): void {
+		// initFlowbite();
 	}
 }
