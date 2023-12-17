@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 	providedIn: 'root'
 })
 export class AuthService {
-	private baseUrl = `${environment.apiUrl}/${environment.apiPrefix}/${environment.apiVersion}/auth/`;
+	private baseUrl = `${environment.apiUrl}/${environment.apiPrefix}/${environment.apiVersion}/auth`;
 
 	constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
@@ -38,31 +38,44 @@ export class AuthService {
 	}
 
 
+
+
 	// in real app we will use cookie instead of localstorage for security
 	authenticate(user: IUser, token: string, ttl: number = 1800): void {
-		// if (LocalStorageUtil.Supported()) {
-		LocalStorageUtil.set('token', token, ttl);
-		LocalStorageUtil.set('user', JSON.stringify(user), ttl);
-		// }
+		if (LocalStorageUtil.Supported()) {
+			LocalStorageUtil.set('token', token, ttl);
+			LocalStorageUtil.set('user', JSON.stringify(user), ttl);
+		}
 	}
 
 	getUser(): IUser | null {
-		// if (LocalStorageUtil.Supported()) {
-		if (LocalStorageUtil.get('token') && LocalStorageUtil.get('user')) {
+		if (LocalStorageUtil.Supported() && LocalStorageUtil.get('token') && LocalStorageUtil.get('user')) {
 			const userStorage = LocalStorageUtil.get('user') as string;
 			const user = JSON.parse(userStorage) as IUser;
 			return user;
 		}
-		// }
 
 		return null;
 	}
 
+	getUserId(): string {
+		const user: IUser | null = this.getUser();
+
+		if (!!user) {
+			return user.id;
+		}
+
+		return '';
+	}
+
+
 	isAuthenticated(): boolean {
-		// if (LocalStorageUtil.Supported()) {
-		const token = LocalStorageUtil.get('token');
-		return !!token && !this.jwtHelper.isTokenExpired(token);
-		// }
+		if (LocalStorageUtil.Supported()) {
+			const token = LocalStorageUtil.get('token');
+			return !this.jwtHelper.isTokenExpired(token);
+		}
+
+		return false;
 	}
 
 	getToken(): string | null {
@@ -74,14 +87,30 @@ export class AuthService {
 	}
 
 	clearStorage(): void {
-		// if (LocalStorageUtil.Supported()) {
-		LocalStorageUtil.clear('remember');
-		LocalStorageUtil.clear('token');
-		LocalStorageUtil.clear('user');
-		// }
+		if (LocalStorageUtil.Supported()) {
+			LocalStorageUtil.clear('remember');
+			LocalStorageUtil.clear('token');
+			LocalStorageUtil.clear('user');
+		}
 	}
 
 	redirectToHome(router: Router): void {
 		router.navigate(['/']);
 	}
+
+
+	// Ensure JwtHelperService is provided
+	static jwtHelperServiceFactory(): JwtHelperService {
+		return new JwtHelperService();
+	}
+
+	// Provide JwtHelperService in your AppModule
+	static jwtHelperServiceProvider = {
+		provide: JwtHelperService,
+		useFactory: AuthService.jwtHelperServiceFactory
+	};
+
+
+	// Provide the AuthService and JwtHelperService in your module
+	static authServiceAndJwtHelperServiceProviders: any[] = [AuthService, AuthService.jwtHelperServiceProvider];
 }

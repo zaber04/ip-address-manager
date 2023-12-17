@@ -11,6 +11,8 @@ import { SubSink } from 'subsink';
 	styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnDestroy {
+	@Input() collapse = false;
+
 	sidebar = {
 		title: 'IP Address Management',
 		menuItems: [

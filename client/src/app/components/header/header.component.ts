@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 import { IUser } from '../../interfaces/User.interfaces';
+import { UiService } from '../../services/ui.service';
 
 @Component({
 	selector: 'app-header',
@@ -24,7 +25,8 @@ export class HeaderComponent {
 
 	constructor(
 		private router: Router,
-		private authService: AuthService
+		private authService: AuthService,
+		private uiService: UiService
 	) {
 		this.user = this.authService.getUser();
 	}
@@ -44,5 +46,9 @@ export class HeaderComponent {
 				this.router.navigate(['/login']);
 			}
 		});
+	}
+
+	toggleSidebar() {
+		this.uiService.toggleSidebar();
 	}
 }

@@ -36,7 +36,7 @@ export class PaginationService {
 		this.ipAddress.selectedIp = selectedIpAddress;
 	}
 
-	getSelectedIp(): Observable<ISingleIp> | null {
+	getSelectedIp(): Observable<ISingleIp> | undefined {
 		return of(this.ipAddress.selectedIp);
 	}
 
