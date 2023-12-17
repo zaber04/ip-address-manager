@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  gateway:
+    build:
+      context: ./server/gateway
+    ports:
+      - "8000:80"  # Expose gateway on port 8000
+    networks:
+      - server_db_cache
+    depends_on:
+      - mysql
+    volumes:
+      - gateway-data:/var/www/html/storage/gateway
+
+  authentication:
+    build:
+      context: ./server/authentication
+    ports:
+      - "8001:80"  # Expose authentication on port 8001
+    networks:
+      - server_db_cache
+    depends_on:
+      - mysql
+    volumes:
+      - authentication-data:/var/www/html/storage/authentication
+
+  ip-handler:
+    build:
+      context: ./server/ip-handler
+    ports:
+      - "8002:80"  # Expose ip-handler on port 8002
+    networks:
+      - server_db_cache
+    depends_on:
+      - mysql
+    volumes:
+      - ip-handler-data:/var/www/html/storage/ip-handler
+
+  mysql:
+    image: mysql:latest
+    environment:
+      # I will read from .env later
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE: ip_handler
+      # MYSQL_USER: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      # MYSQL_PASSWORD:
+    ports:
+      - "3306:3306"
+    networks:
+      - server_db_cache
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+
+networks:
+  server_db_cache:
+    driver: bridge
+
+
+volumes:
+  ip-handler-data:
+    driver: local
+
+  gateway-data:
+    driver: local
+
+  authentication-data:
+    driver: local
+
+  mysql-data:
+    driver: local
