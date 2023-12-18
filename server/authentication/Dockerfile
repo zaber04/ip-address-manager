@@ -6,12 +6,55 @@ FROM php:8.2-apache
 # Set the working directory to /var/www/html
 WORKDIR /var/www/html
 
-# Copy the authentication application into the container at /var/www/html
+# Install additional dependencies and tools
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libpq-dev \
+        libzip-dev \
+        unzip \
+        libonig-dev \
+        libxml2-dev \
+        default-mysql-client \
+        curl \
+        libmemcached-dev \
+        libz-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libfreetype6-dev \
+        libssl-dev \
+        libmcrypt-dev \
+        libpq5 \
+        libpq-dev \
+        supervisor \
+        nano \
+        zip unzip \
+        libssh2-1-dev \
+        openssl \
+        libcurl4-openssl-dev \
+    && docker-php-ext-install pdo_mysql mysqli pdo_pgsql zip mbstring xml
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.6.6
+
+# Copy only the Composer files and install dependencies
+COPY composer.json composer.lock ./
+RUN composer install --no-scripts --no-autoloader
+
+# Copy the gateway application into the container at /var/www/html
 COPY . .
+
+# Run Composer dump-autoload and optimize
+RUN composer dump-autoload --optimize
 
 # Set the permissions for the storage directory
 RUN chown -R www-data:www-data storage
 RUN chmod -R 775 storage
+
+# Cleanup Unnecessary Files
+RUN apt-get remove -y libpq-dev libzip-dev libonig-dev libxml2-dev \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache mod_rewrite and mod_proxy
 RUN a2enmod rewrite proxy proxy_http

@@ -1,6 +1,100 @@
 version: '3.8'
 
 services:
+  mysql:
+    image: mysql:latest
+    container_name: ip-address-manager-mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
+      DB_PORT: 3306
+      DB_DATABASE: ip_handler
+      DB_USERNAME: root
+    ports:
+      - "3306:3306"
+    networks:
+      - app_network
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ip-address-manager-phpmyadmin
+    ports:
+      - "3305:80"
+    networks:
+      - app_network
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    restart: unless-stopped
+
+
+  authentication:
+    build:
+      context: ./server/authentication
+      dockerfile: Dockerfile
+    container_name: ip-address-manager-authentication
+    ports:
+      - "8001:80"
+    networks:
+      - app_network
+    depends_on:
+      - mysql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost"]
+      interval: 300s
+      timeout: 10s
+      retries: 3
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ip_handler
+      DB_USERNAME: root
+      JWT_SECRET: energetic_blueprint_creative_dolphin_whistler_jubilant_zaber04
+    volumes:
+      - authentication-data:/var/www/html/storage/authentication
+
+
+  ip-handler:
+    build:
+      context: ./server/ip-handler
+      dockerfile: Dockerfile
+    container_name: ip-address-manager-ip-handler
+    ports:
+      - "8002:80"
+    networks:
+      - app_network
+    depends_on:
+      - mysql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost"]
+      interval: 300s
+      timeout: 10s
+      retries: 3
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ip_handler
+      DB_USERNAME: root
+      JWT_SECRET: energetic_blueprint_creative_dolphin_whistler_jubilant_zaber04
+    volumes:
+      - ip-handler-data:/var/www/html/storage/ip-handler
+
+
   gateway:
     build:
       context: ./server/gateway  # build context
@@ -23,83 +117,23 @@ services:
       DB_PORT: 3306
       DB_DATABASE: ip_handler
       DB_USERNAME: root
+      JWT_SECRET: energetic_blueprint_creative_dolphin_whistler_jubilant_zaber04
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost"]
+      interval: 300s
+      timeout: 10s
+      retries: 3
     volumes:
       - gateway-data:/var/www/html/storage/gateway
 
 
-  authentication:
-    build:
-      context: ./server/authentication
-      dockerfile: Dockerfile
-    container_name: ip-address-manager-authentication
-    ports:
-      - "8001:80"
-    networks:
-      - app_network
-    depends_on:
-      - mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_ROOT_PASSWORD: ""
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_DATABASE: ip_handler
-      DB_USERNAME: root
-    volumes:
-      - authentication-data:/var/www/html/storage/authentication
 
-
-  ip-handler:
-    build:
-      context: ./server/ip-handler
-      dockerfile: Dockerfile
-    container_name: ip-address-manager-ip-handler
-    ports:
-      - "8002:80"
-    networks:
-      - app_network
-    depends_on:
-      - mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_ROOT_PASSWORD: ""
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_DATABASE: ip_handler
-      DB_USERNAME: root
-    volumes:
-      - ip-handler-data:/var/www/html/storage/ip-handler
-
-
-  mysql:
-    image: mysql:latest
-    container_name: ip-address-manager-mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_ROOT_PASSWORD: ""
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_DATABASE: ip_handler
-      DB_USERNAME: root
-    ports:
-      - "3306:3306"
-    networks:
-      - app_network
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-
-  angular-app:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    ports:
-      - "4200:4200"
+  # angular-app:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "4200:4200"
 
 
 networks:
