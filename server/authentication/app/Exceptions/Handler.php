@@ -70,6 +70,6 @@ class Handler extends ExceptionHandler
         $status  = $e->getStatusCode();
         $message = $e->getMessage() ?: JsonResponse::$statusTexts[$status];
 
-        return response()->json(['error' => $message . ". Error from: authentication handler middleware", 'statusCode' => $status, 'success' => false], $status);
+        return response()->json(['error' => $message . ". Error from: Microservice Authentication/Exceptions/Handler handler", 'statusCode' => $status, 'success' => false], $status);
     }
 }

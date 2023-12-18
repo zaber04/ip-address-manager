@@ -77,6 +77,7 @@ $app->configure('services');
 
 $app->middleware([
     // Authentication\Http\Middleware\ExampleMiddleware::class
+    // Authentication\Http\Middleware\CorsMiddleware::class
 ]);
 
 // Create an alias for the middleware

@@ -40,7 +40,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader
 
-# Copy the gateway application into the container at /var/www/html
+# Copy the authentication application into the container at /var/www/html
 COPY . .
 
 # Run Composer dump-autoload and optimize
@@ -49,12 +49,28 @@ RUN composer dump-autoload --optimize
 # Set the permissions for the storage directory
 RUN chown -R www-data:www-data storage
 RUN chmod -R 775 storage
+RUN chmod 644 public/.htaccess
+RUN chmod 644 apache-config/authentication.conf
 
 # Cleanup Unnecessary Files
 RUN apt-get remove -y libpq-dev libzip-dev libonig-dev libxml2-dev \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Create Apache error log directory
+RUN mkdir -p /var/log/apache2
+
+# Set ServerName and Apache document root
+RUN echo "ServerName laravel-app.local" >> /etc/apache2/apache2.conf
+
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# mod_rewrite for URL rewrite and mod_headers for
+# .htaccess extra headers like Access-Control-Allow-Origin-
+RUN a2enmod rewrite headers
 
 # Enable Apache mod_rewrite and mod_proxy
 RUN a2enmod rewrite proxy proxy_http
