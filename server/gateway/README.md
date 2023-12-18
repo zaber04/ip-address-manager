@@ -4,29 +4,9 @@ All our requests will come to this microservice and it will redirect them to app
 
 Due to small number of api endpoints and microservices we did not create a service registry wtphich automatically discover new microservice and bootstrap.
 
-## How to Use
-
-<!-- Create DB -->
-First we create a database. I have already created a custom command manually (since lumen don't have easy way to create command) for creating database. For simplicity, the command skips advanced approaches preffered in production environment.
-
-In below section, use the dbname you added in `.env`.
-
-```bash
-php artisan make:database ip_handler
-```
-
-<!-- Run Migration -->
-```bash
-php artisan migrate
-```
-
-## Journey
-
-Here, I am keeping the journey experience throughout the project implementation.
-
 ## Rate Limit
 
-For rate limit, we implemented token bucket algorithm. We will allow a certain number of requests (env file will give us value) to be added to bucket at a fixed rate. When a request comes, we remove a token from the bucket. If the bucket is empty, the request is denied. This approach allows some burstiness while still limiting the rate. We are using this approach assuming, this gateway isn't distrubuted, rather centralized.
+For rate limit, we implemented `token bucket algorithm`. We will allow a certain number of requests (env file will give us value) to be added to bucket at a fixed rate. When a request comes, we remove a token from the bucket. If the bucket is empty, the request is denied. This approach allows some burstiness while still limiting the rate. We are using this approach assuming, this gateway isn't distrubuted, rather centralized.
 
 We are using ip-based-limiter instead of key-based-limiter since we don't have authenticated user initially. We can still enforce key-based-limit in applicable microservice seperately.
 

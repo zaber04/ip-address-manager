@@ -90,7 +90,7 @@ I am  using `json` as ommunication protocol due to size of the app. However, if 
 
 Since Lumen is a micro framework, a lot of commands aren't available and doesn't offer auto generation. Many features and libraries and facades of laravel are absent in lumen. Hence most of the codes require manual writing, adding time in development. However, it's stripped down structure offers the flexibility to add only what's needed for each service.
 
-I have implimented several custom commands (which are similar to laravel) to make the journey smoother. For at least one of the commands none of the stackoverflow solution worked due to dependecy changes and I had to come up with a scratch up solution. It was exhilarating. I will publish this as a public package in github.
+I have **implemented several custom commands** (which are similar to laravel) to make the journey smoother. For at least one of the commands none of the stackoverflow solution worked due to dependecy changes and I had to come up with a scratch up solution. It was exhilarating. I will publish this as a public package in github.
 
 In some cases, removal of codes in Lumen has adverse effect and doesn't even allow basic functionalities such as requestFactory() and forces the developers to copy-paste the code from laravel framework code. Lumen also has much weaker and outdated documentation
 

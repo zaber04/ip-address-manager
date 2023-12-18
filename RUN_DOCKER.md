@@ -16,6 +16,8 @@ To run the project through docker run the following command
 
 2. Init docker
 
+    Add a `-d` for headless mode at the end of the bash command. I simply prefer looking at docker messages.
+
     ```bash
     docker-compose up --build
     ```
@@ -86,3 +88,5 @@ To run the project through docker run the following command
    Please test in postman after importing the json file.
 
 6. After testing & verifying the API responses, let's visit frontend. Visit <http://localhost:4200> for our angular front end. I haven't been doing much front end work recently and mostly out of touch with recent best practices for angular. Created a simple ui with help from chat gpt. So, the quality is nothing to be happy about.
+
+> You might need to wait like a minute to use the angular ui after docker builds.

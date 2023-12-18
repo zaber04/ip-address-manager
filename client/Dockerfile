@@ -1,12 +1,10 @@
 # Use an official Node runtime as a parent image
-# FROM node:14-alpine
-FROM node:18.17.0-alpine
+FROM node:20-alpine
 
 # Set the working directory to /app
-# ENV HOME=/usr/src/app
-# RUN mkdir -p $HOME
-# WORKDIR $HOME
-WORKDIR /app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
@@ -20,8 +18,12 @@ RUN npm install
 # Copy the current directory contents into the container at /app
 COPY . .
 
+# Build the application
+RUN npm run build --prod
+
 # Make port 4200 available to the world outside this container
 EXPOSE 4200
 
 # Define the command to run your app using the Angular CLI
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# CMD ["ng", "serve", "--host", "0.0.0.0"]
+CMD ["npm", "start"]
