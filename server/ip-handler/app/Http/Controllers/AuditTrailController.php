@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -79,16 +80,24 @@ class AuditTrailController extends BaseController
 
             // $id referes to 'user_id' field of the table
             // DO NOT USE --> ::with() --> N+1 problem (inefficient)
-            $auditTrails = AuditTrail::select('audit_trails.*')
-                ->leftJoin('audit_trails as latest', function ($join) use ($id) {
-                    $join->on('audit_trails.session_id', '=', 'latest.session_id')
-                        ->where('latest.user_id', '=', $id)
-                        ->orderByDesc('latest.created_at')
+            $auditTrails = AuditTrail::where('user_id', $id)
+                ->where('session_id', function ($query) use ($id) {
+                    $query->select('session_id')
+                        ->from('audit_trails')
+                        ->where('user_id', $id)
+                        ->orderByDesc('created_at')
                         ->limit(1);
                 })
-                ->where('audit_trails.user_id', $id)
                 ->orderBy($pagination['sort_field'], $pagination['sort_order'])
                 ->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
+
+            // Get user for each audit trail
+            $user = DB::table('users')->find($id);
+
+            // we don't have USER model access in this microservice
+            foreach ($auditTrails as $auditTrail) {
+                $auditTrail->user = $user;
+            }
 
             // audit trails --> empty is ok
 

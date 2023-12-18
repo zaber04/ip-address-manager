@@ -80,3 +80,9 @@ To run the project through docker run the following command
     127.0.0.1   authentication.localhost
     127.0.0.1   ip-handler.localhost
     127.0.0.1   gateway.localhost
+
+   After this, when I tried to access the docker APIs through POSTMAN, got a huge shock. Apache is blocking all my requests! After some hours of google search with a migrain pain, I was able to setup and improve apache, reverse proxy, htaccess with improved docker setup. It was an inredible journey. And then docker was causing in-container-request forward blocking issue as well. Finally all the APIs work in docker.
+
+   Please test in postman after importing the json file.
+
+6. After testing & verifying the API responses, let's visit frontend. Visit <http://localhost:4200> for our angular front end. I haven't been doing much front end work recently and mostly out of touch with recent best practices for angular. Created a simple ui with help from chat gpt. So, the quality is nothing to be happy about.

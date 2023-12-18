@@ -15,7 +15,7 @@ I sepnt the first one and half days researching on techs on the pros on cons and
 
 After researching for a while, I realized Lumen is more preferable than Laravel since it comes with less batteries inclueded and is a micro framework with only a few basic features. This helps from scalability perspective. Laravel is extreamely powerful full stack framework and comes with quite a lot of inbuilt features which will in turn slow down our services and slow down the system.
 
->** This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project.**
+> **This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project.**
 
 I am also working within time constraints and hence UML, ERD diagrams weren't created yet. I am a confident backend developer and aware of API scalalibility, API design patterns, API OWASP security and proficient in third party API integration, however I'm extreamly terrible in front end - specially in strict & complex framework like Angular (in which I am quite novice even though I make APIs for angular everyday). Hence, I have chosen angular front end for this project to challenge myself in the most challanging way possible.
 
@@ -44,6 +44,22 @@ I am also working within time constraints and hence UML, ERD diagrams weren't cr
 5. Maintains users actions log as "audit log" for each session (log in, changes, log out)
 
 I didn't use a seperate "Audit Log Microservice" due to small number of functionality and direct depency on "ip update". However, in large scale scenario, a seperate microservice with message queue is preferable for high throughput and fault taulerance.
+
+## Microservice resource sharing
+
+Initially to share resources across microservices, I used custom namespaces and used that to run the projects. However, that only work in local device and not in a container. After getting the project to working, I created a seperate project with soul purpose of providing library. I then imported that in all three services as dependency like below. Most of the request processing files and a few custom command is moved to this project. So check `/vendor/zaber04/lumen-api-resources/src/` location in any of the microservice folder to see the library I created for the project.
+
+```json
+"require": {
+    "zaber04/lumen-api-resources": "dev-master"
+},
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/zaber04/lumen-api-resources.git"
+    }
+]
+```
 
 ## Routing
 
@@ -189,4 +205,4 @@ Lumen not supporting angular's OPTIONS request required me to come up with custo
 
 ## DevOps Challenges
 
-I enjoyed setting up the devops files line by line and got much clearer picture on what each line does.
+I enjoyed setting up the devops files line by line and got much clearer picture on what each line does. It was a difficult but learning experience.
