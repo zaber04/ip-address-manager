@@ -46,24 +46,20 @@ class GatewayController extends BaseController
     public function forwardToAuthService(Request $request)
     {
         // retrieve authentication service base url
-        // $authServiceBaseUrl = config('services.auth.base_url'); // for local
-        $authServiceBaseUrl = config('services.auth.base_url_name'); // for docker
-
-        // request endpoint --> /api/auth/login remains /api/auth/login in Lumen (no prefix removal)
-        $authServiceEndpoint = $request->path();
-        $fullUrl = rtrim($authServiceBaseUrl, '/') . '/' . ltrim($authServiceEndpoint, '/');
+        // $baseUrl = config('services.auth.base_url'); // for local
+        $baseUrl = rtrim(config('services.auth.base_url_name'), '/'); // for docker
+        $endPoint = ltrim($request->path(), '/');
+        $fullUrl =  $baseUrl . '/' . $endPoint;
 
 
         try {
             // Forward the request to the Authentication microservice
             // $request->method() --> get the HTTP method of the incoming request
             // $request->all()    --> get array of all input data
-            $response = Http::baseUrl(rtrim($authServiceBaseUrl, '/'))
+            $response = Http::baseUrl(rtrim($baseUrl, '/'))
                 ->withHeaders($request->headers->all())
-                ->{$request->method()}(ltrim($authServiceEndpoint, '/'), $request->all());
+                ->{$request->method()}(ltrim($endPoint, '/'), $request->all());
 
-            // $response = Http::withHeaders($request->headers->all())
-                // ->{$request->method()}($fullUrl, $request->all());
 
             // Directly return the response and status code as is
             return response($response->json(), $response->status());
@@ -80,15 +76,42 @@ class GatewayController extends BaseController
      */
     public function forwardToIpHandlerService(Request $request)
     {
-        // $ipHandlerBaseUrl = config('services.ip_handler.base_url'); // local
-        $ipHandlerBaseUrl = rtrim(config('services.ip_handler.base_url_name'), '/'); // docker
-        $ipHandlerEndpoint = ltrim($request->path(), '/');
-        $fullUrl = $ipHandlerBaseUrl . '/' . $ipHandlerEndpoint;
+        // $baseUrl = config('services.ip_handler.base_url'); // local
+        $baseUrl = rtrim(config('services.ip_handler.base_url_name'), '/'); // for docker
+        $endPoint = ltrim($request->path(), '/');
+        $fullUrl =  $baseUrl . '/' . $endPoint;
+        $headers = $request->headers->all();
+        $requestMethod = strtolower($request->method());
 
         try {
-            $response = Http::baseUrl($ipHandlerBaseUrl)
-                ->withHeaders($request->headers->all())
-                ->{$request->method()}($ipHandlerEndpoint, $request->all());
+            $response = Http::baseUrl($baseUrl)
+                ->withHeaders($headers)
+                ->{$requestMethod}($endPoint, $request->all());
+
+            // Directly return the response and status code as is
+            $info = [
+                'G_method' => $requestMethod,
+                'G_all' => $requestMethod,
+                'G_url' => $fullUrl,
+            ];
+            return response($response->json(), $response->status(), $info);
+        } catch (\Exception $e) {
+            return $this->jsonResponseWith(['error' => $e->getMessage(), 'message' => 'Failed to forward request to ip-handler microservice', 'url' => $fullUrl, 'param' =>  $request->all()], 200);
+        }
+    }
+
+    public function forwardToIpHandler(Request $request, string $requestMethod)
+    {
+        $baseUrl = rtrim(config('services.ip_handler.base_url'), '/'); // for local
+        // $baseUrl = rtrim(config('services.ip_handler.base_url_name'), '/'); // for docker
+        $endPoint = ltrim($request->path(), '/');
+        $fullUrl =  $baseUrl . '/' . $endPoint;
+        $headers = $request->headers->all();
+
+        try {
+            $response = Http::baseUrl($baseUrl)
+                ->withHeaders($headers)
+                ->{$requestMethod}($endPoint, $request->all());
 
             // Directly return the response and status code as is
             return response($response->json(), $response->status());

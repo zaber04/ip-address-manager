@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+use Illuminate\Support\Facades\Request;
 
 
 /** @var \Laravel\Lumen\Routing\Router $router */
@@ -21,12 +21,6 @@ declare(strict_types = 1);
 
 // Just a welcome route without much restriction
 $router->get('/', 'GatewayController@welcome');
-
-$router->post('/', 'GatewayController@welcome');
-$router->get('/api-test', 'GatewayController@welcome');
-$router->post('/api-test', 'GatewayController@welcome');
-$router->get('/api-test/hi', 'GatewayController@welcome');
-$router->post('/api-test/hi', 'GatewayController@welcome');
 
 // Dynamic Loading with strict host
 /*
@@ -66,16 +60,40 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         // Authentication microservice routes
         $router->group(['prefix' => 'auth'], function () use ($router) {
             // Forward requests to the Authentication microservice
-            // neither "$router->any" nor "$router->fallback" is available in Lumen
             $router->post('/{routes:.*}', 'GatewayController@forwardToAuthService');
         });
 
         // IP Handler microservice routes
         $router->group(['prefix' => 'ip-handler', ['auth', 'refresh.token']], function () use ($router) {
             // Forward requests to the IP Handler microservice
-            $router->get('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
-            $router->post('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+            // neither "$router->any" nor "$router->fallback" is available in Lumen
+
             $router->patch('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+            $router->post('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+            $router->get('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+
+            // $request = request();
+            // $requestMethod = strtolower($request->method());
+
+            // switch ($requestMethod) {
+            //     case 'get':
+            //         $router->get('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+            //         break;
+            //     case 'post':
+            //         $router->post('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+            //         break;
+            //     case 'patch':
+            //         $router->patch('/{routes:.*}', 'GatewayController@forwardToIpHandlerService');
+            //         break;
+            //     // Add other cases for different HTTP methods if needed
+
+            //     default:
+            //         // Handle unsupported HTTP methods
+            //         break;
+            // }
+
+            // $method = strtolower(request()->method());
+            // return $router->app->call('Gateway\Http\Controllers\GatewayController@forwardToIpHandlerService', ['requestMethod' => $method]);
         });
     });
 });

@@ -22,16 +22,14 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth', 'refresh.token']], f
     $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->group(['prefix' => 'ip-handler'], function () use ($router) {
             $router->group(['prefix' => 'ip-addresses'], function () use ($router) {
-                $router->get('/', 'IpHandlerController@index');
+                // updated ip and updates audit-trail
+                $router->patch('/update/{id}', 'IpHandlerController@update');
 
                 // stores ip and updates audit-trail
-                $router->post('/', 'IpHandlerController@store');
+                $router->post('/store', 'IpHandlerController@store');
 
+                $router->get('/', 'IpHandlerController@index');
                 $router->get('/{id}', 'IpHandlerController@show');
-
-                // updated ip and updates audit-trail
-                $router->patch('/{id}', 'IpHandlerController@update');
-
                 // no delete or archive
             });
 

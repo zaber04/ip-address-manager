@@ -69,6 +69,6 @@ class Handler extends ExceptionHandler
         $status  = $e->getStatusCode();
         $message = $e->getMessage() ?: JsonResponse::$statusTexts[$status];
 
-        return response()->json(['error' => $message . ". Error from: Gateway Authentication/Exceptions/Handler handler", 'statusCode' => $status, 'success' => false], $status);
+        return response()->json(['error' => $message . ". Error from: Gateway/Exceptions/Handler handler", 'statusCode' => $status, 'success' => false], $status);
     }
 }
