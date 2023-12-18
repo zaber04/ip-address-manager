@@ -1,7 +1,9 @@
 {
 	"info": {
+		"_postman_id": "a1d7e1dd-e87d-4f01-a9e6-a75e6795be05",
 		"name": "IpAddressManager",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5967183"
 	},
 	"item": [
 		{
@@ -70,7 +72,8 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "9ad8c496-e91f-498b-a677-650ebc3cb374"
+											"value": "9ae0a55a-2fd0-420a-b5b9-54aacef316c1",
+											"description": "UUID of an IP address field (pick from all ip addreesses)"
 										}
 									]
 								}
@@ -138,7 +141,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"label\": \"new fan\"\r\n}"
+									"raw": "{\r\n    \"label\": \"ceiling fan\"\r\n}"
 								},
 								"url": {
 									"raw": "{{host_name}}/api/v1/ip-handler/ip-addresses/:id",
@@ -155,7 +158,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "9adf59af-dd43-49ca-978e-332811b1640f"
+											"value": "9ae0a96c-e4a6-4c54-ae11-440dfbf4a074"
 										}
 									]
 								}
@@ -206,14 +209,10 @@
 									}
 								],
 								"url": {
-									"raw": "127.0.0.1:8002/api/v1/ip-handler/audit-trails/user/:id",
+									"raw": "{{host_name}}/api/v1/ip-handler/audit-trails/user/:id",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{host_name}}"
 									],
-									"port": "8002",
 									"path": [
 										"api",
 										"v1",
@@ -225,8 +224,8 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "9ad766fc-c8ff-48f0-8d7a-3aa555372924",
-											"description": "user uuid"
+											"value": "9ae09fbb-1a79-426d-9179-2227a54b0fde",
+											"description": "User UUID (get from user-profile endpoint for postman testing)"
 										}
 									]
 								}
@@ -260,8 +259,8 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "9adf59db-dc37-4447-afb4-e10f7bfe80c7",
-											"description": "audit table primary id - uuid"
+											"value": "9ae0a9e8-b075-4ef3-888b-07076ed5f59a",
+											"description": "audit table primary id - uuid (get from all audit trails)"
 										}
 									]
 								}
@@ -276,15 +275,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8002/",
-							"protocol": "http",
+							"raw": "{{ip_handler_host}}/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{ip_handler_host}}"
 							],
-							"port": "8002",
 							"path": [
 								""
 							],
@@ -372,7 +366,7 @@
 							"raw": "{\r\n    \"email\": \"admin.user@ip-manager.com\",\r\n    \"password\": \"secret_password\"\r\n}"
 						},
 						"url": {
-							"raw": "{{host_name}}/api/v1/auth/login/",
+							"raw": "{{host_name}}/api/v1/auth/login",
 							"host": [
 								"{{host_name}}"
 							],
@@ -380,8 +374,7 @@
 								"api",
 								"v1",
 								"auth",
-								"login",
-								""
+								"login"
 							]
 						}
 					},
@@ -537,15 +530,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8001/",
-							"protocol": "http",
+							"raw": "{{authentication_host}}/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{authentication_host}}"
 							],
-							"port": "8001",
 							"path": [
 								""
 							],
