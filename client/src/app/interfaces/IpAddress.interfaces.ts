@@ -10,7 +10,16 @@ export interface IIPResponse {
 	success: boolean;
 	statusCode: number;
 	message: string;
-	data?: IPaginatedIpResponse | IPaginatedAuditResponse;
+	data?: IPaginatedIpResponse;
+	error?: string;
+	errorLog?: IErrorLog;
+}
+
+export interface IAuditResponse {
+	success: boolean;
+	statusCode: number;
+	message: string;
+	data?: IPaginatedAuditResponse;
 	error?: string;
 	errorLog?: IErrorLog;
 }
@@ -56,6 +65,12 @@ export interface IPaginatedIpResponse extends Partial<IPaginatedData> {
 	data: [ISingleIp],
 }
 
+// data
+// message
+// statusCode
+// success
+
+
 export interface IPaginatedAuditResponse extends Partial<IPaginatedData> {
 	data: [IAuditTrail],
 }
@@ -77,21 +92,22 @@ export interface IAuditTrail {
 }
 
 export enum ActionEnum {
-	ARCHIVE = 'archive',
-	DELETE = 'delete',
-	INSERT = 'insert',
-	UPDATE = 'update',
-	LOGIN = 'login', // register is being considered as login
-	LOGOUT = 'logout'
+	ARCHIVE  = 'archive',
+	DELETE   = 'delete',
+	INSERT   = 'insert',
+	UPDATE   = 'update',
+	LOGIN    = 'login',
+	REGISTER = 'register',
+	LOGOUT   = 'logout'
 }
 
 export interface IpAddressStore {
-	list: IPaginatedIpResponse,
+	list: IIPResponse,
 	selectedIp: ISingleIp,
 	pageSelected: number
 }
 
 export interface AuditLogStore {
-	list: IPaginatedAuditResponse,
+	list: IAuditResponse,
 	pageSelected: number
 }

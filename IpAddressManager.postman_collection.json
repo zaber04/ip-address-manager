@@ -45,7 +45,7 @@
 							"response": []
 						},
 						{
-							"name": "Get A Ip Addresses",
+							"name": "Get A Ip Address",
 							"request": {
 								"method": "GET",
 								"header": [

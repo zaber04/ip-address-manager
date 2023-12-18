@@ -3,7 +3,7 @@ import { Observable, Subscription, finalize } from 'rxjs';
 import { SubSink } from 'subsink';
 import { ActivatedRoute } from '@angular/router';
 import { IpHandlerService } from '../../../services/ip-handler.service';
-import { IPaginatedAuditResponse } from '../../../interfaces/IpAddress.interfaces';
+import { IAuditResponse, IPaginatedAuditResponse } from '../../../interfaces/IpAddress.interfaces';
 import { PaginationService } from '../../../services/pagination.service';
 import { AuthService } from '../../../services/auth.service';
 
@@ -13,12 +13,12 @@ import { AuthService } from '../../../services/auth.service';
 	styleUrl: './audit-trails.component.scss'
 })
 export class AuditTrailsComponent implements OnInit, OnDestroy {
-	logs$: Observable<IPaginatedAuditResponse> | undefined;
+	auditTrails$: Observable<IAuditResponse> | undefined;
 	subscribe = new SubSink();
 	auditTrailSubscribe = new Subscription();
 	currentPageIndex = 1;
 	isLoading = false;
-	auditLogList: IPaginatedAuditResponse | undefined;
+	auditLogList: IAuditResponse | undefined;
 	errors: any;
 
 	public textLabels = {
@@ -41,19 +41,19 @@ export class AuditTrailsComponent implements OnInit, OnDestroy {
 				this.isLoading = true;
 
 				if (this.paginationService.ipAddress?.list && this.currentPageIndex === queryParams['page']) {
-					this.logs$ = this.paginationService.getAuditLogs();
+					this.auditTrails$ = this.paginationService.getAuditLogs();
 				} else {
 					this.currentPageIndex = queryParams['page'];
 					this.paginationService.setAuditLogs(null as any);
 					this.paginationService.setAuditSelectedPageIndex(null as any);
-					this.logs$ = this.ipHandlerService.getAuditTrailByUserId(this.authService.getUserId(), this.currentPageIndex);
+					this.auditTrails$ = this.ipHandlerService.getAuditTrailsByUserId(this.authService.getUserId(), this.currentPageIndex);
 				}
 
 				if (this.auditTrailSubscribe) {
 					this.auditTrailSubscribe.unsubscribe();
 				}
 
-				this.auditTrailSubscribe = this.logs$.pipe(finalize(() => this.isLoading = false)).subscribe({
+				this.auditTrailSubscribe = this.auditTrails$.pipe(finalize(() => this.isLoading = false)).subscribe({
 					next: response => {
 						this.auditLogList = response;
 						this.paginationService.setAuditLogs(this.auditLogList);
@@ -67,16 +67,16 @@ export class AuditTrailsComponent implements OnInit, OnDestroy {
 				this.isLoading = true;
 				this.currentPageIndex = 1;
 				if (this.paginationService.auditLog?.list && this.currentPageIndex === this.paginationService.auditLog.pageSelected) {
-					this.logs$ = this.paginationService.getAuditLogs();
+					this.auditTrails$ = this.paginationService.getAuditLogs();
 				} else {
-					this.logs$ = this.ipHandlerService.getAuditTrailByUserId(this.authService.getUserId(), this.currentPageIndex);
+					this.auditTrails$ = this.ipHandlerService.getAuditTrailsByUserId(this.authService.getUserId(), this.currentPageIndex);
 				}
 
 				if (this.auditTrailSubscribe) {
 					this.auditTrailSubscribe.unsubscribe();
 				}
 
-				this.auditTrailSubscribe = this.logs$?.pipe(finalize(() => this.isLoading = false)).subscribe({
+				this.auditTrailSubscribe = this.auditTrails$?.pipe(finalize(() => this.isLoading = false)).subscribe({
 					next: response => {
 						this.auditLogList = response;
 						this.paginationService.setAuditLogs(this.auditLogList);

@@ -12,8 +12,8 @@
 	</div>
 	<div class="card-body collapse show">
 		<ng-container *ngIf="isLoading === false; else loading">
-		<ng-container *ngIf="(auditLogList?.total || 0) > 0; else noAuditLogs">
-			<div class="pb-1 mb-2" *ngFor="let log of auditLogList?.data">
+		<ng-container *ngIf="(auditLogList?.data?.total || 0) > 0; else noAuditLogs">
+			<div class="pb-1 mb-2" *ngFor="let log of auditLogList?.data?.data">
 			<div
 				class="float-right"
 				[ngClass]="{
@@ -34,9 +34,9 @@
 
 			<app-pagination
 			[baseUrl]="'/'"
-			[currentPageIndex]="auditLogList?.current_page"
-			[lastPageIndex]="auditLogList?.last_page"
-			[pageLinks]="auditLogList?.links"></app-pagination>
+			[currentPageIndex]="auditLogList?.data?.current_page"
+			[lastPageIndex]="auditLogList?.data?.last_page"
+			[pageLinks]="auditLogList?.data?.links"></app-pagination>
 		</ng-container>
 
 		<ng-template #noAuditLogs>

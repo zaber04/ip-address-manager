@@ -1,8 +1,4 @@
-export interface IUser {
-    id: string,
-	email: string,
-    first_name?: string,
-    last_name?: string,
+export interface IUser extends IUserBasic {
     email_verified_at?: string,
     contact?: string,
     address?: string,
@@ -11,3 +7,9 @@ export interface IUser {
     deleted_at?: string,
 }
 
+export interface IUserBasic {
+	id: string,
+	email: string,
+    first_name: string,
+    last_name: string
+}

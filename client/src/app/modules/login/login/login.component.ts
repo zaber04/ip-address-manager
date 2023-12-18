@@ -18,7 +18,7 @@ export class LoginComponent implements OnDestroy {
 	form: FormGroup;
 	subscribed = new SubSink();
 	triedSubmission = false;
-	loginResponse: ILoginResponse = {};
+	loginResponse: ILoginResponse | undefined;
 	hasError: boolean = false;
 	errors: IError = { message: "We have error" };
 
@@ -69,9 +69,9 @@ export class LoginComponent implements OnDestroy {
 						const sub = decodedToken?.sub ?? '';
 
 						const user: IUser = {
-							first_name: userInfo?.first_name,
-							last_name: userInfo?.last_name,
-							email: userInfo?.email || (this.form.get('email'))?.value || (decodedToken?.email ?? ''),
+							first_name: userInfo?.first_name || "",
+							last_name: userInfo?.last_name || "",
+							email: userInfo?.email || (this.form.get('email'))?.value || (decodedToken?.user?.email ?? ''),
 							email_verified_at: userInfo?.email_verified_at,
 							id: userInfo?.id || sub
 						}

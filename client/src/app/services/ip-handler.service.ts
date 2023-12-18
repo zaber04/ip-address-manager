@@ -10,6 +10,8 @@ import { IIp } from '../interfaces/IpAddress.interfaces';
 
 export class IpHandlerService {
 	private baseUrl = `${environment.apiUrl}/${environment.apiPrefix}/${environment.apiVersion}/ip-handler`;
+	private ipUrl = `${this.baseUrl}/ip-addresses`;
+	private auditUrl = `${this.baseUrl}/audit-trails`;
 
 
 	constructor(private http: HttpClient) { }
@@ -19,21 +21,21 @@ export class IpHandlerService {
 	 */
 	// observable any --> IPaginatedIpResponse
 	getIpAddresses(page: number = 1): Observable<any> {
-		return this.http.get<any>(`${this.baseUrl}/ip-addresses?page=${page}`);
+		return this.http.get<any>(`${this.ipUrl}?page=${page}`);
 	}
 	// observable any --> IPaginatedIpResponse
 	createIpAddress(ipAddress: IIp): Observable<any> {
-		return this.http.post<any>(`${this.baseUrl}/ip-addresses`, ipAddress);
+		return this.http.post<any>(`${this.ipUrl}/store`, ipAddress);
 	}
 
 	//  observable any --> IPaginatedIpResponse
 	getIpAddressById(id: string): Observable<any> {
-		return this.http.get<any>(`${this.baseUrl}/ip-addresses/${id}`);
+		return this.http.get<any>(`${this.ipUrl}/${id}`);
 	}
 
 	//  observable any --> IPaginatedIpResponse
 	updateIpAddress(id: string, updatedIpAddress: IIp): Observable<any> {
-		return this.http.patch<any>(`${this.baseUrl}/${id}`, updatedIpAddress);
+		return this.http.patch<any>(`${this.ipUrl}/update/${id}`, updatedIpAddress);
 	}
 
 
@@ -43,22 +45,18 @@ export class IpHandlerService {
 	// Get All audit trail entries
 	// Observable any --> IPaginatedAuditResponse
 	getAuditTrails(page: number = 1): Observable<any> {
-		return this.http.get<any>(`${this.baseUrl}/audit-trails?page=${page}`);
+		return this.http.get<any>(`${this.auditUrl}?page=${page}`);
 	}
 
 	// this end point returns the changes current user did in this session
 	// Observable any --> IPaginatedAuditResponse
-	getAuditTrailByUserId(user_id: string, page: number = 1): Observable<any> {
-		return this.http.get<any>(`${this.baseUrl}/audit-trails/user/${user_id}?page=${page}`);
+	getAuditTrailsByUserId(user_id: string, page: number = 1): Observable<any> {
+		return this.http.get<any>(`${this.auditUrl}/user/${user_id}?page=${page}`);
 	}
 
 	// get a specific audit trail entry
 	// Observable any --> IPaginatedAuditResponse
-	getAuditTrailByAuditId(audit_id: string): Observable<any> {
-		return this.http.get<any>(`${this.baseUrl}/audit-trails/trail/${audit_id}`);
+	getAuditTrailsByAuditId(audit_id: string): Observable<any> {
+		return this.http.get<any>(`${this.auditUrl}/trail/${audit_id}`);
 	}
-
-
-
-
 }

@@ -3,7 +3,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ILoginRequest, ILoginResponse } from "../interfaces/Login.interfaces";
-import { IUser } from '../interfaces/User.interfaces';
+import { IUser, IUserBasic } from '../interfaces/User.interfaces';
 import { environment } from '../../environments/environment';
 import { LocalStorageUtil } from '../utils/local-storage.util';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ export class AuthService {
 
 	constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
-	register(user: any): Observable<any> {
+	register(user: IUserBasic): Observable<any> {
 		return this.http.post<any>(`${this.baseUrl}/register`, user);
 	}
 

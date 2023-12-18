@@ -25,6 +25,11 @@ const routes: Routes = [
 	{
 		path: 'forgot-password',
 		loadChildren: () => import('./modules/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule)
+	},
+	{
+		path: '**',
+		redirectTo: '',
+		pathMatch: 'full',
 	}
 ];
 

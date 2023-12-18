@@ -15,8 +15,8 @@ import { PaginationService } from '../../../services/pagination.service';
 export class IpListComponent implements OnInit, OnDestroy {
 	isLoading = false;
 	errors: any = null;
-	ipAddresses$: Observable<IPaginatedIpResponse> | undefined;
-	ipAddressList: IPaginatedIpResponse | undefined;
+	ipAddresses$: Observable<IIPResponse> | undefined;
+	ipAddressList: IIPResponse | undefined;
 	subscriptions = new SubSink();
 	ipAddressSubscription = new Subscription;
 	currentPageIndex: number = 1;
@@ -93,7 +93,6 @@ export class IpListComponent implements OnInit, OnDestroy {
 					.subscribe({
 					next: response => {
 						this.ipAddressList = response;
-						console.log({'list': this.ipAddressList});
 						this.paginationService.setIpAddresses(this.ipAddressList);
 						this.paginationService.setSelectedPage(this.currentPageIndex);
 					},

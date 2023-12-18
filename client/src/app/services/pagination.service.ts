@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { AuditLogStore, IpAddressStore, IPaginatedAuditResponse, IPaginatedIpResponse, ISingleIp } from '../interfaces/IpAddress.interfaces';
+import { AuditLogStore, IAuditResponse, IIPResponse, IpAddressStore, IPaginatedAuditResponse, IPaginatedIpResponse, ISingleIp } from '../interfaces/IpAddress.interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -24,12 +24,12 @@ export class PaginationService {
 	/**
 	   * Ip Adress
 	   */
-	setIpAddresses(ipAddresses: IPaginatedIpResponse) {
+	setIpAddresses(ipAddresses: IIPResponse) {
 		this.ipAddress.list = ipAddresses;
 	}
 
 	// observable any -->
-	getIpAddresses(): Observable<IPaginatedIpResponse> {
+	getIpAddresses(): Observable<IIPResponse> {
 		return of(this.ipAddress.list);
 	}
 
@@ -52,11 +52,11 @@ export class PaginationService {
 	/**
 	 * Audit Logs
 	 */
-	setAuditLogs(auditLogs: IPaginatedAuditResponse) {
+	setAuditLogs(auditLogs: IAuditResponse) {
 		this.auditLog.list = auditLogs;
 	}
 
-	getAuditLogs(): Observable<IPaginatedAuditResponse> {
+	getAuditLogs(): Observable<IAuditResponse> {
 		return of(this.auditLog.list);
 	}
 
