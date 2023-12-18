@@ -8,6 +8,7 @@ use Zaber04\LumenApiResources\Database\Factories\UserFactory;
 
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AuditTrailFactory extends Factory
@@ -26,13 +27,16 @@ class AuditTrailFactory extends Factory
      */
     public function definition()
     {
+        $userEmail = 'admin.user@ip-manager.com';
+        $userId = DB::table('users')->where('email', $userEmail)->value('id');
+
         return [
             'action'        => $this->faker->randomElement(ActionEnum::cases()),
             'property_name' => $this->faker->word,
             'old_data'      => ['label' => 'old_label'],
             'new_data'      => ['label' => 'new_label'],
-            'user_id'       => Str::uuid(),
-            'session_id'    => $this->faker->uuid,
+            'user_id'       => $userId,
+            'session_id'    => Str::uuid()
         ];
     }
 }

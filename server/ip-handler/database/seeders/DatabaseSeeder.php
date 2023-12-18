@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(AuditTrailSeeder::class);
+        $this->call(AuditTrailSeeder::class); // DO NOT SEED
         $this->call(IpAddressSeeder::class);
     }
 }

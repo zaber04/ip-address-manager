@@ -6,7 +6,7 @@ use Database\Factories\IpAddressFactory;
 
 use Illuminate\Database\Seeder;
 
-
+// DO NOT SEED
 class IpAddressSeeder extends Seeder
 {
     public function run()

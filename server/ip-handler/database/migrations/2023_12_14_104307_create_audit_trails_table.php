@@ -19,7 +19,8 @@ class CreateAuditTrailsTable extends Migration
             $table->string('property_name');
             $table->json('old_data')->nullable();
             $table->json('new_data')->nullable();
-            $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignUuid('user_id')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->uuid('session_id')->nullable();
             $table->string('property_id')->nullable();
             $table->string('table_updated')->nullable();

@@ -2,7 +2,11 @@
 
 To run the project follow these steps. I have exported the postman API endpoints as JSON. import it in postman.
 
-## To run server indivially
+## How to run without docker
+
+Firstly, if you want to run without docker to get understanding of independent behaviour.
+
+Open a terminal
 
 1. cd server/gateway/
 2. cp .env.example .env
@@ -16,14 +20,18 @@ To run the project follow these steps. I have exported the postman API endpoints
 10. php -S localhost:8000 -t public
 
 <!-- Move to "authentication" microservice -->
-1. cd authentication
+Open another teminal
+
+1. cd server/authentication
 2. composer install
 3. php artisan migrate
 4. php artisan db:seed --class=UsersTableSeeder
 5. php -S localhost:8001 -t public
 
 <!-- Move to "ip-handler" microservice -->
-1. cd ip-handler
+Open another teminal
+
+1. cd server/ip-handler
 2. composer install
 3. php artisan migrate
 4. php artisan db:seed --class=AuditTrailSeeder
@@ -37,7 +45,3 @@ Now we should have users in db with `'email'= 'admin.user@example.com'` and `'pa
 1. cd client
 2. npm install
 3. ng serve --open
-
-## Docker
-
-We can use docker and avoid all the hassle.
