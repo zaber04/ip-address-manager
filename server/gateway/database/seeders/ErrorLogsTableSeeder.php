@@ -18,9 +18,6 @@ class ErrorLogsTableSeeder extends Seeder
         $numberOfRecords = 10;
         $faker = FakerFactory::create();
 
-        // factory(ErrorLog::class, $numberOfRecords)->create();
-        // ErrorLog::factory()->count($numberOfRecords)->make();
-
         for ($i = 0; $i < $numberOfRecords; $i++) {
             ErrorLog::create([
                 'url'          => $faker->url,

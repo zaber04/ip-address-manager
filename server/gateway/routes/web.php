@@ -22,6 +22,12 @@ declare(strict_types = 1);
 // Just a welcome route without much restriction
 $router->get('/', 'GatewayController@welcome');
 
+$router->post('/', 'GatewayController@welcome');
+$router->get('/api-test', 'GatewayController@welcome');
+$router->post('/api-test', 'GatewayController@welcome');
+$router->get('/api-test/hi', 'GatewayController@welcome');
+$router->post('/api-test/hi', 'GatewayController@welcome');
+
 // Dynamic Loading with strict host
 /*
 $router->group(['prefix' => 'api'], function () use ($router) {
