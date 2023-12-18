@@ -48,7 +48,8 @@ services:
       - mysql
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost"]
+      # test: ["CMD", "curl", "--fail", "http://localhost"]
+      test: ["CMD", "curl", "--fail", "http://authentication:80"]
       interval: 3600s
       timeout: 10s
       retries: 3
@@ -97,8 +98,8 @@ services:
 
   gateway:
     build:
-      context: ./server/gateway  # build context
-      dockerfile: Dockerfile  # Dockerfile name
+      context: ./server/gateway
+      dockerfile: Dockerfile
     container_name: ip-address-manager-gateway
     ports:
       - "8000:80"
@@ -119,7 +120,8 @@ services:
       DB_USERNAME: root
       JWT_SECRET: energetic_blueprint_creative_dolphin_whistler_jubilant_zaber04
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost"]
+      # test: ["CMD", "curl", "--fail", "http://localhost"]
+      test: ["CMD", "curl", "--fail", "http://ip-handler:80"]
       interval: 3600s
       timeout: 10s
       retries: 3
