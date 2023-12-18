@@ -1,0 +1,10 @@
+{
+  "routes": [
+    "/",
+    "/forgot-password",
+    "/ip-handler",
+    "/ip-handler/create",
+    "/login",
+    "/register"
+  ]
+}
