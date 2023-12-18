@@ -53,10 +53,10 @@ RUN chmod 644 public/.htaccess
 RUN chmod 644 apache-config/authentication.conf
 
 # Cleanup Unnecessary Files
-RUN apt-get remove -y libpq-dev libzip-dev libonig-dev libxml2-dev \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get remove -y libpq-dev libzip-dev libonig-dev libxml2-dev \
+#     && apt-get autoremove -y \
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/*
 
 # Create Apache error log directory
 RUN mkdir -p /var/log/apache2

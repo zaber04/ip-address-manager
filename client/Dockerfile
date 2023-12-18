@@ -25,5 +25,4 @@ RUN npm run build --prod
 EXPOSE 4200
 
 # Define the command to run your app using the Angular CLI
-# CMD ["ng", "serve", "--host", "0.0.0.0"]
-CMD ["npm", "start"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]

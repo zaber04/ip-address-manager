@@ -5,7 +5,7 @@ I will be using **API-GATEWAY-PATTERN** for developing our microservices. This i
 
 ## How To Run
 
-To run the project, please follow the `RUN_DOCKER.md` (to run using docker) or `RUN_DOCKERLESS.md` (to run without docker) file instead. I have added the postman collection (`IpAddressManager.postman_collection.json`) to test the APIs as well. This file primarily consists of the experience during the project journey.
+To run the project, please follow the `RUN_DOCKER.md` (to run using docker) or `RUN_DOCKERLESS.md` (to run without docker) file instead. I have added the postman collection (`IpAddressManager.postman_collection.json`) to test the APIs as well. This file primarily consists of the experience during the project journey. This file primarily consists of my experience throughout the project like a diary.
 
 ## Research
 
