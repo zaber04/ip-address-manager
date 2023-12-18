@@ -1,9 +1,9 @@
 <?php
 
-namespace AuthenticationDatabase\Seeders;
+namespace Database\Seeders;
 
 use Authentication\Models\User;
-use AuthenticationDatabase\Factories\UserFactory;
+use Database\Factories\UserFactory;
 
 use Illuminate\Database\Seeder;
 
@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             'first_name' => 'admin',
             'last_name'  => 'user',
-            'email'      => 'admin.user@example.com',
+            'email'      => 'admin.user@ip-manager.com',
             'password'   => 'secret_password',
             'contact'    => '',
             'address'    => '',

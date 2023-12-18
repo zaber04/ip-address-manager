@@ -1,8 +1,8 @@
 <?php
 
-namespace IpHandlerDatabase\Seeders;
+namespace Database\Seeders;
 
-use IpHandlerDatabase\Factories\IpAddressFactory;
+use Database\Factories\IpAddressFactory;
 
 use Illuminate\Database\Seeder;
 

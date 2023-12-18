@@ -1,14 +1,14 @@
 <?php
 
-namespace IpHandlerDatabase\Factories;
+namespace Database\Factories;
 
-use Zaber04\LumenApiResources\Enums\ActionEnum;
 use IpHandler\Models\AuditTrail;
+use Zaber04\LumenApiResources\Enums\ActionEnum;
 use Zaber04\LumenApiResources\Database\Factories\UserFactory;
 
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Str;
 
 class AuditTrailFactory extends Factory
 {
@@ -31,11 +31,7 @@ class AuditTrailFactory extends Factory
             'property_name' => $this->faker->word,
             'old_data'      => ['label' => 'old_label'],
             'new_data'      => ['label' => 'new_label'],
-            'user_id'       => function () {
-                return UserFactory::new()->create()->id;
-                // instead of making an API request to auth service, we used userfactory directly.
-                // this choice is used for only reating test data and not real usecase
-            },
+            'user_id'       => Str::uuid(),
             'session_id'    => $this->faker->uuid,
         ];
     }

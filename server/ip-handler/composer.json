@@ -24,8 +24,8 @@
     "autoload": {
         "psr-4": {
             "IpHandler\\": "app/",
-            "IpHandlerDatabase\\Factories\\": "database/factories/",
-            "IpHandlerDatabase\\Seeders\\": "database/seeders/"
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

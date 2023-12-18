@@ -1,8 +1,8 @@
 <?php
 
-namespace IpHandlerDatabase\Seeders;
+namespace Database\Seeders;
 
-use IpHandlerDatabase\Factories\AuditTrailFactory;
+use Database\Factories\AuditTrailFactory;
 
 use Illuminate\Database\Seeder;
 

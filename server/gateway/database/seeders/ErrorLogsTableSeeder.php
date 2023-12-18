@@ -1,7 +1,6 @@
 <?php
 
-namespace GatewayDatabase\Seeders;
-
+namespace Database\Seeders;
 
 use Zaber04\LumenApiResources\Models\ErrorLog;
 
@@ -37,3 +36,5 @@ class ErrorLogsTableSeeder extends Seeder
         }
     }
 }
+
+// php artisan db:seed --class=Database\Seeders\ErrorLogsTableSeeder

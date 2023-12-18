@@ -1,7 +1,6 @@
 <?php
 
-namespace IpHandlerDatabase\Factories;
-
+namespace Database\Factories;
 
 use IpHandler\Models\IpAddress;
 

@@ -24,8 +24,8 @@
     "autoload": {
         "psr-4": {
             "Authentication\\": "app/",
-            "AuthenticationDatabase\\Factories\\": "database/factories/",
-            "AuthenticationDatabase\\Seeders\\": "database/seeders/"
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace AuthenticationDatabase\Factories;
+namespace Database\Factories;
 
 use Authentication\Models\User;
 

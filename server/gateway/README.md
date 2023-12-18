@@ -12,7 +12,7 @@ First we create a database. I have already created a custom command manually (si
 In below section, use the dbname you added in `.env`.
 
 ```bash
-php artisan make:database your_db_name
+php artisan make:database ip_handler
 ```
 
 <!-- Run Migration -->

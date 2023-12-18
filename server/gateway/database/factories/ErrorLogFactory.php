@@ -1,6 +1,6 @@
 <?php
 
-namespace GatewayDatabase\Factories;
+namespace Database\Factories;
 
 use Zaber04\LumenApiResources\Models\ErrorLog;
 
