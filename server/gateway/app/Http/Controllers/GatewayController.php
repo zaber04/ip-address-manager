@@ -8,6 +8,7 @@ use Zaber04\LumenApiResources\Traits\ApiResponseTrait;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -49,15 +50,16 @@ class GatewayController extends BaseController
 
         // request endpoint --> /api/auth/login remains /api/auth/login in Lumen (no prefix removal)
         $authServiceEndpoint = $request->path();
+        $fullUrl = rtrim($authServiceBaseUrl, '/') . '/' . ltrim($authServiceEndpoint, '/');
 
         // Forward the request to the Authentication microservice
         // $request->method() --> get the HTTP method of the incoming request
         // $request->all()    --> get array of all input data
-        $response = Http::baseUrl($authServiceBaseUrl)
+        $response = Http::baseUrl($fullUrl)
             ->withHeaders($request->headers->all())
-            ->{$request->method()}($authServiceEndpoint, $request->all());
+            ->{$request->method()}('/', $request->all());
 
-        // Directly return the response and status code
+        // Directly return the response and status code as is
         return response($response->json(), $response->status());
     }
 
@@ -71,13 +73,14 @@ class GatewayController extends BaseController
     {
         $ipHandlerBaseUrl = config('services.ip_handler.base_url');
         $ipHandlerEndpoint = $request->path();
+        $fullUrl = rtrim($ipHandlerBaseUrl, '/') . '/' . ltrim($ipHandlerEndpoint, '/');
 
         // Forward the request to the IP Handler microservice
-        $response = Http::baseUrl($ipHandlerBaseUrl)
+        $response = Http::baseUrl($fullUrl)
             ->withHeaders($request->headers->all())
-            ->{$request->method()}($ipHandlerEndpoint, $request->all());
+            ->{$request->method()}('/', $request->all());
 
-        // Directly return the response and status code
+        // Directly return the response and status code as is
         return response($response->json(), $response->status());
     }
 }

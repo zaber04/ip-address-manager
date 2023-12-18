@@ -70,6 +70,6 @@ class Handler extends ExceptionHandler
         $status  = $e->getStatusCode();
         $message = $e->getMessage() ?: JsonResponse::$statusTexts[$status];
 
-        return response()->json(['error' => $message, 'statusCode' => $status, 'success' => false], $status);
+        return response()->json(['error' => $message . ". Error from: ip-handler handler middleware", 'statusCode' => $status, 'success' => false], $status);
     }
 }

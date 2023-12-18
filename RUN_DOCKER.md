@@ -61,3 +61,9 @@ Now we will access `ip-handler` microservice.
    php artisan migrate
    php artisan db:seed # required
    ```
+
+Now, our APIs are ready. We can now check via postman.
+Kindly import `IpAddressManager.postman_collection.json` file into postman.
+It uses `{{host_name}}` variable which is equal to `http://localhost:8000`
+
+Initially we will hit `login` endpoint to get `accessToken` which we will set to
