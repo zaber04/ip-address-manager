@@ -174,7 +174,7 @@ class AuthController extends Controller
 
             // send logout event to audit-trail-report
             // we could send a POST request instead
-            event(new UserEvent($userId, $sessionId, ActionEnum::LOGOUT, $request->ip()));
+            event(new UserEvent($userId, $sessionId, ActionEnum::LOGOUT, $request->getClientIp()));
 
             Auth::logout();
 
@@ -189,7 +189,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated user.
+     * Get the authenticated user profile.
      *
      * @return JsonResponse
      */
@@ -211,17 +211,17 @@ class AuthController extends Controller
      * Welcome route. Used for initial development
      *
      * @param Request $request
-     * @return void
+     * @return JsonResponse
      */
-    public function welcome(Request $request)
+    public function welcome(): JsonResponse
     {
         $appVersion  = app()->version();
         $message     = "Welcome to 'AUTHENTICATION' microservice. App version: " . $appVersion;
 
         $data = [
             'message' => $message,
-            'success' => true,
-            'host_ip' => $request->getClientIp()
+            'success' => true
+            // 'host_ip' => $request->getClientIp()
         ];
 
         return $this->jsonResponseWith($data, JsonResponse::HTTP_OK);
