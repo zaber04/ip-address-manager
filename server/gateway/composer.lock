@@ -6669,12 +6669,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zaber04/lumen-api-resources.git",
-                "reference": "eaeae277c68b19aad54564cd4ead529ed826cd7e"
+                "reference": "17c91583cef10c2c310707aa0ec8f95db26f6cca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zaber04/lumen-api-resources/zipball/eaeae277c68b19aad54564cd4ead529ed826cd7e",
-                "reference": "eaeae277c68b19aad54564cd4ead529ed826cd7e",
+                "url": "https://api.github.com/repos/zaber04/lumen-api-resources/zipball/17c91583cef10c2c310707aa0ec8f95db26f6cca",
+                "reference": "17c91583cef10c2c310707aa0ec8f95db26f6cca",
                 "shasum": ""
             },
             "require": {
@@ -6722,7 +6722,7 @@
                 "source": "https://github.com/zaber04/lumen-api-resources/tree/master",
                 "issues": "https://github.com/zaber04/lumen-api-resources/issues"
             },
-            "time": "2023-12-17T19:05:12+00:00"
+            "time": "2023-12-19T10:53:37+00:00"
         }
     ],
     "packages-dev": [

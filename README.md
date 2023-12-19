@@ -5,7 +5,7 @@ I will be using **API-GATEWAY-PATTERN** for developing our microservices. This i
 
 ## How To Run
 
-To run the project, please follow the `RUN_DOCKER.md` (to run using docker) or `RUN_DOCKERLESS.md` (to run without docker) file instead. I have added the postman collection (`IpAddressManager.postman_collection.json`) to test the APIs as well. This file primarily consists of the experience during the project journey. This file primarily consists of my experience throughout the project like a diary.
+To run the project, please follow the `RUN_DOCKER.md` (to run using docker) or `RUN_DOCKERLESS.md` (to run without docker) file instead. I have added the postman collection (`IpAddressManager.postman_collection.json`) to test the APIs as well. This file primarily consists of my experience throughout the project like a diary.
 
 ## Research
 
@@ -17,7 +17,7 @@ After researching for a while, I realized Lumen is more preferable than Laravel 
 
 > **This is my first time working with Lumen Micro Framework and I'm excited about it. This is also my first time implementing microservices in PHP environment. Previously I have implemented microservices in node based environment. Therefore, there might be some beginner mistakes. So, I appreciate feedback and suggestion to improve the project.**
 
-I am also working within time constraints and hence UML, ERD diagrams weren't created yet. I am a confident backend developer and aware of API scalalibility, API design patterns, API OWASP security and proficient in third party API integration, however I'm extreamly terrible in front end - specially in strict & complex framework like Angular (in which I am quite novice even though I make APIs for angular everyday). Hence, I have chosen angular front end for this project to challenge myself in the most challanging way possible.
+I am also working within time constraints and hence UML, ERD diagrams weren't created yet. I am a confident backend developer and aware of API scalalibility, API design patterns, API OWASP security and proficient in third party API integration, however I'm extreamly terrible in front end - specially in strict & complex framework like Angular (in which I am quite novice even though I make APIs for angular everyday). Hence, I have chosen angular front end for this project to challenge myself in the most challenging way possible.
 
 ## Microservices
 
@@ -47,7 +47,7 @@ I didn't use a seperate "Audit Log Microservice" due to small number of function
 
 ## Microservice resource sharing
 
-Initially to share resources across microservices, I used custom namespaces and used that to run the projects. However, that only work in local device and not in a container. After getting the project to working, I created a seperate project with soul purpose of providing library. I then imported that in all three services as dependency like below. Most of the request processing files and a few custom command is moved to this project. So check `/vendor/zaber04/lumen-api-resources/src/` location in any of the microservice folder to see the library I created for the project.
+Initially to share resources across microservices, I used custom namespaces and used that to run the projects. However, that only work in local device and not in a container. After getting the project to working, I **created a seperate project with soul purpose of providing library.** I then imported that in all three services as dependency like below. Most of the request processing files and a few custom command is moved to this project. So check `/vendor/zaber04/lumen-api-resources/src/` location in any of the microservice folder to see the library I created for the project or you can directly visit the public repository provided below.
 
 ```json
 "require": {
@@ -63,11 +63,11 @@ Initially to share resources across microservices, I used custom namespaces and 
 
 ## Routing
 
-For combined routing I have come up with two solutions -
+For combined routing in Lumen (which lacks many routing features of Laravel), I have come up with two solutions -
 
-1. `Dynamic Loading with strict host`: Since I didn't use a `service registry microservice` due to the application scope. I implemented a simple `RouterService` instead. It loads all services dynamically.
+1. `Dynamic Loading with strict host`: Since I didn't use a `service registry` due to the application scope. I implemented a simple `RouterService` instead. It loads all services dynamically.
 
-2. `Dynamic Loading with flexible host`: Later I implemented a slightly different approach to allow flexible host naming using env. This approach felt more cleaner and less coupled.
+2. `Dynamic Loading with flexible host`: Later I implemented a slightly different approach to allow flexible host naming using env. This approach felt more cleaner and less coupled. And yet there's a few tweaks I intend to make.
 
 ## Routing Challenges
 
@@ -90,13 +90,13 @@ I am  using `json` as ommunication protocol due to size of the app. However, if 
 
 Since Lumen is a micro framework, a lot of commands aren't available and doesn't offer auto generation. Many features and libraries and facades of laravel are absent in lumen. Hence most of the codes require manual writing, adding time in development. However, it's stripped down structure offers the flexibility to add only what's needed for each service.
 
-I have **implemented several custom commands** (which are similar to laravel) to make the journey smoother. For at least one of the commands none of the stackoverflow solution worked due to dependecy changes and I had to come up with a scratch up solution. It was exhilarating. I will publish this as a public package in github.
+I have **implemented several custom commands** (which are similar to laravel) to make the journey smoother and made them available in the library project `zaber04/lumen-api-resources`. For at least one of the commands, none of the stackoverflow solution worked due to dependecy changes and **I had to come up with a scratch up solution.** It was exhilarating.
 
-In some cases, removal of codes in Lumen has adverse effect and doesn't even allow basic functionalities such as requestFactory() and forces the developers to copy-paste the code from laravel framework code. Lumen also has much weaker and outdated documentation
+In some cases, removal of codes in Lumen has adverse effect and doesn't even allow basic functionalities such as requestFactory() and forces the developers to copy-paste the code from Laravel Framework codebase. Lumen also has much weaker and outdated documentation.
 
 ## Comments / Doxygen
 
-Lumen doesn't have much option for auto generate docblocks and comments. Hence most of the comments and docblocks are genrated manually and with a little help from a doxygen extension in IDE.
+Lumen doesn't have much option for auto generate docblocks and comments. Hence most of the comments and docblocks in the repository are genrated manually and with a little help from a doxydoxygen extension in IDE.
 
 ## Monorepo and Database
 
@@ -104,30 +104,31 @@ Our microservices are in monorepo setup allowing easier resource sharing. I am u
 
 Typically microservices are built in polyrepo which provides better seperation and makes development easier. However, this also means fetching resources require composer library or hitting an API endpoint which can add up delay.
 
-Monorepo design solves the delay issue by sharing libraries. It's only challege is maintaining strict library namespace structure for library sharing. It also don't require making external API request.
+Monorepo design solves the delay issue by sharing libraries. It's only challege is maintaining strict library namespace structure for library sharing.
 
 Maintaining Database operations in monorepo requires careful implementation of the models and factories.
 
-Only brilliant outcome was, I was able to create custom commands in one microservice and reference them in other microservices kernel.
-
-## Monorepo Branch Approach
+## Monorepo Branching Approach
 
 For monorepo, I have come up with my own branching and naming strategy. I don't know what most other people does, but I have come up with my own solution and found it be easier to maintain.
 
 Here it is -
-For each microservice, a seperate sub branch under dev branch (`dev-{{micro_service_name}}`) is created. Ideally, changes for each microservice is made within the respective branch and then merged with dev (both way). Additionally for specific sub-project or sub-service, more subbranch can be creatd following *STRICT* naming convention. A sub branch will have their parent branch as prefix, making it feel like a directory. For example, we have created `dev-gateway` for `gateway` microservice and we can create `dev-gateway-security` to explore additional API security practices (OWASP standard). In this convention, it is important to **NOT MERGE ANY BRANCH WITH ANOTHER AS YOU LIKE**.  `dev-gateway-security` should be merged with `dev-gateway` **ONLY**. `dev-gateway` can be merged with `dev` and with any branch with `dev-gateway-*` naming pattern. This maintains clean branch and any rollback or rebase or cherry picking becomes very easy.
+For each microservice, a seperate sub branch under dev branch (`dev-{{micro_service_name}}`) is created. Ideally, changes for each microservice is made within the respective branch and then merged with dev (both way). Additionally for specific sub-project or sub-service, more subbranch can be creatd following **STRICT** naming convention. A sub branch will have their parent branch as prefix, making it feel like a directory. For example, we have created `dev-gateway` for `gateway` microservice and we can create `dev-gateway-security` to explore additional API security practices (OWASP standard). In this convention, it is important to **NOT MERGE ANY BRANCH WITH ANOTHER AS YOU LIKE**.  `dev-gateway-security` should be merged with `dev-gateway` **ONLY**. `dev-gateway` can be merged with `dev` and with any branch with `dev-gateway-*` naming pattern. This maintains clean branch and any **rollback** or **rebase** or **cherry picking** becomes very easy.
 
-It is also essential to commit files related to same microservices should be committed together (if in dev). Maintaining goruping as much as possible helps.
+It is also essential that files related to same microservices should be committed together (if in dev). Maintaining grouping as much as possible helps. Even if you work on multiple microservice in same monorepo, it is best to serve them up in different commits. If there's dependency across, mention that in `git commit message` with a note or a jira task reference or something that can help later.
 
 ## Authentication
 
-I will be using JWT for stateless authentication. Each microservice will be careful to avoid algo none attack. This choice comes with the requirement of implementing a centralized blacklist (SPOF) or kafka based decentralized event subscription based blacklist.
+I will be using `JWT` for stateless authentication.
 
-However, for simplicity, I'm using centralized balcklisting
+1. Each microservice will be careful to avoid algo none attack.
+2. This choice to use JWT comes with the requirement of implementing a centralized blacklist (which can become **Single Point Of Failure**) or Kafka based decentralized event subscription based blacklist which is recommended.
+
+However, for simplicity, I'm using centralized balcklisting in this project.
 
 ## Multi Session
 
-For simplicity, same user multisession is blocked. New login will trigger old token blacklisting.
+For simplicity, same user multisession is blocked (access revoke policy by central buckelist of blacklisted token). New login will trigger old token blacklisting.
 
 ## Authorization
 
@@ -151,19 +152,19 @@ Service registry allows auto integration of new microservice and endpoints. Howe
 
 ## CORS & Trusted Host & Trusted Proxies
 
-Lumen doesn't come with these features and hence I have implemented a basic version of these for our application. Lumen not supporting angular's OPTIONS request required me to come up with custom solution.
+Lumen doesn't come with these features and hence I have implemented a basic version of these for our application. Lumen not supporting angular's `OPTIONS` request required me to come up with custom solution.
 
 ## Rate Limit
 
 For rate limit, we implemented `token bucket algorithm`. We will allow a certain number of requests (env file will give us value) to be added to bucket at a fixed rate. When a request comes, we remove a token from the bucket. If the bucket is empty, the request is denied. This approach allows some burstiness while still limiting the rate. We are using this approach assuming, this gateway isn't distrubuted, rather centralized.
 
-We are using ip-based-limiter instead of key-based-limiter since we don't have authenticated user initially. We can still enforce key-based-limit in applicable microservice seperately.
+We are using **ip-based-limiter** instead of **key-based-limiter** since we don't have authenticated user initially. We can still enforce key-based-limit in applicable microservice seperately - specially the ones are behind `auth` middleware.
 
-For this project context, we are implimenting rate limit for this microservice only. If we needed to implement in multiple microservices - deploying it as a package and importing in each services (as needed) would be more pragmatic.
+For this project context, we are implimenting rate limit for `gateway` microservice only. If we needed to implement in multiple microservices - we can move it to our shared library.
 
 ### Why not queue the request and process later?
 
-We chose rate-limiter over request-throttler to prevent abuse. However, it can still be implemented later if needed.
+We chose **rate-limiter** over **request-throttler** to prevent abuse. However, it can still be implemented later if needed.
 
 ### Why didn't we use third party rate limiter?
 
@@ -171,19 +172,21 @@ To keep our microservice as light as possible, we are focused on using minimal &
 
 ## Api Response Pattern
 
-I have implemented custom api response pattern for uniform behavior.
+I have implemented custom api response pattern for uniform behavior. I have deployed it as a trait file in the shared library.
 
 ## Logging
 
-I have implemented custom logging trait to make use of systematic logging for errors.
+I have implemented custom logging trait to make use of systematic logging for errors and deployed it as a trait file in the shared library.
 
 ## Setbacks
 
 In the middle of the project, **my laptop crashed and some work was lost**. Most of the day was lost trying to recover the device and res-setup everything in another older device with almost no dev setup. Losing favourite workstation is quite upsetting!
 
+I also faced migrain due to winter beginning which didn't help.
+
 ## Code Duplications
 
-In some cases, code duplications was used intentionally instead of using `shared library` or `git submodules` or `composer packages` or `symbolic links`. This is often decision choice by case. One example is defining `auth` as a middleware and binding to a class and registering in service provider has been done in each services. In this case, it saved some time. In Lumen, there isn't a much better approach anyway. Even with a library, the manual part is mandatory. You have to add stuff in `bootstrap/app.php` manually.
+In some cases, code duplications was used intentionally instead of using `shared library` or `git submodules` or `composer packages` or `symbolic links`. This is often decision choice by case. In Lumen, there isn't a much better approach anyway. Even with a library, the manual part is mandatory. You have to add stuff in `bootstrap/app.php` manually.
 
 ## Cross server communication Failure
 
@@ -193,11 +196,11 @@ In some cases, code duplications was used intentionally instead of using `shared
 
 ## Angular Challenges
 
-As a primarily backend developer, I rarely implement front end and hence I am a lot behind on current structure of angular. While working with this project, I noticed angular 17 is a lot different from the versions I have previously used (9-14). Looks like I need to spend 100 hours on angular practice.
+As a primarily backend developer, I rarely implement front end and hence I am a lot behind on current structure of angular. While working with this project, I noticed angular 17 is a lot different from the versions I have previously used (9-13). Looks like I need to spend 100 hours on angular practice.
 
-Due to time constraint, I developed front end in less than a day (intentionally avoiding modular structure) with  help from ai and the code is a pure mumbo jumbo. This part is not production ready. It has several incosistency and failure scenarios. Will re-write this once get some time. Services has too many methods in one file (no seperation of concern).
+Due to time constraint, I developed front end in like a day (intentionally avoiding modular structure) with  help from chat gpt and the code is a pure mumbo jumbo. This part is not production ready. It has several incosistency and failure scenarios. Will re-write this once get some time. Services has too many methods in one file (no seperation of concern).
 
-I can write complex Common Table Expression query while pivoting multiple table in bigquery but that's still much easier than angular!!! I managed to generate a poor front end with strong help from chat gpt.
+I can write complex Common Table Expression query while pivoting multiple table in bigquery but that's still feels much easier than angular!!! I managed to generate a poor front end with strong help from chat gpt.
 
 However, working with the project made me research current trend in angular and helped refresh the experience. It definitely made me careful about the api end point output pattern and make all apis output consistent. This was a learning experience.
 
@@ -206,3 +209,7 @@ Lumen not supporting angular's OPTIONS request required me to come up with custo
 ## DevOps Challenges
 
 I enjoyed setting up the devops files line by line and got much clearer picture on what each line does. It was a difficult but learning experience.
+
+## Want to run the project?
+
+Please read the `RUN_DOCKER.md` file to run the project using docker.
