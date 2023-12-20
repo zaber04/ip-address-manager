@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormErrorComponent } from '../../components/form-error/form-error.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
-
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
 	declarations: [
@@ -17,7 +17,10 @@ import { RouterModule } from '@angular/router';
 			{ path: '', component: LoginComponent, title: "Ip Address Manager - Login" }
 		]),
 		ReactiveFormsModule,
-		FormErrorComponent
+		FormsModule,
+		MatCardModule,
+		MatFormFieldModule,
+    	MatInputModule,
 	]
 })
 

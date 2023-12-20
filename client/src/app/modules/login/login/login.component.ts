@@ -29,29 +29,45 @@ export class LoginComponent implements OnDestroy {
 		passwordLabel: 'Your password',
 		emailInvalidMessage: 'Invalid Email',
 		passwordRequiredMessage: 'Password is required.',
-		rememberMeLabel: 'Remember me',
 		forgotPasswordLink: 'Forgot password?',
 		signInButtonText: 'Sign in',
 		signUpMessage: "Don't have an account yet?",
 		signUpLink: 'Sign up'
 	};
 
-
 	constructor(
 		private fb: FormBuilder,
 		private authService: AuthService,
 		private router: Router,
 	) {
-		this.form = this.fb.group({
-			email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
-			password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
-			remember: [false],
-		});
+		this.form = this.initializeForm();
 
 		if (this.authService.getToken() !== null) {
-			// If there is a valid token redirect the user
 			this.authService.redirectToHome(router);
 		}
+	}
+
+	private initializeForm(): FormGroup {
+		const emailValidators = [
+			Validators.required,
+			Validators.email,
+			Validators.minLength(6),
+			Validators.maxLength(255),
+			Validators.pattern(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)
+		];
+
+		const passwordValidators = [
+			Validators.required,
+			Validators.minLength(8),
+			Validators.maxLength(255),
+			// Password with at least one lowercase, one uppercase, one digit
+			// Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/)
+		];
+
+		return this.fb.group({
+			email: ['', emailValidators],
+			password: ['', passwordValidators]
+		});
 	}
 
 	processFormSubmit() {
@@ -60,45 +76,49 @@ export class LoginComponent implements OnDestroy {
 
 		if (this.form.valid) {
 			this.subscribed.sink = this.authService.login(this.form.value)
-				.pipe(finalize(() => this.triedSubmission = false))
-				.subscribe({
-					next: response => {
-						const userInfo = response.user;
-						const token = response.accessToken || "";
-						const decodedToken = new JwtHelperService().decodeToken(token) ?? {};
-						const sub = decodedToken?.sub ?? '';
-
-						const user: IUser = {
-							first_name: userInfo?.first_name || "",
-							last_name: userInfo?.last_name || "",
-							email: userInfo?.email || (this.form.get('email'))?.value || (decodedToken?.user?.email ?? ''),
-							email_verified_at: userInfo?.email_verified_at,
-							id: userInfo?.id || sub
-						}
-						this.authService.authenticate(user, token);
-
-						Swal.fire({
-							title: 'Login successful',
-							text: 'Login successful.',
-							icon: 'success',
-							showConfirmButton: false,
-							timer: 2000
-						});
-
-						if (this.form.get('remember')?.value || false) {
-							localStorage.setItem('remember', 'true');
-						}
-
-						this.form.reset();
-
-						setTimeout(() => { this.authService.redirectToHome(this.router); }, 1000);
-					},
-					error: ({ error }) => {
-						this.hasError = true;
-						this.errors = error?.errors;
-					}
-				});
+			.pipe(finalize(() => this.triedSubmission = false))
+			.subscribe({
+				next: (response) => this.handleSuccessResponse(response),
+				error: ({ error }) => this.handleErrorResponse(error)
+			});
 		}
+	}
+
+	private handleSuccessResponse(response: any): void {
+		const userInfo = response.user;
+		const token = response.accessToken || "";
+		const decodedToken = new JwtHelperService().decodeToken(token) ?? {};
+		const sub = decodedToken?.sub ?? '';
+
+		const user: IUser = {
+			first_name: userInfo?.first_name || "",
+			last_name: userInfo?.last_name || "",
+			email: userInfo?.email || this.form.get('email')?.value || (decodedToken?.user?.email ?? ''),
+			email_verified_at: userInfo?.email_verified_at,
+			id: userInfo?.id || sub
+		};
+
+		this.authService.authenticate(user, token);
+
+		this.showSuccessMessage('Login successful');
+		this.form.reset();
+
+		setTimeout(() => this.authService.redirectToHome(this.router), 1000);
+	}
+
+	private handleErrorResponse(error: any): void {
+		this.hasError = true;
+		this.errors = error?.errors;
+	}
+
+	private showSuccessMessage(message: string): void {
+		Swal.fire({
+			title: message,
+			text: message,
+			icon: 'success',
+			showConfirmButton: false,
+			timer: 2000
+		});
 	}
 
 	ngOnDestroy(): void {
