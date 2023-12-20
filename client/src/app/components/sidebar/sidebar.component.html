@@ -1,21 +1,17 @@
-<div class="page-sidebar ip-sidebar">
-	<a class="logo-box  ip-logo-box" routerLink="/">
-		<span>{{ sidebar.title }}</span>
-	</a>
-	<div class="page-sidebar-inner">
-		<div class="page-sidebar-menu">
-			<ul class="accordion-menu">
-				<li [class.active]="thisPath === '/'">
-					<a routerLink="/">
-						<span>{{ sidebar.menuItems[0].label }}</span></a
-					>
-				</li>
-				<li [class.active]="thisPath.indexOf('/ip-handler') > -1">
-					<a routerLink="/ip-handler">
-						<span>{{ sidebar.menuItems[1].label }}</span></a
-					>
-				</li>
-			</ul>
+<mat-sidenav-container class="h-full">
+	<mat-sidenav mode="side" class="ip-sidebar" opened>
+		<a class="ip-logo-box" routerLink="/">
+			<span>{{ sidebar.title }}</span>
+		</a>
+		<div class="page-sidebar-inner">
+			<mat-nav-list class="page-sidebar-menu">
+				<a mat-list-item routerLink="/" [class.active]="thisPath === '/'">
+					<span>{{ sidebar.menuItems[0].label }}</span>
+				</a>
+				<a mat-list-item routerLink="/ip-handler" [class.active]="thisPath.indexOf('/ip-handler') > -1">
+					<span>{{ sidebar.menuItems[1].label }}</span>
+				</a>
+			</mat-nav-list>
 		</div>
-	</div>
-</div>
+	</mat-sidenav>
+</mat-sidenav-container>

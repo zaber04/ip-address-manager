@@ -2,11 +2,13 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { SubSink } from 'subsink';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
 	selector: 'app-sidebar',
 	standalone: true,
-	imports: [CommonModule, RouterLink],
+	imports: [CommonModule, RouterLink, MatSidenavModule, MatListModule],
 	templateUrl: './sidebar.component.html',
 	styleUrls: ['./sidebar.component.scss']
 })
