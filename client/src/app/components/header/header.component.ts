@@ -14,11 +14,9 @@ import { UiService } from '../../services/ui.service';
 	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
 	uiTexts = {
-		sidebarIcon: 'ion-navicon',
-		greeting: 'Hello, ',
-		logout: 'Log Out'
+		logout: 'Log Out',
+		header: 'IP Adress Manager',
 	};
 
 	user: IUser | null;
@@ -35,7 +33,6 @@ export class HeaderComponent {
 		Swal.fire({
 			title: 'Log Out',
 			text: 'Thanks for visiting us',
-			imageUrl: 'assets/images/icon/loading-buffering.gif',
 			showConfirmButton: false,
 			allowOutsideClick: false
 		});
@@ -47,9 +44,5 @@ export class HeaderComponent {
 				this.router.navigate(['login']);
 			}
 		});
-	}
-
-	toggleSidebar() {
-		this.uiService.toggleSidebar();
 	}
 }

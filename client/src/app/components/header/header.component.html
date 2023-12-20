@@ -1,24 +1,16 @@
 <div class="page-header ip-header">
     <nav class="navbar navbar-default ip-header">
-       <div class="navbar-header">
-          <div class="navbar-brand">
-             <ul class="list-inline">
-                <li class="list-inline-item hover:text-black"><button type="button" (click)="toggleSidebar()"><i class="ion-navicon tx-20"></i></button></li>
-             </ul>
-          </div>
-       </div>
+        {{ uiTexts.header}}
+
        <div class="header-right pull-right">
           <ul class="list-inline justify-content-end">
                <li class="list-inline-item dropdown min-w-[100px]">
                   <a class="text-muted" href="javascript:void(0)" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <span class="select-profile mr-2">Hello, {{ user?.first_name }}!</span>
+                     <span class="select-profile mr-2">{{ user?.first_name }} {{ user?.last_name }}</span>
                   </a>
                   <ul class="dropdown-menu profile-dropdown shadow-2">
                      <li>
-                        <a href="javascript:void(0)"><i class="fa fa-cog"></i><span>Settings</span></a>
-                     </li>
-                     <li>
-                        <button (click)="logout()"><i class="fa fa-sign-out"></i><span>Sign Out</span></button>
+                        <button (click)="logout()"><i class="fa fa-sign-out"></i><span>{{uiTexts.logout}}</span></button>
                      </li>
                   </ul>
                </li>
