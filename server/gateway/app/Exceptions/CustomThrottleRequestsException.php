@@ -19,7 +19,7 @@ class CustomThrottleRequestsException extends HttpResponseException
 
     public function __construct($message = null, $headers = [], $statusCode = JsonResponse::HTTP_TOO_MANY_REQUESTS)
     {
-        parent::__construct($this->jsonResponseWith(['error' => $message, 'error_code' => $statusCode, 'host_ip' => request()->ip()], $statusCode, $headers));
+        parent::__construct($this->jsonResponseWith(['error' => $message, 'error_code' => $statusCode, 'host_ip' => request()->getClientIp()], $statusCode, $headers));
         $this->statusCode = $statusCode;
     }
 
