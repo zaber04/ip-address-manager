@@ -10,7 +10,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 	imports: [
 		CommonModule,
 		RouterModule.forChild([
-			{ path: '', component: ForgotPasswordComponent, title: 'IP Address Management - Reset',
+			{ path: '', component: ForgotPasswordComponent, title: 'IP Address Manager - Reset',
 			},
 		]),
 	]

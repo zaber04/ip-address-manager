@@ -22,7 +22,9 @@ export class AppComponent {
 			if (event instanceof NavigationStart) {
 				this.loginUI = false;
 
-				if (event.url === '/login') {
+				const validPaths = ['/login', '/register'];
+
+				if (validPaths.includes(event.url.toLowerCase().trim())) {
 					this.loginUI = true;
 				}
 			}

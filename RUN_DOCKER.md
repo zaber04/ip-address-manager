@@ -10,7 +10,7 @@ To run the project through docker run the following command
 
     ```bash
     cp server/gateway/.env.example server/gateway/.env
-    cp server/authentication/.env.example authentication/gateway/.env
+    cp server/authentication/.env.example server/authentication/.env
     cp server/ip-handler/.env.example server/ip-handler/.env
     ```
 
@@ -76,20 +76,20 @@ To run the project through docker run the following command
     "ip_handler_host" : "<http://127.0.0.1:8002>",
     "authentication_host" : "<http://127.0.0.1:8001>"
 
-    Initially we will hit `login` endpoint to get `accessToken` which we will set to `{{JWT_TOKEN}}` in postman environment and then test other endpoints. For development purpose, using a `masterToken` is a typical choice, however, in this project we didn't add that support.
+    Initially we will hit `login` endpoint to get `accessToken` which we will set to `{{JWT_TOKEN}}` in postman environment and then test other endpoints. For development purpose, using a `masterToken` is a typical choice, however, in this project I didn't add that support.
 
 5. I have updated my host file and added three entries
     127.0.0.1   authentication.localhost
     127.0.0.1   ip-handler.localhost
     127.0.0.1   gateway.localhost
 
-   After this, when I tried to access the docker APIs through POSTMAN, got a huge shock. Apache is blocking all my requests! After some hours of google search with a migrain pain, I was able to setup and improve apache, reverse proxy, htaccess with improved docker setup. It was an inredible journey. And then docker was causing in-container-request forward blocking issue as well. Finally all the APIs work in docker.
+   After this, when I tried to access the docker APIs through POSTMAN, got a huge shock. Apache is blocking all my requests! After some hours of google search with a migrain pain, I was able to setup and improve apache, reverse proxy, htaccess with improved docker setup. It was an inredible journey. And then docker was causing `in-container-request forward` blocking issue as well. Finally all the APIs work in docker.
 
    Please test in postman after importing the json file.
 
 6. After testing & verifying the API responses, let's visit frontend. Visit <http://localhost:4200> for our angular front end. I haven't been doing much front end work recently and mostly out of touch with recent best practices for angular. Created a simple ui with help from chat gpt. So, the quality is nothing to be happy about.
 
-> You might need to wait like a minute to use the angular ui after docker builds.
+> You might need to wait like a minute to use the angular ui after docker builds. Angular takes several minutes to be ready.
 
 Let's login using the credentials
     > Email: <admin.user@ip-manager.com>
