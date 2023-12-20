@@ -7,6 +7,7 @@ import { IAuditResponse, IPaginatedAuditResponse } from '../../../interfaces/IpA
 import { PaginationService } from '../../../services/pagination.service';
 import { AuthService } from '../../../services/auth.service';
 
+
 @Component({
 	selector: 'app-audit-trails',
 	templateUrl: './audit-trails.component.html',
@@ -33,7 +34,7 @@ export class AuditTrailsComponent implements OnInit, OnDestroy {
 		private paginationService: PaginationService,
 		private route: ActivatedRoute,
 		private authService: AuthService
-	) { }
+	) {}
 
 	ngOnInit(): void {
 		this.subscribe.sink = this.route.queryParams.subscribe(queryParams => {

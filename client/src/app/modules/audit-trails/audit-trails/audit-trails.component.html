@@ -1,58 +1,68 @@
-<div class="pageheader pd-y-25">
-	<div class="pd-t-5 pd-b-5">
-	  <h1 class="pd-0 mg-0 tx-20 text-overflow">{{ textLabels.pageTitle }}</h1>
-	</div>
-</div>
-
 <div class="row clearfix">
-<div class="col-md-12 col-lg-12 col-xl-12">
-	<div class="card mg-y-10 shadow-1">
-	<div class="card-header">
-		<h4 class="card-header-title">{{ textLabels.pageTitle }}</h4>
-	</div>
-	<div class="card-body collapse show">
-		<ng-container *ngIf="isLoading === false; else loading">
-		<ng-container *ngIf="(auditLogList?.data?.total || 0) > 0; else noAuditLogs">
-			<div class="pb-1 mb-2" *ngFor="let log of auditLogList?.data?.data">
-			<div
-				class="float-right"
-				[ngClass]="{
-				'badge-success': log.action == 'insert',
-				'badge-info': log.action == 'update'
-				}"
-			>{{ log.action }}</div>
-			<p class="text-muted mg-b-0 text-base" *ngIf="log.action == 'insert'">{{ log.new_data }}</p>
-			<p class="text-muted mg-b-0 text-base" *ngIf="log.action == 'update'">
-				from <span class="badge-secondary">{{ log.old_data }}</span> to
-				<span class="badge-primary">{{ log.new_data }}</span>
-			</p>
-			<small class="text-muted">
-				{{ textLabels.createdBy }}: <span class="text-dark">{{ log.user?.last_name }} / {{ log.user?.first_name }}</span>
-				at {{ log.created_at | date: 'MMM d, y, h:mm:ss a' }}.
-			</small>
+	<div class="col-md-12 col-lg-12 col-xl-12">
+		<div class="card mg-y-10 shadow-1">
+			<div class="card-header audit-trail-table">
+				<h4 class="card-header-title">{{ textLabels.pageTitle }}</h4>
 			</div>
 
-			<app-pagination
-			[baseUrl]="'/'"
-			[currentPageIndex]="auditLogList?.data?.current_page"
-			[lastPageIndex]="auditLogList?.data?.last_page"
-			[pageLinks]="auditLogList?.data?.links"></app-pagination>
-		</ng-container>
+			<div class="card-body collapse show">
+				<ng-container *ngIf="isLoading === false; else loading">
+				<ng-container *ngIf="(auditLogList?.data?.total || 0) > 0; else noAuditLogs">
+					<table class="table-auto w-full">
+					<thead>
+						<tr>
+						<th class="px-4 py-2">Serial</th>
+						<th class="px-4 py-2">Action</th>
+						<th class="px-4 py-2">Old Data</th>
+						<th class="px-4 py-2">New Data</th>
+						<th class="px-4 py-2">Username</th>
+						<th class="px-4 py-2">Time</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let log of auditLogList?.data?.data; let i = index">
+						<td class="border px-4 py-2">{{ i + 1 }}</td>
+						<td class="border px-4 py-2">
+							<span>{{ log.action?.toUpperCase()  }}</span>
+						</td>
+						<td class="border px-4 py-2">
+							<span>{{ log.old_data || "-" }}</span>
+						</td>
+						<td class="border px-4 py-2">
+							<span> {{ log.new_data }}</span>
+						</td>
+						<td class="border px-4 py-2">
+							<span class="text-dark"> {{ log.user?.first_name }} {{ log.user?.last_name }}</span>
+						</td>
+						<td class="border px-4 py-2">
+							{{ log.created_at | date: 'MMM d, y, h:mm:ss a' }}
+						</td>
+						</tr>
+					</tbody>
+					</table>
 
-		<ng-template #noAuditLogs>
-			<div class="text-left">
-			<p class="text-base text-red-800">{{ textLabels.noAuditLogs }}</p>
+					<app-pagination
+					[baseUrl]="'/'"
+					[currentPageIndex]="auditLogList?.data?.current_page"
+					[lastPageIndex]="auditLogList?.data?.last_page"
+					[pageLinks]="auditLogList?.data?.links"
+					></app-pagination>
+				</ng-container>
+
+				<ng-template #noAuditLogs>
+					<div class="text-left">
+					<p class="text-base text-red-800">{{ textLabels.noAuditLogs }}</p>
+					</div>
+				</ng-template>
+				</ng-container>
+
+				<ng-template #loading>
+				<div class="text-center">
+					<p class="text-3xl">{{ textLabels.pleaseWait }}</p>
+					<p><i class="fa fa-circle-o-notch fa-spin text-3xl"></i></p>
+				</div>
+				</ng-template>
 			</div>
-		</ng-template>
-		</ng-container>
-
-		<ng-template #loading>
-		<div class="text-center">
-			<p class="text-3xl">{{ textLabels.pleaseWait }}</p>
-			<p><i class="fa fa-circle-o-notch fa-spin text-3xl"></i></p>
 		</div>
-		</ng-template>
 	</div>
-	</div>
-</div>
 </div>
