@@ -1,46 +1,37 @@
-<div class="pageheader pd-y-25">
-    <div class="pd-t-5 pd-b-5">
-        <div class="flex justify-between">
-            <h1 class="pd-0 mg-0 tx-20 text-overflow">IP Addresses</h1>
-            <button class="btn btn-info" type="button" (click)="goToNewIpList()">Manage IPs</button>
-        </div>
-    </div>
-</div>
-
-
 <div class="row clearfix">
-    <div class="col-md-6 offset-md-3">
-
+    <div class="col-md-8 offset-md-2">
         <div
             class="px-4 py-3 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
             role="alert"
-            *ngIf="errors && errors?.message"
-        >
+            *ngIf="errors && errors?.message">
             {{ errors.message }}
         </div>
+		<ng-container *ngIf="errors && errors?.message">
+			<app-form-error *ngIf="errors && errors?.message" message="{{ errors.message }}"></app-form-error>
+		</ng-container>
 
         <div class="card mb-4 shadow-1">
-            <div class="card-header">
+            <div class="card-header ip-add-ui">
                 <h4 class="card-header-title">
-                    Create New IP
+                    {{ labels.title}}
                 </h4>
             </div>
             <div class="card-body collapse show">
                 <form [formGroup]="form" class="row" (submit)="handleSubmit()">
                     <div class="col-md-12">
                         <div class="form-group mb-3">
-                            <label for="ip">IP Address</label>
+                            <label for="ip">{{ labels.ipLabel}}</label>
                             <input
                                 type="text"
                                 formControlName="ip"
                                 id="ip"
                                 class="form-control"
-                                placeholder="IP Address, e.g: 192.168.0.57"
+                                placeholder="IP4 or IP6 Address"
                                 autocomplete="off"
                             />
                             <ng-container *ngIf="form.get('ip')?.errors && (form.get('ip')?.touched || form.get('ip')?.dirty)">
-                                <app-form-error *ngIf="form.get('ip')?.errors" message="IP Address is required."></app-form-error>
-                                <app-form-error *ngIf="form.get('ip')?.errors" message="IP Address is invalid."></app-form-error>
+                                <app-form-error *ngIf="form.get('ip')?.errors" message="{{errorLables.ipReq}}"></app-form-error>
+                                <app-form-error *ngIf="form.get('ip')?.errors" message="{{errorLables.ipInvalid}}"></app-form-error>
                             </ng-container>
 
                             <app-form-error *ngIf="errors && errors?.message" [message]="errors.message || ''"></app-form-error>
@@ -50,27 +41,26 @@
 
                     <div class="col-md-12">
                         <div class="form-group mb-3">
-                            <label for="label">Label</label>
+                            <label for="label">{{ labels.labelLabel}}</label>
                             <input
                                 type="text"
                                 formControlName="label"
                                 id="label"
                                 class="form-control"
                                 autocomplete="off"
-                                placeholder="Label, e.g.: Spare or BFBC2 Server"
+                                placeholder="aws.us-east-1a"
                             />
                             <ng-container *ngIf="form.get('label')?.errors && (form.get('label')?.touched || form.get('label')?.dirty)">
-                                <app-form-error *ngIf="form.get('label')?.errors" message="Label is required."></app-form-error>
+                                <app-form-error *ngIf="form.get('label')?.errors" message="{{errorLables.labelReq}}"></app-form-error>
                             </ng-container>
 
                             <app-form-error *ngIf="errors && errors?.messages?.label" [message]="errors.message || ''"></app-form-error>
-
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="form-group mb-3">
-                            <button type="submit" class="btn btn-info" [disabled]="form.invalid || submitting">Save <i class="fa fa-circle-o-notch fa-spin" *ngIf="submitting"></i></button>
+                            <button type="submit" class="btn btn-info" [disabled]="form.invalid || submitting">{{labels.savelLabel}}<i class="fa fa-circle-o-notch fa-spin" *ngIf="submitting"></i></button>
                         </div>
                     </div>
                 </form>

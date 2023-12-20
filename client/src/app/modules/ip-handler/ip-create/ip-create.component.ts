@@ -20,6 +20,20 @@ export class IpCreateComponent {
 	submitting = false;
 	errors: IIPError = null as any;
 
+ 	labels = {
+		title: 'Insert New IP',
+		ipLabel: 'IP Address',
+		labelLabel: 'Label',
+		savelLabel: 'Save'
+	};
+
+	errorLables = {
+		ipReq: 'IP Address is required',
+		ipInvalid: 'IP Address is invalid',
+		labelReq: 'Label is required'
+	};
+
+
 	constructor(
 		private router: Router,
 		private fb: FormBuilder,

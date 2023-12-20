@@ -1,8 +1,7 @@
 <div class="pageheader pd-y-25">
     <div class="pd-t-5 pd-b-5">
         <div class="flex justify-between">
-            <h1 class="pd-0 mg-0 tx-20 text-overflow">{{ titles.pageTitles }}</h1>
-            <button class="btn btn-info" type="button" (click)="createIpFormView()">
+            <button mat-raised-button color="primary" type="button" (click)="createIpFormView()">
                 {{ buttons.addNewIp }}
             </button>
         </div>
@@ -11,35 +10,37 @@
 
 <div class="row clearfix">
     <div class="col-md-12 col-lg-12 col-xl-12">
-        <div class="card mb-4 shadow-1">
-            <div class="card-header">
-                <h4 class="card-header-title">{{ titles.cardTitles }}</h4>
-            </div>
-            <div class="card-body collapse show">
+        <mat-card class="mb-4 shadow-1">
+			<div class="card-header ip-list-table">
+				<h4 class="card-header-title">{{ titles.cardTitles }}</h4>
+			</div>
+
+            <div class="mat-card-body collapse show">
                 <ng-container *ngIf="isLoading === false; else loading">
                     <div class="data-wrapper" *ngIf="(ipAddressList?.data?.total || 0) > 0; else noIpAddressFoundBlock">
-                        <table class="table table-responsive table-hover">
+                        <table class="table-auto w-full">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>IP Address</th>
-                                    <th>Label</th>
-                                    <th>Date Created</th>
-                                    <th>Modified</th>
-                                    <th>Action</th>
+                                    <th class="px-4 py-2">ID</th>
+                                    <th class="px-4 py-2">IP Address</th>
+                                    <th class="px-4 py-2">Label</th>
+                                    <th class="px-4 py-2">Created At</th>
+                                    <th class="px-4 py-2">Updated At</th>
+                                    <th class="px-4 py-2">Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <tr *ngFor="let ip of ipAddressList?.data?.data">
-                                    <td>{{ ip.id }}</td>
-                                    <td>{{ ip.ip }}</td>
-                                    <td>{{ ip.label }}</td>
-                                    <td>{{ ip.created_at }}</td>
-                                    <td>{{ ip.updated_at }}</td>
-                                    <td>
-                                        <a [routerLink]="['/ip-handler/edit', ip.id]" (click)="setSelectedIp(ip)" class="btn btn-info">
-                                            {{ buttons.edit }} <i class="fa fa-edit"></i>
+                                    <td class="border px-4 py-2">{{ ip.id }}</td>
+                                    <td class="border px-4 py-2">{{ ip.ip }}</td>
+                                    <td class="border px-4 py-2">{{ ip.label }}</td>
+                                    <td class="border px-4 py-2">{{ ip.created_at }}</td>
+                                    <td class="border px-4 py-2">{{ ip.updated_at }}</td>
+                                    <td class="border px-4 py-2">
+                                        <a [routerLink]="['/ip-handler/edit', ip.id]" (click)="setSelectedIp(ip)"
+                                            mat-raised-button color="primary">
+                                            {{ buttons.edit }} <mat-icon>edit</mat-icon>
                                         </a>
                                     </td>
                                 </tr>
@@ -64,10 +65,10 @@
                 <ng-template #loading>
                     <div class="text-center">
                         <p class="text-3xl">{{ messages.pleaseWait }}</p>
-                        <p><i class="fa fa-circle-o-notch fa-spin text-3xl"></i></p>
+                        <p><mat-spinner diameter="32"></mat-spinner></p>
                     </div>
                 </ng-template>
             </div>
-        </div>
+        </mat-card>
     </div>
 </div>

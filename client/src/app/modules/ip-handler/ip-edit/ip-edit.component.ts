@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { IPaginatedIpResponse, ISingleIp } from '../../../interfaces/IpAddress.interfaces';
+import { ISingleIp } from '../../../interfaces/IpAddress.interfaces';
 import { Observable, Subscription, finalize } from 'rxjs';
 import { SubSink } from 'subsink';
 import { ActivatedRoute, Router } from '@angular/router';

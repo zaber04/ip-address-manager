@@ -1,15 +1,25 @@
 .collapse {
 	visibility: visible !important;
 }
+
 .dataTables_wrapper .dataTables_length {
 	float: left;
 }
+
 .dataTables_wrapper .dataTables_filter {
 	float: right;
 	text-align: right;
 }
+
 .btn-info {
-	color: #fff;
+	color: white;
 	background-color: #a4cc8f !important;
 	border-color: #a4cc8f !important;
+}
+
+.ip-list-table {
+	width: 100%;
+	background-color: #7C4DFF !important;
+	text-align: center;
+	color: white;
 }

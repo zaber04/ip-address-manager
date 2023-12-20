@@ -4,10 +4,15 @@ import { RouterModule } from '@angular/router';
 import { IpCreateComponent } from './ip-create/ip-create.component';
 import { IpEditComponent } from './ip-edit/ip-edit.component';
 import { IpListComponent } from './ip-list/ip-list.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormErrorComponent } from '../../components/form-error/form-error.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
-
+import { FormErrorComponent } from '../../components/form-error/form-error.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from "@angular/material/button";
 
 @NgModule({
 	declarations: [
@@ -25,6 +30,13 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
 		ReactiveFormsModule,
 		FormErrorComponent,
 		PaginationComponent,
+		FormsModule,
+		MatCardModule,
+		MatFormFieldModule,
+    	MatInputModule,
+		MatButtonModule,
+		MatProgressSpinnerModule,
+		MatIconModule
 	],
 })
 export class IpHandlerModule { }
